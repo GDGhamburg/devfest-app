@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
-                presenter.authenticationSuccessful(account);
+                presenter.googleSigninSuccessful(account);
             } else {
                 presenter.authenticationFailed();
             }

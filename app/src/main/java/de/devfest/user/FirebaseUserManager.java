@@ -40,7 +40,7 @@ public class FirebaseUserManager implements UserManager {
     }
 
     @Override
-    public Observable<User> authenticate(@NonNull GoogleSignInAccount account) {
+    public Observable<User> authenticateWithGoogle(@NonNull GoogleSignInAccount account) {
         return Observable.create(new Observable.OnSubscribe<User>() {
             @Override
             public void call(Subscriber<? super User> subscriber) {

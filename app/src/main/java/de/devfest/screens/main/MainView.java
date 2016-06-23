@@ -10,6 +10,5 @@ public interface MainView extends MvpBase.View {
     void showUser(@NonNull User user);
     void offerLogin();
     void startGoogleLogin();
-
     void showAuthenticationFailedError(Throwable error);
 }

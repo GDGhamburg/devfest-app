@@ -5,6 +5,7 @@ import android.app.Application;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import de.devfest.ApplicationModule;
 import de.devfest.connectivity.ConnectivityManager;
 import de.devfest.screens.main.MainActivity;
 

@@ -48,8 +48,8 @@ public class MainPresenter extends BasePresenter<MainView> {
         getView().showAuthenticationFailedError(new Exception("Login failed!"));
     }
 
-    public void authenticationSuccessful(GoogleSignInAccount account) {
-        userManager.authenticate(account)
+    public void googleSigninSuccessful(GoogleSignInAccount account) {
+        userManager.authenticateWithGoogle(account)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user -> getView().showUser(user),

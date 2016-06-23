@@ -7,5 +7,5 @@ import rx.Observable;
 
 public interface UserManager {
     User getCurrentUser();
-    Observable<User> authenticate(GoogleSignInAccount account);
+    Observable<User> authenticateWithGoogle(GoogleSignInAccount account);
 }

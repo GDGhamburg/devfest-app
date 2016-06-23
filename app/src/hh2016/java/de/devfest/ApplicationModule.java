@@ -1,4 +1,4 @@
-package de.devfest.injection;
+package de.devfest;
 
 import android.app.Application;
 
