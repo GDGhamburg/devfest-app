@@ -10,14 +10,35 @@
         android:layout_height="match_parent"
         tools:context="de.devfest.screens.main.MainActivity">
 
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@+id/activity_main"
+            app:layout_constraintTop_toTopOf="@+id/activity_main"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/common_ic_googleplayservices"
+            android:id="@+id/imageUser"
+            tools:ignore="ContentDescription"
+            app:layout_constraintLeft_toLeftOf="@+id/activity_main"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toTopOf="@+id/activity_main"
+            android:layout_marginTop="16dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="@+id/activity_main"
-            app:layout_constraintLeft_toLeftOf="@+id/activity_main"
-            app:layout_constraintRight_toRightOf="@+id/activity_main"
-            app:layout_constraintTop_toTopOf="@+id/activity_main"/>
-
+            android:id="@+id/textUser"
+            tools:text="andre.tietz@gmail.com"
+            app:layout_constraintLeft_toRightOf="@+id/imageUser"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toTopOf="@+id/imageUser"
+            app:layout_constraintBottom_toBottomOf="@+id/imageUser"/>
     </android.support.constraint.ConstraintLayout>
 </layout>
