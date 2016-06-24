@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import de.devfest.ApplicationModule;
 import de.devfest.connectivity.ConnectivityManager;
+import de.devfest.data.DevFestManager;
 import de.devfest.screens.main.MainActivity;
 
 @Singleton
@@ -19,4 +20,6 @@ public abstract class ApplicationComponent {
     public abstract void inject(MainActivity activity);
 
     abstract ConnectivityManager connectivityManager();
+
+    abstract DevFestManager devFestManager();
 }

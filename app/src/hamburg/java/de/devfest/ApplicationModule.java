@@ -8,6 +8,8 @@ import dagger.Module;
 import dagger.Provides;
 import de.devfest.connectivity.ConnectivityManager;
 import de.devfest.connectivity.DevFestConnectivityManager;
+import de.devfest.data.DevFestManager;
+import de.devfest.data.FirebaseDevFestManager;
 import de.devfest.user.FirebaseUserManager;
 import de.devfest.user.UserManager;
 
@@ -30,5 +32,11 @@ public class ApplicationModule {
     @Singleton
     UserManager provideUserManager() {
         return new FirebaseUserManager();
+    }
+
+    @Provides
+    @Singleton
+    DevFestManager provideDevFestManager() {
+        return new FirebaseDevFestManager();
     }
 }
