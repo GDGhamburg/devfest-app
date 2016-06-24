@@ -6,6 +6,6 @@ import de.devfest.model.User;
 import rx.Observable;
 
 public interface UserManager {
-    User getCurrentUser();
+    Observable<User> getCurrentUser();
     Observable<User> authenticateWithGoogle(GoogleSignInAccount account);
 }

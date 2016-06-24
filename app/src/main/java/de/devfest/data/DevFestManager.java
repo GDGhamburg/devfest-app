@@ -5,14 +5,15 @@ import de.devfest.model.Speaker;
 import de.devfest.model.Track;
 import rx.Observable;
 
-/**
- * Created by andre on 24/06/16.
- */
 
 public interface DevFestManager {
     Observable<Speaker> getSpeakers();
 
     Observable<Speaker> getSpeaker(String uid);
+
+    @Deprecated
+    Observable<Speaker> insertOrUpdate(Speaker speaker);
+
 
     Observable<Session> getSessions();
 
@@ -21,4 +22,6 @@ public interface DevFestManager {
     Observable<Track> getTracks();
 
     Observable<Track> getTrack(String id);
+
+
 }

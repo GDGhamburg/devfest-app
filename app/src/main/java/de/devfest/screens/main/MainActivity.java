@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
         if (user.photoUrl != null) {
             Picasso.with(this).load(user.photoUrl).into(binding.imageUser);
         }
+        presenter.test();
     }
 
     @Override

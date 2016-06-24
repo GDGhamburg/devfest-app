@@ -9,19 +9,28 @@ public final class User {
     public final String userId;
     public final String email;
     public final String photoUrl;
+    public final boolean admin;
 
     private User(Builder builder) {
         userId = builder.userId;
         email = builder.email;
         photoUrl = builder.photoUrl;
+        admin = builder.admin;
     }
 
     public static class Builder {
+        public boolean admin;
         private String email;
         private String userId;
         private String photoUrl;
 
         public Builder() {
+            this.admin = false;
+        }
+
+        public Builder admin(boolean admin) {
+            this.admin = admin;
+            return this;
         }
 
         public Builder userId(String userId) {
