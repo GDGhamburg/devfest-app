@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 24
@@ -15,10 +16,10 @@ android {
     }
 
     productFlavors {
-        hh2016 {
+        hamburg {
             minSdkVersion 15
             targetSdkVersion 24
-            applicationId "de.devfest.hh2016"
+            applicationId "de.devfest.hamburg"
             versionCode 1
             versionName "1.0.0"
         }
@@ -48,6 +49,7 @@ dependencies {
     compile 'com.github.pwittchen:reactivenetwork:0.4.0'
     compile 'com.jakewharton.timber:timber:4.1.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.3'
 
     compile 'com.google.firebase:firebase-auth:9.0.0'
     compile 'com.google.android.gms:play-services-auth:9.0.0'
