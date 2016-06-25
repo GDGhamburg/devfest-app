@@ -47,7 +47,12 @@ public class FirebaseUserManager implements UserManager {
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                subscriber.onNext(dataSnapshot.getValue(Boolean.class));
+                                if (dataSnapshot.exists()) {
+                                    subscriber.onNext(dataSnapshot.getValue(Boolean.class));
+                                } else {
+                                    subscriber.onNext(false);
+                                }
+
                                 subscriber.onCompleted();
                             }
 

@@ -1,12 +1,9 @@
 package de.devfest.model;
 
-import com.google.common.collect.ImmutableList;
-
 import java.util.List;
 
 public final class Speaker {
     public final String speakerId;
-
     public final String name;
     public final String photoUrl;
     public final String twitter;
@@ -15,7 +12,7 @@ public final class Speaker {
     public final String github;
     public final String gplus;
     public final String website;
-    public final ImmutableList<String> tags;
+    public final List<String> tags;
 
     private Speaker(Builder builder) {
         speakerId = builder.speakerId;
@@ -36,7 +33,7 @@ public final class Speaker {
 
 
     public static final class Builder {
-        private ImmutableList<String> tags;
+        private List<String> tags;
         private String speakerId;
         private String name;
         private String photoUrl;
@@ -48,7 +45,6 @@ public final class Speaker {
         private String website;
 
         private Builder() {
-            tags = ImmutableList.of();
         }
 
         public Builder speakerId(String val) {
@@ -97,7 +93,7 @@ public final class Speaker {
         }
 
         public Builder tags(List<String> tags) {
-            this.tags = ImmutableList.copyOf(tags);
+            this.tags = tags;
             return this;
         }
 
