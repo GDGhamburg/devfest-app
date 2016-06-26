@@ -4,7 +4,14 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.auth.api.Auth;
@@ -18,24 +25,39 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 import de.devfest.R;
-import de.devfest.databinding.ActivityMainBinding;
+import de.devfest.databinding.ContentMainBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.User;
 import de.devfest.mvpbase.BaseActivity;
 
 public class MainActivity extends BaseActivity<MainView, MainPresenter> implements MainView,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, OnNavigationItemSelectedListener {
 
     private static final int RC_SIGN_IN = 1234;
     @Inject
     MainPresenter presenter;
-    private ActivityMainBinding binding;
+    private ContentMainBinding binding;
     private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+        View root = findViewById(R.id.content_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.nav_drawer_open,R.string.nav_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        binding = DataBindingUtil.bind(root);
         binding.signInButton.setOnClickListener(view -> presenter.loginRequested());
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -108,5 +130,32 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // TODO
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_schedule:
+                break;
+            case R.id.nav_sessions:
+                break;
+            case R.id.nav_speakers:
+                break;
+            case R.id.nav_social:
+                break;
+            case R.id.nav_settings:
+                break;
+            case R.id.nav_about:
+                break;
+            default:
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
