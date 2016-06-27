@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 import de.devfest.R;
-import de.devfest.databinding.ContentMainBinding;
+import de.devfest.databinding.ActivityMainBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.User;
 import de.devfest.mvpbase.BaseActivity;
@@ -36,29 +36,27 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     private static final int RC_SIGN_IN = 1234;
     @Inject
     MainPresenter presenter;
-    private ContentMainBinding binding;
+    private ActivityMainBinding binding;
     private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        View root = findViewById(R.id.content_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = binding.appbar.toolbar;
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = binding.drawerLayout;
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.nav_drawer_open,R.string.nav_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
 
-        binding = DataBindingUtil.bind(root);
-        binding.signInButton.setOnClickListener(view -> presenter.loginRequested());
+        binding.appbar.content.signInButton.setOnClickListener(view -> presenter.loginRequested());
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -84,21 +82,21 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
 
     @Override
     public void showUser(@NonNull User user) {
-        binding.imageUser.setVisibility(View.VISIBLE);
-        binding.textUser.setVisibility(View.VISIBLE);
-        binding.signInButton.setVisibility(View.INVISIBLE);
-        binding.textUser.setText(user.email);
+        binding.appbar.content.imageUser.setVisibility(View.VISIBLE);
+        binding.appbar.content.textUser.setVisibility(View.VISIBLE);
+        binding.appbar.content.signInButton.setVisibility(View.INVISIBLE);
+        binding.appbar.content.textUser.setText(user.email);
         if (user.photoUrl != null) {
-            Picasso.with(this).load(user.photoUrl).into(binding.imageUser);
+            Picasso.with(this).load(user.photoUrl).into(binding.appbar.content.imageUser);
         }
         presenter.test();
     }
 
     @Override
     public void offerLogin() {
-        binding.imageUser.setVisibility(View.INVISIBLE);
-        binding.textUser.setVisibility(View.INVISIBLE);
-        binding.signInButton.setVisibility(View.VISIBLE);
+        binding.appbar.content.imageUser.setVisibility(View.INVISIBLE);
+        binding.appbar.content.textUser.setVisibility(View.INVISIBLE);
+        binding.appbar.content.signInButton.setVisibility(View.VISIBLE);
     }
 
     @Override
