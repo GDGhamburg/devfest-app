@@ -23,8 +23,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main"
-        android:id="@+id/content" />
+    <FrameLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <!--<include layout="@layout/content_main"-->
+        <!--android:id="@+id/content" />-->
 
 </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -6,6 +6,6 @@
     <dimen name="spacing_xlarge">32dp</dimen>
     <dimen name="spacing_min_touch">48dp</dimen>
 
-    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="nav_header_height">168dp</dimen>
     <dimen name="nav_drawer_width">280dp</dimen>
 </resources>

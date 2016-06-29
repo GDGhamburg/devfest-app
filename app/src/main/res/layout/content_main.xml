@@ -10,36 +10,15 @@
         tools:context="de.devfest.screens.main.MainActivity"
         tools:showIn="@layout/appbar_main">
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@+id/content_main"
-            app:layout_constraintTop_toTopOf="@+id/content_main"
-            tools:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/imageUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintLeft_toLeftOf="@+id/content_main"
-            app:layout_constraintTop_toTopOf="@+id/content_main"
-            app:srcCompat="@drawable/common_ic_googleplayservices"
-            tools:ignore="ContentDescription" />
-
         <TextView
-            android:id="@+id/textUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageUser"
-            app:layout_constraintLeft_toRightOf="@+id/imageUser"
-            app:layout_constraintTop_toTopOf="@+id/imageUser"
-            tools:text="andre.tietz@gmail.com" />
+            android:layout_gravity="center"
+            android:text="Content"
+            app:layout_constraintBottom_toBottomOf="@+id/content_main"
+            app:layout_constraintLeft_toLeftOf="@+id/content_main"
+            app:layout_constraintRight_toRightOf="@+id/content_main"
+            app:layout_constraintTop_toTopOf="@+id/content_main" />
 
     </android.support.constraint.ConstraintLayout>
     </layout>
