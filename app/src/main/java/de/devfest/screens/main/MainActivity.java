@@ -60,19 +60,6 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
 
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this);
-
-//        binding.navView.getHeaderView(0).findViewById(R.id.sign_in_button)
-//                .setOnClickListener(view -> presenter.loginRequested());
-//
-//        GoogleSignInOptions gso = new GoogleSignInOptions
-//                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
-//                .requestEmail()
-//                .build();
-//        googleApiClient = new GoogleApiClient.Builder(this)
-//                .enableAutoManage(this, this)
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
     }
 
     @Override

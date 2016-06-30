@@ -36,6 +36,7 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
 
     @Override
     protected SpeakersPresenter inject(ApplicationComponent component) {
+        component.inject(this);
         return presenter;
     }
 }

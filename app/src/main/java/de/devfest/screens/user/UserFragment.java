@@ -64,7 +64,7 @@ public class UserFragment extends BaseFragment<UserView, UserPresenter>
 
     @Override
     protected UserPresenter inject(ApplicationComponent component) {
-//        component.inject(this);
+        component.inject(this);
         return presenter;
     }
 

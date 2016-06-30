@@ -36,6 +36,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
 
     @Override
     protected SchedulePresenter inject(ApplicationComponent component) {
+        component.inject(this);
         return presenter;
     }
 
