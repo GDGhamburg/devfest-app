@@ -9,12 +9,14 @@ public final class User {
     public final String userId;
     public final String email;
     public final String photoUrl;
+    public final String displayName;
     public final boolean admin;
 
     private User(Builder builder) {
         userId = builder.userId;
         email = builder.email;
         photoUrl = builder.photoUrl;
+        displayName = builder.displayName;
         admin = builder.admin;
     }
 
@@ -23,6 +25,7 @@ public final class User {
         private String email;
         private String userId;
         private String photoUrl;
+        private String displayName;
 
         public Builder() {
             this.admin = false;
@@ -45,6 +48,11 @@ public final class User {
 
         public Builder photoUrl(String photoUrl) {
             this.photoUrl = photoUrl;
+            return this;
+        }
+
+        public Builder displayName(String displayName) {
+            this.displayName = displayName;
             return this;
         }
 

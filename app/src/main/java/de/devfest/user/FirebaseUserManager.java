@@ -68,6 +68,7 @@ public class FirebaseUserManager implements UserManager {
                 .userId(firebaseUser.getUid())
                 .admin(isAdmin)
                 .email(firebaseUser.getEmail())
+                .displayName(firebaseUser.getDisplayName())
                 .photoUrl((firebaseUser.getPhotoUrl() != null)
                         ? firebaseUser.getPhotoUrl().toString() : null)
                 .build());

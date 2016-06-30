@@ -71,7 +71,7 @@ public class UserFragment extends BaseFragment<UserView, UserPresenter>
     @Override
     public void showUser(@NonNull User user) {
         binding.accountImage.setVisibility(View.VISIBLE);
-        binding.accountName.setText(user.userId);
+        binding.accountName.setText(user.displayName);
         binding.accountName.setVisibility(View.VISIBLE);
         binding.accountMail.setText(user.email);
         binding.accountMail.setVisibility(View.VISIBLE);
