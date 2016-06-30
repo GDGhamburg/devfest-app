@@ -24,7 +24,7 @@ public abstract class BaseFragment<V extends MvpBase.View, P extends BasePresent
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inject(((DevFestApplication) getActivity().getApplication()).getComponent());
+        presenter = inject(((DevFestApplication) getActivity().getApplication()).getComponent());
     }
 
     @Override
