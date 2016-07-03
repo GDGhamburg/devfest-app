@@ -4,22 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v4.widget.DrawerLayout
-    android:id="@+id/drawer_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
-
-    <include layout="@layout/appbar_main"
-        android:id="@+id/appbar"/>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="@dimen/nav_drawer_width"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/activity_main_nav" />
-</android.support.v4.widget.DrawerLayout>
+        tools:openDrawer="start">
+
+        <include layout="@layout/appbar_main"
+            android:id="@+id/appbar"/>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:fitsSystemWindows="true"
+            android:layout_width="@dimen/nav_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/activity_main_nav" />
+
+    </android.support.v4.widget.DrawerLayout>
 </layout>

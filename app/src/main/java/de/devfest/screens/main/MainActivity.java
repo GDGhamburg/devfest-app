@@ -12,19 +12,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -40,7 +30,6 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     @Inject
     MainPresenter presenter;
     private ActivityMainBinding binding;
-    private GoogleApiClient googleApiClient;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -76,37 +65,12 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
 
     @Override
     public void showUser(@NonNull User user) {
-//        ImageView userImage = (ImageView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_image);
-//        userImage.setVisibility(View.VISIBLE);
-//        TextView userText = (TextView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_name);
-//        userText.setText(user.userId);
-//        userText.setVisibility(View.VISIBLE);
-//        TextView userMail = (TextView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_mail);
-//        userMail.setText(user.email);
-//        userMail.setVisibility(View.VISIBLE);
-//        SignInButton signInButton = (SignInButton) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.sign_in_button);
-//        signInButton.setVisibility(View.GONE);
-//        if (user.photoUrl != null) {
-//            Picasso.with(this).load(user.photoUrl).into(userImage);
-//        }
 //        presenter.test();
     }
 
     @Override
     public void offerLogin() {
-//        TextView userText = (TextView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_name);
-//        userText.setVisibility(View.GONE);
-//        TextView userMail = (TextView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_mail);
-//        userMail.setVisibility(View.GONE);
-//        SignInButton signInButton = (SignInButton) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.sign_in_button);
-//        signInButton.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -123,15 +87,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == RC_SIGN_IN) {
-//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-//            if (result.isSuccess()) {
-//                GoogleSignInAccount account = result.getSignInAccount();
-//                presenter.googleSigninSuccessful(account);
-//            } else {
-//                presenter.authenticationFailed();
-//            }
-//        }
+
     }
 
 

@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 import de.devfest.R;
+import de.devfest.UiUtils;
 import de.devfest.databinding.FragmentUserBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.User;
@@ -47,6 +48,9 @@ public class UserFragment extends BaseFragment<UserView, UserPresenter>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false);
+        int statusBarHeight = UiUtils.getStatusBarHeight(getResources());
+        binding.getRoot().setPadding(0, statusBarHeight, 0, 0);
+
         binding.signInButton.setOnClickListener(view -> presenter.requestLogin());
 
         GoogleSignInOptions gso = new GoogleSignInOptions
@@ -70,21 +74,21 @@ public class UserFragment extends BaseFragment<UserView, UserPresenter>
 
     @Override
     public void showUser(@NonNull User user) {
-        binding.accountImage.setVisibility(View.VISIBLE);
-        binding.accountName.setText(user.displayName);
-        binding.accountName.setVisibility(View.VISIBLE);
-        binding.accountMail.setText(user.email);
-        binding.accountMail.setVisibility(View.VISIBLE);
+        binding.userImage.setVisibility(View.VISIBLE);
+        binding.userName.setText(user.displayName);
+        binding.userName.setVisibility(View.VISIBLE);
+        binding.userMail.setText(user.email);
+        binding.userMail.setVisibility(View.VISIBLE);
         binding.signInButton.setVisibility(View.GONE);
         if (user.photoUrl != null) {
-            Picasso.with(getContext()).load(user.photoUrl).into(binding.accountImage);
+            Picasso.with(getContext()).load(user.photoUrl).into(binding.userImage);
         }
     }
 
     @Override
     public void showLogin() {
-        binding.accountName.setVisibility(View.GONE);
-        binding.accountMail.setVisibility(View.GONE);
+        binding.userName.setVisibility(View.GONE);
+        binding.userMail.setVisibility(View.GONE);
         binding.signInButton.setVisibility(View.VISIBLE);
     }
 

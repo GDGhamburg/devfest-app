@@ -14,7 +14,8 @@ import de.devfest.databinding.FragmentScheduleBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.mvpbase.BaseFragment;
 
-public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresenter> {
+public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresenter>
+        implements ScheduleView {
 
     @Inject
     SchedulePresenter presenter;

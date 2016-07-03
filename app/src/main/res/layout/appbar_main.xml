@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:context=".screens.main.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -26,11 +25,8 @@
     <FrameLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize" />
 
-
-    <!--<include layout="@layout/content_main"-->
-        <!--android:id="@+id/content" />-->
-
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>
