@@ -11,7 +11,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         tools:layout_height="@dimen/nav_header_height">
 
-        <ImageView
+        <de.devfest.ui.RoundedImageView
             android:id="@+id/user_image"
             android:layout_width="56dp"
             android:layout_height="56dp"
