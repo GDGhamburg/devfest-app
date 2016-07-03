@@ -1,7 +1,5 @@
 package de.devfest.data.firebase;
 
-import com.google.common.base.Joiner;
-
 import de.devfest.model.Speaker;
 
 final class FirebaseSpeaker {
@@ -28,6 +26,6 @@ final class FirebaseSpeaker {
         website = speaker.website;
         github = speaker.github;
         gplus = speaker.gplus;
-        tags = Joiner.on(",").join(speaker.tags);
+        tags = speaker.tags.toString().replaceAll("[\\s\\[\\]]", "");
     }
 }

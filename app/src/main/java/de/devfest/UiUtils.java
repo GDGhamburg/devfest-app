@@ -2,7 +2,11 @@ package de.devfest;
 
 import android.content.res.Resources;
 
-public class UiUtils {
+public final class UiUtils {
+
+    private UiUtils() {
+        throw new RuntimeException("No instance allowed!");
+    }
 
     public static int getStatusBarHeight(Resources res) {
         return getDimensionSafely(res, res.getIdentifier("status_bar_height", "dimen", "android"));
