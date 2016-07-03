@@ -1,9 +1,7 @@
 package de.devfest.screens.main;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.Snackbar;
@@ -12,30 +10,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import de.devfest.R;
 import de.devfest.databinding.ActivityMainBinding;
 import de.devfest.injection.ApplicationComponent;
-import de.devfest.model.User;
 import de.devfest.mvpbase.BaseActivity;
 
 public class MainActivity extends BaseActivity<MainView, MainPresenter> implements MainView,
-        GoogleApiClient.OnConnectionFailedListener, OnNavigationItemSelectedListener {
+        OnNavigationItemSelectedListener {
 
     @Inject
     MainPresenter presenter;
@@ -54,7 +40,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
 
         DrawerLayout drawer = binding.drawerLayout;
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.nav_drawer_open,R.string.nav_drawer_close);
+                R.string.nav_drawer_open, R.string.nav_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -66,78 +52,6 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     protected MainPresenter inject(ApplicationComponent component) {
         component.inject(this);
         return presenter;
-    }
-
-
-    @Override
-    public void showConnectivity(boolean connected) {
-        Snackbar.make(binding.getRoot(), "Internet available: " + connected, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showUser(@NonNull User user) {
-//        ImageView userImage = (ImageView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_image);
-//        userImage.setVisibility(View.VISIBLE);
-//        TextView userText = (TextView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_name);
-//        userText.setText(user.userId);
-//        userText.setVisibility(View.VISIBLE);
-//        TextView userMail = (TextView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_mail);
-//        userMail.setText(user.email);
-//        userMail.setVisibility(View.VISIBLE);
-//        SignInButton signInButton = (SignInButton) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.sign_in_button);
-//        signInButton.setVisibility(View.GONE);
-//        if (user.photoUrl != null) {
-//            Picasso.with(this).load(user.photoUrl).into(userImage);
-//        }
-//        presenter.test();
-    }
-
-    @Override
-    public void offerLogin() {
-//        TextView userText = (TextView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_name);
-//        userText.setVisibility(View.GONE);
-//        TextView userMail = (TextView) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.account_mail);
-//        userMail.setVisibility(View.GONE);
-//        SignInButton signInButton = (SignInButton) binding.navView.getHeaderView(0)
-//                .findViewById(R.id.sign_in_button);
-//        signInButton.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void startGoogleLogin() {
-//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-//        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    @Override
-    public void showAuthenticationFailedError(Throwable error) {
-        Snackbar.make(binding.getRoot(), error.getMessage(), Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == RC_SIGN_IN) {
-//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-//            if (result.isSuccess()) {
-//                GoogleSignInAccount account = result.getSignInAccount();
-//                presenter.googleSigninSuccessful(account);
-//            } else {
-//                presenter.authenticationFailed();
-//            }
-//        }
-    }
-
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // TODO
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
