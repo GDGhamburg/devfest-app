@@ -49,5 +49,11 @@ public abstract class BaseActivity<V extends MvpBase.View, P extends BasePresent
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
+    }
+
     protected abstract P inject(ApplicationComponent component);
 }

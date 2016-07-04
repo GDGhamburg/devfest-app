@@ -52,5 +52,11 @@ public abstract class BaseFragment<V extends MvpBase.View, P extends BasePresent
         super.onStop();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
+    }
+
     protected abstract P inject(ApplicationComponent component);
 }
