@@ -62,6 +62,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
             case R.id.nav_sessions:
                 break;
             case R.id.nav_speakers:
+                // TODO: load SpeakersFragment
                 break;
             case R.id.nav_social:
                 break;

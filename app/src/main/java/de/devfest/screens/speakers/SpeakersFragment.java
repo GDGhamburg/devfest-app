@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import de.devfest.R;
-import de.devfest.databinding.FragmentScheduleBinding;
+import de.devfest.databinding.FragmentSpeakersBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Speaker;
 import de.devfest.mvpbase.BaseFragment;
@@ -21,7 +21,8 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     @Inject
     SpeakersPresenter presenter;
 
-    private FragmentScheduleBinding binding;
+    private FragmentSpeakersBinding binding;
+    private SpeakerAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speakers, container, false);
+        adapter = new SpeakerAdapter();
+        binding.listSpeakers.setAdapter(adapter);
         return binding.getRoot();
     }
 
@@ -45,7 +48,7 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
 
     @Override
     public void onSpeakerAvailable(@NonNull Speaker speaker) {
-        // TODO: add to adapter and show
+        adapter.addSpeaker(speaker);
     }
 
     @Override
