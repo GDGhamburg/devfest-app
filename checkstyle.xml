@@ -4,7 +4,9 @@
 <module name="Checker">
     <property name="charset" value="UTF-8" />
 
-    <module name="NewlineAtEndOfFile" />
+    <module name="NewlineAtEndOfFile">
+        <property name="severity" value="ignore" />
+    </module>
     <module name="FileLength" />
     <module name="FileTabCharacter" />
 

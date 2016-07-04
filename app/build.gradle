@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 24
@@ -65,3 +64,4 @@ dependencies {
     androidTestCompile "com.android.support:support-annotations:$supportVersion"
 }
 apply from: 'checkstyle.gradle'
+apply plugin: 'com.google.gms.google-services'

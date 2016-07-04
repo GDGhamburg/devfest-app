@@ -1,7 +1,4 @@
 <resources>
-
-    <string name="title_activity_main2">Main2Activity</string>
-
     <string name="nav_drawer_open">Open navigation drawer</string>
     <string name="nav_drawer_close">Close navigation drawer</string>
     <string name="nav_schedule">Schedule</string>

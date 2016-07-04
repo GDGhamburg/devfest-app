@@ -7,7 +7,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import de.devfest.injection.ApplicationComponent;
 import timber.log.Timber;
 
-public class DevFestApplication extends Application {
+public final class DevFestApplication extends Application {
 
     private ApplicationComponent component;
 
