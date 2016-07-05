@@ -16,6 +16,7 @@ import de.devfest.model.Speaker;
 import de.devfest.model.Track;
 import rx.Observable;
 import rx.Subscriber;
+import rx.subscriptions.Subscriptions;
 
 public final class FirebaseDevFestManager implements DevFestManager {
 
@@ -34,7 +35,7 @@ public final class FirebaseDevFestManager implements DevFestManager {
             @Override
             public void call(Subscriber<? super Speaker> subscriber) {
                 //noinspection InnerClassTooDeeplyNested
-                database.getReference(FIREBASE_CHILD_SPEAKER).addValueEventListener(new ValueEventListener() {
+                ValueEventListener listener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
@@ -64,7 +65,12 @@ public final class FirebaseDevFestManager implements DevFestManager {
                     public void onCancelled(DatabaseError databaseError) {
                         subscriber.onError(new FirebaseException(databaseError.getDetails()));
                     }
-                });
+                };
+                // auto remove listener when unsubscribing
+                subscriber.add(Subscriptions.create(() ->
+                        database.getReference(FIREBASE_CHILD_SPEAKER).removeEventListener(listener)));
+
+                database.getReference(FIREBASE_CHILD_SPEAKER).addValueEventListener(listener);
             }
         });
     }
