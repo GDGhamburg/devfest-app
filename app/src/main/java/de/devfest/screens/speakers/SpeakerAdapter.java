@@ -66,8 +66,7 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
 
         @Override
         public int compare(Speaker speaker1, Speaker speaker2) {
-            // TODO
-            return 0;
+            return speaker1.name.compareTo(speaker2.name);
         }
 
         @Override
@@ -92,14 +91,12 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
 
         @Override
         public boolean areContentsTheSame(Speaker oldItem, Speaker newItem) {
-            // TODO
-            return false;
+            return oldItem.equals(newItem);
         }
 
         @Override
         public boolean areItemsTheSame(Speaker item1, Speaker item2) {
-            // TODO
-            return false;
+            return item1.speakerId.equals(item2.speakerId);
         }
     }
 }
