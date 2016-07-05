@@ -34,7 +34,7 @@ public final class FirebaseDevFestManager implements DevFestManager {
             @Override
             public void call(Subscriber<? super Speaker> subscriber) {
                 //noinspection InnerClassTooDeeplyNested
-                database.getReference(FIREBASE_CHILD_SPEAKER).addListenerForSingleValueEvent(new ValueEventListener() {
+                database.getReference(FIREBASE_CHILD_SPEAKER).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
