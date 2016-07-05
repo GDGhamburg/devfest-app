@@ -31,6 +31,40 @@ public final class Speaker {
         return new Builder();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Speaker speaker = (Speaker) o;
+
+        if (!speakerId.equals(speaker.speakerId)) return false;
+        if (!name.equals(speaker.name)) return false;
+        if (photoUrl != null ? !photoUrl.equals(speaker.photoUrl) : speaker.photoUrl != null) return false;
+        if (twitter != null ? !twitter.equals(speaker.twitter) : speaker.twitter != null) return false;
+        if (!description.equals(speaker.description)) return false;
+        if (company != null ? !company.equals(speaker.company) : speaker.company != null) return false;
+        if (github != null ? !github.equals(speaker.github) : speaker.github != null) return false;
+        if (gplus != null ? !gplus.equals(speaker.gplus) : speaker.gplus != null) return false;
+        if (website != null ? !website.equals(speaker.website) : speaker.website != null) return false;
+        return tags != null ? tags.equals(speaker.tags) : speaker.tags == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = speakerId.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (photoUrl != null ? photoUrl.hashCode() : 0);
+        result = 31 * result + (twitter != null ? twitter.hashCode() : 0);
+        result = 31 * result + description.hashCode();
+        result = 31 * result + (company != null ? company.hashCode() : 0);
+        result = 31 * result + (github != null ? github.hashCode() : 0);
+        result = 31 * result + (gplus != null ? gplus.hashCode() : 0);
+        result = 31 * result + (website != null ? website.hashCode() : 0);
+        result = 31 * result + (tags != null ? tags.hashCode() : 0);
+        return result;
+    }
 
     public static final class Builder {
         private List<String> tags;

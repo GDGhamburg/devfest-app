@@ -2,13 +2,11 @@ package de.devfest.screens.speakers;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import de.devfest.R;
 import de.devfest.databinding.ListitemSpeakerBinding;
@@ -16,10 +14,10 @@ import de.devfest.model.Speaker;
 
 class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHolder> {
 
-    private final List<Speaker> speakers;
+    private final SortedList<Speaker> speakers;
 
     public SpeakerAdapter() {
-        speakers = new LinkedList<>();
+        speakers = new SortedList<>(Speaker.class, new SortedListUpdate(this));
     }
 
     @Override
@@ -41,7 +39,6 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
     }
 
     public void addSpeaker(@NonNull Speaker speaker) {
-        // TODO: add some logic to avoid multiple items
         speakers.add(speaker);
     }
 
@@ -56,6 +53,50 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
         void bind(Speaker speaker) {
             binding.textSpeakerName.setText(speaker.name);
             binding.textDescription.setText(speaker.description);
+        }
+    }
+
+    static class SortedListUpdate extends SortedList.Callback<Speaker> {
+
+        private final SpeakerAdapter adapter;
+
+        SortedListUpdate(SpeakerAdapter adapter) {
+            this.adapter = adapter;
+        }
+
+        @Override
+        public int compare(Speaker speaker1, Speaker speaker2) {
+            return speaker1.name.compareTo(speaker2.name);
+        }
+
+        @Override
+        public void onInserted(int position, int count) {
+            adapter.notifyItemRangeInserted(position, count);
+        }
+
+        @Override
+        public void onRemoved(int position, int count) {
+            adapter.notifyItemRangeRemoved(position, count);
+        }
+
+        @Override
+        public void onMoved(int fromPosition, int toPosition) {
+            adapter.notifyItemMoved(fromPosition, toPosition);
+        }
+
+        @Override
+        public void onChanged(int position, int count) {
+            adapter.notifyItemRangeChanged(position, count);
+        }
+
+        @Override
+        public boolean areContentsTheSame(Speaker oldItem, Speaker newItem) {
+            return oldItem.equals(newItem);
+        }
+
+        @Override
+        public boolean areItemsTheSame(Speaker item1, Speaker item2) {
+            return item1.speakerId.equals(item2.speakerId);
         }
     }
 }
