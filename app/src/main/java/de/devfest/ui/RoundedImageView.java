@@ -21,7 +21,7 @@ import de.devfest.R;
 public class RoundedImageView extends AppCompatImageView {
 
     public RoundedImageView(Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public RoundedImageView(Context context, AttributeSet attrs) {

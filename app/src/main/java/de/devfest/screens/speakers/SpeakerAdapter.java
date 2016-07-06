@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,37 +57,15 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
         }
     }
 
-    static class SortedListUpdate extends SortedList.Callback<Speaker> {
+    static class SortedListUpdate extends SortedListAdapterCallback<Speaker> {
 
-        private final SpeakerAdapter adapter;
-
-        SortedListUpdate(SpeakerAdapter adapter) {
-            this.adapter = adapter;
+        SortedListUpdate(RecyclerView.Adapter adapter) {
+            super(adapter);
         }
 
         @Override
         public int compare(Speaker speaker1, Speaker speaker2) {
             return speaker1.name.compareTo(speaker2.name);
-        }
-
-        @Override
-        public void onInserted(int position, int count) {
-            adapter.notifyItemRangeInserted(position, count);
-        }
-
-        @Override
-        public void onRemoved(int position, int count) {
-            adapter.notifyItemRangeRemoved(position, count);
-        }
-
-        @Override
-        public void onMoved(int fromPosition, int toPosition) {
-            adapter.notifyItemMoved(fromPosition, toPosition);
-        }
-
-        @Override
-        public void onChanged(int position, int count) {
-            adapter.notifyItemRangeChanged(position, count);
         }
 
         @Override
