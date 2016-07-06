@@ -65,6 +65,7 @@ public final class FirebaseSessionManager implements SessionManager {
                 long toTime = to.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
 
                 database.getReference(FIREBASE_CHILD_SESSIONS)
+                        // TODO: missing somthing !!!
                         .startAt(fromTime)
                         .endAt(toTime)
                         .addValueEventListener(new SessionExtractor(subscriber, speakerManager,
