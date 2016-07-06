@@ -56,6 +56,23 @@ public final class FirebaseSessionManager implements SessionManager {
         });
     }
 
+    @Override
+    public Observable<Session> getSessions(ZonedDateTime from, ZonedDateTime to) {
+        return Observable.create(new Observable.OnSubscribe<Session>() {
+            @Override
+            public void call(Subscriber<? super Session> subscriber) {
+                long fromTime = from.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
+                long toTime = to.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
+
+                database.getReference(FIREBASE_CHILD_SESSIONS)
+                        .startAt(fromTime)
+                        .endAt(toTime)
+                        .addValueEventListener(new SessionExtractor(subscriber, speakerManager,
+                                stageManager, trackManager, false));
+            }
+        });
+    }
+
     static final class SessionExtractor extends FirebaseExtractor<Session> {
 
         private final SpeakerManager speakerManager;

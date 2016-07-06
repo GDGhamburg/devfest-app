@@ -1,6 +1,6 @@
 package de.devfest.data.firebase;
 
-public final class FirebaseTrack {
+final class FirebaseTrack {
     public String name;
 
     private FirebaseTrack(Builder builder) {

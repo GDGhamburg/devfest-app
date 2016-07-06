@@ -2,7 +2,7 @@ package de.devfest.data.firebase;
 
 import java.util.HashMap;
 
-public final class FirebaseSession {
+final class FirebaseSession {
     public String title;
     public String description;
     public long datetime;

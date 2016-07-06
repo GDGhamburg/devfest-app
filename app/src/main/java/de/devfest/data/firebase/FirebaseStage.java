@@ -1,6 +1,6 @@
 package de.devfest.data.firebase;
 
-public final class FirebaseStage {
+final class FirebaseStage {
     public String id;
     public String name;
 

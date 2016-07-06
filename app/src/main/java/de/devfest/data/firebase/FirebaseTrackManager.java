@@ -8,7 +8,7 @@ import de.devfest.model.Track;
 import rx.Observable;
 import rx.Subscriber;
 
-public class FirebaseTrackManager implements TrackManager {
+public final class FirebaseTrackManager implements TrackManager {
 
     private static final String FIREBASE_CHILD_TRACKS = "tracks";
 
