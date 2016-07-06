@@ -1,32 +1,13 @@
 package de.devfest.data;
 
-import de.devfest.model.Session;
-import de.devfest.model.Speaker;
-import de.devfest.model.Track;
-import rx.Observable;
-
-/**
- * TODO: may be split topics here
- */
 public interface DevFestManager {
-    /**
-     * @return all speakers
-     */
-    Observable<Speaker> getSpeakers();
 
-    Observable<Speaker> getSpeaker(String uid);
+    SpeakerManager speaker();
 
-    @Deprecated
-    Observable<Speaker> insertOrUpdate(Speaker speaker);
+    SessionManager sessions();
 
+    TrackManager tracks();
 
-    Observable<Session> getSessions();
-
-    Observable<Session> getSession(String id);
-
-    Observable<Track> getTracks();
-
-    Observable<Track> getTrack(String id);
-
+    StageManager stages();
 
 }

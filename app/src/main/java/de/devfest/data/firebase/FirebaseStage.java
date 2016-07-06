@@ -1,14 +1,10 @@
-package de.devfest.model;
+package de.devfest.data.firebase;
 
-/**
- * Created by andre on 24/06/16.
- */
+public final class FirebaseStage {
+    public String id;
+    public String name;
 
-public final class Track {
-    public final String id;
-    public final String name;
-
-    private Track(Builder builder) {
+    private FirebaseStage(Builder builder) {
         id = builder.id;
         name = builder.name;
     }
@@ -16,7 +12,6 @@ public final class Track {
     public static Builder newBuilder() {
         return new Builder();
     }
-
 
     public static final class Builder {
         private String id;
@@ -35,8 +30,8 @@ public final class Track {
             return this;
         }
 
-        public Track build() {
-            return new Track(this);
+        public FirebaseStage build() {
+            return new FirebaseStage(this);
         }
     }
 }

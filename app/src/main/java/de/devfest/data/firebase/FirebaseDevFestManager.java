@@ -1,111 +1,47 @@
 package de.devfest.data.firebase;
 
-import com.google.firebase.FirebaseException;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Arrays;
-import java.util.Iterator;
 
 import de.devfest.data.DevFestManager;
-import de.devfest.model.Session;
-import de.devfest.model.Speaker;
-import de.devfest.model.Track;
-import rx.Observable;
-import rx.Subscriber;
-import rx.subscriptions.Subscriptions;
+import de.devfest.data.SessionManager;
+import de.devfest.data.SpeakerManager;
+import de.devfest.data.StageManager;
+import de.devfest.data.TrackManager;
 
 public final class FirebaseDevFestManager implements DevFestManager {
 
-    private static final String FIREBASE_CHILD_SPEAKER = "speaker";
-
-
-    private final FirebaseDatabase database;
+    private final FirebaseSpeakerManager speakerManager;
+    private final FirebaseSessionManager sessionManager;
+    private final FirebaseStageManager stageManager;
+    private final FirebaseTrackManager trackManager;
 
     public FirebaseDevFestManager() {
-        database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        speakerManager = new FirebaseSpeakerManager(database);
+        stageManager = new FirebaseStageManager(database);
+        trackManager = new FirebaseTrackManager(database);
+        sessionManager = new FirebaseSessionManager(database, speakerManager, stageManager, trackManager);
+    }
+
+
+    @Override
+    public SpeakerManager speaker() {
+        return speakerManager;
     }
 
     @Override
-    public Observable<Speaker> getSpeakers() {
-        return Observable.create(new Observable.OnSubscribe<Speaker>() {
-            @Override
-            public void call(Subscriber<? super Speaker> subscriber) {
-                //noinspection InnerClassTooDeeplyNested
-                ValueEventListener listener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                        DataSnapshot data;
-                        FirebaseSpeaker speaker;
-                        while (iterator.hasNext()) {
-                            data = iterator.next();
-                            speaker = data.getValue(FirebaseSpeaker.class);
-                            subscriber.onNext(Speaker.newBuilder()
-                                    .speakerId(data.getKey())
-                                    .name(speaker.name)
-                                    .photoUrl(speaker.photoUrl)
-                                    .description(speaker.description)
-                                    .company(speaker.company)
-                                    .twitter(speaker.twitter)
-                                    .website(speaker.website)
-                                    .github(speaker.github)
-                                    .gplus(speaker.gplus)
-                                    .tags(Arrays.asList(speaker.tags.split(",")))
-                                    .build()
-                            );
-                        }
-                        subscriber.onCompleted();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        subscriber.onError(new FirebaseException(databaseError.getDetails()));
-                    }
-                };
-                // auto remove listener when unsubscribing
-                subscriber.add(Subscriptions.create(() ->
-                        database.getReference(FIREBASE_CHILD_SPEAKER).removeEventListener(listener)));
-
-                database.getReference(FIREBASE_CHILD_SPEAKER).addValueEventListener(listener);
-            }
-        });
+    public SessionManager sessions() {
+        return sessionManager;
     }
 
     @Override
-    public Observable<Speaker> getSpeaker(String uid) {
-        return null;
+    public TrackManager tracks() {
+        return trackManager;
     }
 
     @Override
-    public Observable<Session> getSessions() {
-        return null;
+    public StageManager stages() {
+        return stageManager;
     }
 
-    @Override
-    public Observable<Session> getSession(String id) {
-        return null;
-    }
-
-    @Override
-    public Observable<Track> getTracks() {
-        return null;
-    }
-
-    @Override
-    public Observable<Track> getTrack(String id) {
-        return null;
-    }
-
-    @Override
-    public Observable<Speaker> insertOrUpdate(Speaker speaker) {
-        DatabaseReference databaseReference = database.getReference(FIREBASE_CHILD_SPEAKER);
-        String speakerId = (speaker.speakerId == null) ? databaseReference.push().getKey() : speaker.speakerId;
-        FirebaseSpeaker firebaseSpeaker = new FirebaseSpeaker(speaker);
-        databaseReference.child(speakerId).setValue(firebaseSpeaker);
-        return getSpeaker(speakerId);
-    }
 }
