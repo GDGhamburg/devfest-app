@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tag_android_overlay">#AAA4C639</color>
+    <color name="tag_web_overlay">#AAA4C639</color>
+    <color name="tag_cloud_overlay">#AAA4C639</color>
+</resources>

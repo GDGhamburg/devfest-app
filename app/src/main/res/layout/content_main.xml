@@ -2,8 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/content_main"
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="?actionBarSize"
@@ -14,10 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:layout_constraintBottom_toBottomOf="@+id/content_main"
-            app:layout_constraintLeft_toLeftOf="@+id/content_main"
-            app:layout_constraintRight_toRightOf="@+id/content_main"
-            app:layout_constraintTop_toTopOf="@+id/content_main" />
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
+            app:layout_constraintRight_toRightOf="@+id/constraintLayout"
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
 
     </android.support.constraint.ConstraintLayout>
     </layout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/fragment_user"
+    android:id="@+id/fragmentUser"
     android:name="de.devfest.screens.user.UserFragment"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height" />

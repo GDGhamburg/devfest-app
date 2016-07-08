@@ -1,36 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <android.support.v7.widget.CardView
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:cardCornerRadius="2dp"
+        app:cardUseCompatPadding="true">
 
-        <TextView
-            android:id="@+id/textSpeakerName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
-            app:layout_constraintRight_toRightOf="@+id/constraintLayout"
-            app:layout_constraintTop_toTopOf="@+id/constraintLayout"/>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
-            app:layout_constraintRight_toRightOf="@+id/constraintLayout"
-            app:layout_constraintTop_toBottomOf="@+id/textSpeakerName"/>
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/imageSpeaker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="false"
+                android:cropToPadding="false"
+                app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
+                app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+                app:layout_constraintRight_toRightOf="@+id/constraintLayout"
+                app:layout_constraintHorizontal_bias="0.0"
+                tools:ignore="ContentDescription"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@color/tag_android_overlay"
+                android:id="@+id/view"
+                app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
+                app:layout_constraintTop_toBottomOf="@+id/imageSpeaker"/>
+
+            <TextView
+                android:id="@+id/textSpeakerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Matthias Friedrich"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintRight_toRightOf="@+id/constraintLayout"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/textSpeakerInfo"
+                app:layout_constraintHorizontal_bias="0.0"/>
+
+            <TextView
+                android:id="@+id/textSpeakerInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Jimdo"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintRight_toRightOf="@+id/constraintLayout"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/view"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintHorizontal_bias="0.0"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
 </layout>

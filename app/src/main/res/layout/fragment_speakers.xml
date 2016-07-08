@@ -4,6 +4,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listSpeakers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/spacing_small"
+        android:paddingStart="@dimen/spacing_small"
+        android:paddingEnd="@dimen/spacing_small" />
 
 </layout>

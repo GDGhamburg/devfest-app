@@ -2,7 +2,6 @@ package de.devfest.screens.main;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,8 +42,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = binding.navView;
-        navigationView.setNavigationItemSelectedListener(this);
+        binding.navView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -74,17 +72,16 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
             default:
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void showFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.findFragmentById(R.id.content_container) == null) {
-            fragmentManager.beginTransaction().add(R.id.content_container, fragment).commitNow();
+        if (fragmentManager.findFragmentById(R.id.containerContent) == null) {
+            fragmentManager.beginTransaction().add(R.id.containerContent, fragment).commitNow();
         } else {
-            fragmentManager.beginTransaction().replace(R.id.content_container, fragment).commitNow();
+            fragmentManager.beginTransaction().replace(R.id.containerContent, fragment).commitNow();
         }
     }
 }

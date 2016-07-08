@@ -5,9 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
 
 import de.devfest.R;
 import de.devfest.databinding.ListitemSpeakerBinding;
@@ -53,7 +56,12 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
 
         void bind(Speaker speaker) {
             binding.textSpeakerName.setText(speaker.name);
-            binding.textDescription.setText(speaker.description);
+            binding.textSpeakerInfo.setText(speaker.company);
+            if (!TextUtils.isEmpty(speaker.photoUrl)) {
+                Glide.with(binding.imageSpeaker.getContext()).load(speaker.photoUrl).into(binding.imageSpeaker);
+            } else {
+                Glide.clear(binding.imageSpeaker);
+            }
         }
     }
 

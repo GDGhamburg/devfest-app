@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/DevFest.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".screens.main.MainActivity">
             <intent-filter>

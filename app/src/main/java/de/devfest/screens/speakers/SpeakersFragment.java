@@ -35,7 +35,7 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speakers, container, false);
-        binding.listSpeakers.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.listSpeakers.setLayoutManager(new GridLayoutManager(getContext(), 3));
         adapter = new SpeakerAdapter();
         binding.listSpeakers.setAdapter(adapter);
 
@@ -47,7 +47,6 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
         component.inject(this);
         return presenter;
     }
-
 
     @Override
     public void onSpeakerAvailable(@NonNull Speaker speaker) {

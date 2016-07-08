@@ -10,13 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -51,7 +51,7 @@ public class UserFragment extends BaseFragment<UserView, UserPresenter>
         int statusBarHeight = UiUtils.getStatusBarHeight(getResources());
         binding.getRoot().setPadding(0, statusBarHeight, 0, 0);
 
-        binding.signInButton.setOnClickListener(view -> presenter.requestLogin());
+        binding.buttonSignIn.setOnClickListener(view -> presenter.requestLogin());
 
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -74,22 +74,22 @@ public class UserFragment extends BaseFragment<UserView, UserPresenter>
 
     @Override
     public void showUser(@NonNull User user) {
-        binding.userImage.setVisibility(View.VISIBLE);
-        binding.userName.setText(user.displayName);
-        binding.userName.setVisibility(View.VISIBLE);
-        binding.userMail.setText(user.email);
-        binding.userMail.setVisibility(View.VISIBLE);
-        binding.signInButton.setVisibility(View.GONE);
+        binding.imageUser.setVisibility(View.VISIBLE);
+        binding.textUserName.setText(user.displayName);
+        binding.textUserName.setVisibility(View.VISIBLE);
+        binding.textUserMail.setText(user.email);
+        binding.textUserMail.setVisibility(View.VISIBLE);
+        binding.buttonSignIn.setVisibility(View.GONE);
         if (user.photoUrl != null) {
-            Picasso.with(getContext()).load(user.photoUrl).into(binding.userImage);
+            Glide.with(this).load(user.photoUrl).into(binding.imageUser);
         }
     }
 
     @Override
     public void showLogin() {
-        binding.userName.setVisibility(View.GONE);
-        binding.userMail.setVisibility(View.GONE);
-        binding.signInButton.setVisibility(View.VISIBLE);
+        binding.textUserName.setVisibility(View.GONE);
+        binding.textUserMail.setVisibility(View.GONE);
+        binding.buttonSignIn.setVisibility(View.VISIBLE);
     }
 
     @Override
