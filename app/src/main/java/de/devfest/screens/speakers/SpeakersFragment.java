@@ -26,6 +26,10 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     private FragmentSpeakersBinding binding;
     private SpeakerAdapter adapter;
 
+    public static SpeakersFragment newInstance() {
+        return new SpeakersFragment();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

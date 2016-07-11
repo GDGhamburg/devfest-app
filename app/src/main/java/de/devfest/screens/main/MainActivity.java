@@ -2,30 +2,24 @@ package de.devfest.screens.main;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import javax.inject.Inject;
-
 import de.devfest.R;
 import de.devfest.databinding.ActivityMainBinding;
-import de.devfest.injection.ApplicationComponent;
-import de.devfest.mvpbase.BaseActivity;
 import de.devfest.screens.speakers.SpeakersFragment;
 
-public class MainActivity extends BaseActivity<MainView, MainPresenter> implements MainView,
-        OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
 
-    @Inject
-    MainPresenter presenter;
     private ActivityMainBinding binding;
-
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -45,12 +39,6 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
         binding.navView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
-    protected MainPresenter inject(ApplicationComponent component) {
-        component.inject(this);
-        return presenter;
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -61,7 +49,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
             case R.id.nav_sessions:
                 break;
             case R.id.nav_speakers:
-                showFragment(new SpeakersFragment());
+                showFragment(FRAGMENT_SPEAKER);
                 break;
             case R.id.nav_social:
                 break;
@@ -76,12 +64,29 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
         return true;
     }
 
-    private void showFragment(Fragment fragment) {
+    private static final String FRAGMENT_SPEAKER = "speaker-fragment";
+
+    private void showFragment(String fragmentToStart) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = getFragment(fragmentToStart);
         if (fragmentManager.findFragmentById(R.id.containerContent) == null) {
-            fragmentManager.beginTransaction().add(R.id.containerContent, fragment).commitNow();
+            fragmentManager.beginTransaction().add(R.id.containerContent, fragment, fragmentToStart).commitNow();
         } else {
-            fragmentManager.beginTransaction().replace(R.id.containerContent, fragment).commitNow();
+            fragmentManager.beginTransaction().replace(R.id.containerContent, fragment, fragmentToStart).commitNow();
         }
+    }
+
+    private Fragment getFragment(String fragmentToStart) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(fragmentToStart);
+        if(fragment != null) {
+            return fragment;
+        }
+
+        if(FRAGMENT_SPEAKER.equals(fragmentToStart)) {
+            return SpeakersFragment.newInstance();
+        }
+
+        throw new IllegalStateException("No start fragment found");
     }
 }
