@@ -3,6 +3,11 @@ package de.devfest.model;
 import java.util.List;
 
 public final class Speaker {
+
+    public final static String TAG_ANDROID = "android";
+    public final static String TAG_WEB = "web";
+    public final static String TAG_CLOUD = "cloud";
+
     public final String speakerId;
     public final String name;
     public final String photoUrl;

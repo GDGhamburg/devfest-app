@@ -21,7 +21,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import javax.inject.Inject;
 
 import de.devfest.R;
-import de.devfest.UiUtils;
+import de.devfest.ui.UiUtils;
 import de.devfest.databinding.FragmentUserBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.User;
@@ -48,7 +48,7 @@ public class UserFragment extends BaseFragment<UserView, UserPresenter>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false);
-        int statusBarHeight = UiUtils.getStatusBarHeight(getResources());
+        int statusBarHeight = UiUtils.getStatusBarHeight(getContext());
         binding.getRoot().setPadding(0, statusBarHeight, 0, 0);
 
         binding.buttonSignIn.setOnClickListener(view -> presenter.requestLogin());

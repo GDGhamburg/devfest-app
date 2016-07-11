@@ -11,10 +11,11 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         tools:layout_height="@dimen/nav_header_height">
 
-        <de.devfest.ui.RoundedImageView
+        <de.devfest.ui.DevFestImageView
             android:id="@+id/imageUser"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            app:roundCorners="true"
             app:srcCompat="@android:drawable/sym_def_app_icon"
             app:layout_constraintLeft_toLeftOf="@+id/fragmentUser"
             android:layout_marginLeft="16dp"

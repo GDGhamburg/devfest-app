@@ -18,28 +18,43 @@ import de.devfest.R;
  *
  * Working on Lollipop and above, doesn't have any effect below.
  */
-public class RoundedImageView extends AppCompatImageView {
+public class DevFestImageView extends AppCompatImageView {
 
-    public RoundedImageView(Context context) {
+    boolean squareSized;
+
+    public DevFestImageView(Context context) {
         this(context, null);
     }
 
-    public RoundedImageView(Context context, AttributeSet attrs) {
+    public DevFestImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RoundedImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DevFestImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView, defStyleAttr, 0);
-        int cornerRadius = a.getDimensionPixelSize(R.styleable.RoundedImageView_radius, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DevFestImageView, defStyleAttr, 0);
+        squareSized = a.getBoolean(R.styleable.DevFestImageView_squareSized, false);
+        boolean roundCorners = a.getBoolean(R.styleable.DevFestImageView_roundCorners, false);
+        int cornerRadius = a.getDimensionPixelSize(R.styleable.DevFestImageView_cornerRadius, 0);
         a.recycle();
-        init(cornerRadius);
+        init(roundCorners, cornerRadius);
     }
 
-    private void init(int radius) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private void init(boolean roundCorners, int radius) {
+        if (roundCorners && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setOutlineProvider(new Clipper(radius));
             setClipToOutline(true);
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (squareSized) {
+            int width = getMeasuredWidth();
+            int height = getMeasuredHeight();
+            int size = width > height ? width : height;
+            setMeasuredDimension(size, size);
         }
     }
 

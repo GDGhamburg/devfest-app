@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import de.devfest.R;
+import de.devfest.ui.UiUtils;
 import de.devfest.databinding.FragmentSpeakersBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Speaker;
@@ -35,7 +36,7 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speakers, container, false);
-        binding.listSpeakers.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        binding.listSpeakers.setLayoutManager(new GridLayoutManager(getContext(), getColumnCount()));
         adapter = new SpeakerAdapter();
         binding.listSpeakers.setAdapter(adapter);
 
@@ -56,5 +57,13 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     @Override
     public void onError(Throwable error) {
 
+    }
+
+    private int getColumnCount() {
+        int cols = 2;
+        if (UiUtils.isLargeScreen(getContext())) cols += 1;
+        if (UiUtils.isXLargeScreen(getContext())) cols += 2;
+        if (UiUtils.isLandscape(getContext())) cols += 1;
+        return cols;
     }
 }

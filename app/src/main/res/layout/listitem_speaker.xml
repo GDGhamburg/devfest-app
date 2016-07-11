@@ -14,12 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <de.devfest.ui.DevFestImageView
                 android:id="@+id/imageSpeaker"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="false"
                 android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:squareSized="true"
                 app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
                 app:layout_constraintTop_toTopOf="@+id/constraintLayout"
                 app:layout_constraintRight_toRightOf="@+id/constraintLayout"
@@ -30,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:background="@color/tag_android_overlay"
-                android:id="@+id/view"
+                android:id="@+id/viewTag"
                 app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
                 app:layout_constraintTop_toBottomOf="@+id/imageSpeaker"/>
 
@@ -63,7 +65,7 @@
                 app:layout_constraintRight_toRightOf="@+id/constraintLayout"
                 android:layout_marginRight="8dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/view"
+                app:layout_constraintBottom_toBottomOf="@+id/viewTag"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintHorizontal_bias="0.0"/>
 

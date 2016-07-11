@@ -16,6 +16,10 @@ import de.devfest.R;
 import de.devfest.databinding.ListitemSpeakerBinding;
 import de.devfest.model.Speaker;
 
+import static de.devfest.model.Speaker.TAG_ANDROID;
+import static de.devfest.model.Speaker.TAG_CLOUD;
+import static de.devfest.model.Speaker.TAG_WEB;
+
 class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHolder> {
 
     private final SortedList<Speaker> speakers;
@@ -57,6 +61,13 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
         void bind(Speaker speaker) {
             binding.textSpeakerName.setText(speaker.name);
             binding.textSpeakerInfo.setText(speaker.company);
+
+            int colorResId = 0;
+            if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
+            else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web_overlay;
+            else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
+            if (colorResId != 0) binding.viewTag.setBackgroundResource(colorResId);
+
             if (!TextUtils.isEmpty(speaker.photoUrl)) {
                 Glide.with(binding.imageSpeaker.getContext()).load(speaker.photoUrl).into(binding.imageSpeaker);
             } else {
