@@ -6,7 +6,10 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import de.devfest.ApplicationModule;
-import de.devfest.data.DevFestManager;
+import de.devfest.data.SessionManager;
+import de.devfest.data.SpeakerManager;
+import de.devfest.data.StageManager;
+import de.devfest.data.TrackManager;
 import de.devfest.screens.main.MainActivity;
 import de.devfest.screens.schedule.ScheduleFragment;
 import de.devfest.screens.speakers.SpeakersFragment;
@@ -25,6 +28,9 @@ public abstract class ApplicationComponent {
     public abstract void inject(ScheduleFragment fragment);
     public abstract void inject(SpeakersFragment fragment);
 
-    abstract DevFestManager devFestManager();
+    abstract SessionManager sessionManager();
+    abstract SpeakerManager speakerManager();
+    abstract StageManager stageManager();
+    abstract TrackManager trackManager();
     abstract UserManager userManager();
 }

@@ -1,14 +1,14 @@
 package de.devfest.model;
 
 /**
- * Created by andre on 24/06/16.
+ * Created by andre on 06.07.2016.
  */
 
-public final class Track {
+public final class Stage {
     public final String id;
     public final String name;
 
-    private Track(Builder builder) {
+    private Stage(Builder builder) {
         id = builder.id;
         name = builder.name;
     }
@@ -16,7 +16,6 @@ public final class Track {
     public static Builder newBuilder() {
         return new Builder();
     }
-
 
     public static final class Builder {
         private String id;
@@ -35,8 +34,8 @@ public final class Track {
             return this;
         }
 
-        public Track build() {
-            return new Track(this);
+        public Stage build() {
+            return new Stage(this);
         }
     }
 }

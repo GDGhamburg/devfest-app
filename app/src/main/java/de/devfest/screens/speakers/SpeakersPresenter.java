@@ -2,24 +2,24 @@ package de.devfest.screens.speakers;
 
 import javax.inject.Inject;
 
-import de.devfest.data.DevFestManager;
+import de.devfest.data.SpeakerManager;
 import de.devfest.mvpbase.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class SpeakersPresenter extends BasePresenter<SpeakersView> {
 
-    private final DevFestManager devfestManager;
+    private final SpeakerManager speakerManager;
 
     @Inject
-    public SpeakersPresenter(DevFestManager devfestManager) {
-        this.devfestManager = devfestManager;
+    public SpeakersPresenter(SpeakerManager speakerManager) {
+        this.speakerManager = speakerManager;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        untilOnPause(devfestManager.getSpeakers()
+        untilOnPause(speakerManager.getSpeakers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(speaker -> {
