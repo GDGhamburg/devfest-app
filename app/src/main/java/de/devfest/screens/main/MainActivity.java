@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import de.devfest.R;
 import de.devfest.databinding.ActivityMainBinding;
+import de.devfest.screens.schedule.ScheduleFragment;
 import de.devfest.screens.speakers.SpeakersFragment;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             case R.id.nav_schedule:
                 break;
             case R.id.nav_sessions:
+                // TODO: not working yet
+                // showFragment(FRAGMENT_SESSION);
                 break;
             case R.id.nav_speakers:
                 showFragment(FRAGMENT_SPEAKER);
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     }
 
     private static final String FRAGMENT_SPEAKER = "speaker-fragment";
+    private static final String FRAGMENT_SESSION = "session-fragment";
 
     private void showFragment(String fragmentToStart) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -85,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
         if(FRAGMENT_SPEAKER.equals(fragmentToStart)) {
             return SpeakersFragment.newInstance();
+        } else if(FRAGMENT_SESSION.equals(fragmentToStart)) {
+            return ScheduleFragment.newInstance();
         }
 
         throw new IllegalStateException("No start fragment found");

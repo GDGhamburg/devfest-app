@@ -1,6 +1,6 @@
 package de.devfest.data.firebase;
 
-import java.util.HashMap;
+import java.util.Map;
 
 final class FirebaseSession {
     public String title;
@@ -10,7 +10,12 @@ final class FirebaseSession {
     public String track;
     public String stage;
     public String language;
-    public HashMap<String, String> speakers;
+
+    public Map<String, String> speakers;
+
+    FirebaseSession() {
+
+    }
 
     private FirebaseSession(Builder builder) {
         title = builder.title;
@@ -36,7 +41,7 @@ final class FirebaseSession {
         private String track;
         private String stage;
         private String language;
-        private HashMap<String, String> speakers;
+        private Map<String, String> speakers;
 
         private Builder() {
         }
@@ -76,7 +81,7 @@ final class FirebaseSession {
             return this;
         }
 
-        public Builder speakers(HashMap<String, String> val) {
+        public Builder speakers(Map<String, String> val) {
             speakers = val;
             return this;
         }
