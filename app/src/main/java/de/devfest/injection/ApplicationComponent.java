@@ -12,6 +12,8 @@ import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
 import de.devfest.screens.main.MainActivity;
 import de.devfest.screens.schedule.ScheduleFragment;
+import de.devfest.screens.sessions.SessionsFragment;
+import de.devfest.screens.social.SocialFragment;
 import de.devfest.screens.speakers.SpeakersFragment;
 import de.devfest.screens.user.UserFragment;
 import de.devfest.user.UserManager;
@@ -25,8 +27,10 @@ public abstract class ApplicationComponent {
 
     public abstract void inject(MainActivity activity);
     public abstract void inject(UserFragment fragment);
+    public abstract void inject(SessionsFragment fragment);
     public abstract void inject(ScheduleFragment fragment);
     public abstract void inject(SpeakersFragment fragment);
+    public abstract void inject(SocialFragment fragment);
 
     abstract SessionManager sessionManager();
     abstract SpeakerManager speakerManager();

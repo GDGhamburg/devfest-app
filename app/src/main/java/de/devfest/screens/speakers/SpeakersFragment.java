@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import de.devfest.R;
+import de.devfest.screens.schedule.ScheduleFragment;
 import de.devfest.ui.UiUtils;
 import de.devfest.databinding.FragmentSpeakersBinding;
 import de.devfest.injection.ApplicationComponent;
@@ -19,6 +20,8 @@ import de.devfest.model.Speaker;
 import de.devfest.mvpbase.BaseFragment;
 
 public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresenter> implements SpeakersView {
+
+    public static final String TAG = ScheduleFragment.class.toString();
 
     @Inject
     SpeakersPresenter presenter;

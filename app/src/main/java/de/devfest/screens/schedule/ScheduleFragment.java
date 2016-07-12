@@ -19,6 +19,8 @@ import timber.log.Timber;
 
 public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresenter> implements ScheduleView {
 
+    public static final String TAG = ScheduleFragment.class.toString();
+
     @Inject
     SchedulePresenter presenter;
     private FragmentScheduleBinding binding;
