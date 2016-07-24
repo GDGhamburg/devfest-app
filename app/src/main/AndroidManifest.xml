@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".screens.speakerdetails.SpeakerDetailsActivity" />
+
         <service
             android:name=".notifications.NotificationService"
             android:exported="false">

@@ -12,14 +12,15 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import de.devfest.R;
-import de.devfest.screens.schedule.ScheduleFragment;
-import de.devfest.ui.UiUtils;
 import de.devfest.databinding.FragmentSpeakersBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Speaker;
 import de.devfest.mvpbase.BaseFragment;
+import de.devfest.screens.speakerdetails.SpeakerDetailsActivity;
+import de.devfest.ui.UiUtils;
 
-public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresenter> implements SpeakersView {
+public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresenter> implements SpeakersView,
+        View.OnClickListener {
 
     public static final String TAG = SpeakersFragment.class.toString();
 
@@ -40,7 +41,7 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speakers, container, false);
         binding.listSpeakers.setLayoutManager(new GridLayoutManager(getContext(), getColumnCount()));
-        adapter = new SpeakerAdapter();
+        adapter = new SpeakerAdapter(this);
         binding.listSpeakers.setAdapter(adapter);
 
         return binding.getRoot();
@@ -68,5 +69,11 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
         if (UiUtils.isXLargeScreen(getContext())) cols += 2;
         if (UiUtils.isLandscape(getContext())) cols += 1;
         return cols;
+    }
+
+    @Override
+    public void onClick(View view) {
+        String speakerId = adapter.getSpeakerId(binding.listSpeakers.getChildAdapterPosition(view));
+        SpeakerDetailsActivity.start(getActivity(), speakerId);
     }
 }

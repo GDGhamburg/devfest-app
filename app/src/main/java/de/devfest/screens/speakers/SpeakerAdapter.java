@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 
 import de.devfest.R;
-import de.devfest.databinding.ListitemSpeakerBinding;
+import de.devfest.databinding.ItemSpeakerBinding;
 import de.devfest.model.Speaker;
 
 import static de.devfest.model.Speaker.TAG_ANDROID;
@@ -23,17 +23,18 @@ import static de.devfest.model.Speaker.TAG_WEB;
 class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHolder> {
 
     private final SortedList<Speaker> speakers;
+    private View.OnClickListener itemClickListener;
 
-    public SpeakerAdapter() {
+    public SpeakerAdapter(View.OnClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
         speakers = new SortedList<>(Speaker.class, new SortedListUpdate(this));
     }
 
     @Override
     public SpeakerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SpeakerViewHolder(LayoutInflater
-                .from(parent.getContext())
-                .inflate(R.layout.listitem_speaker, parent, false)
-        );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_speaker, parent, false);
+        view.setOnClickListener(itemClickListener);
+        return new SpeakerViewHolder(view);
     }
 
     @Override
@@ -46,12 +47,16 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
         return speakers.size();
     }
 
+    public String getSpeakerId(int position) {
+        return speakers.get(position).speakerId;
+    }
+
     public void addSpeaker(@NonNull Speaker speaker) {
         speakers.add(speaker);
     }
 
     static class SpeakerViewHolder extends RecyclerView.ViewHolder {
-        private final ListitemSpeakerBinding binding;
+        private final ItemSpeakerBinding binding;
 
         public SpeakerViewHolder(View itemView) {
             super(itemView);
