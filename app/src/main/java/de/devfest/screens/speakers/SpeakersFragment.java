@@ -21,17 +21,13 @@ import de.devfest.mvpbase.BaseFragment;
 
 public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresenter> implements SpeakersView {
 
-    public static final String TAG = ScheduleFragment.class.toString();
+    public static final String TAG = SpeakersFragment.class.toString();
 
     @Inject
     SpeakersPresenter presenter;
 
     private FragmentSpeakersBinding binding;
     private SpeakerAdapter adapter;
-
-    public static SpeakersFragment newInstance() {
-        return new SpeakersFragment();
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

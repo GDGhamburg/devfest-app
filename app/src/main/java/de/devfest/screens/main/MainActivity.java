@@ -2,7 +2,6 @@ package de.devfest.screens.main;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 
 import de.devfest.R;
 import de.devfest.databinding.ActivityMainBinding;
-import de.devfest.screens.schedule.ScheduleFragment;
 import de.devfest.screens.schedule.ScheduleFragment;
 import de.devfest.screens.sessions.SessionsFragment;
 import de.devfest.screens.social.SocialFragment;
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         binding.navView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            showFragment(new ScheduleFragment(), ScheduleFragment.TAG);
+            showFragment(ScheduleFragment.TAG);
             binding.navView.setCheckedItem(R.id.nav_schedule);
         }
     }
@@ -55,19 +53,16 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_schedule:
-                showFragment(new ScheduleFragment(), ScheduleFragment.TAG);
+                showFragment(ScheduleFragment.TAG);
                 break;
             case R.id.nav_sessions:
-                // TODO: not working yet
-                // showFragment(FRAGMENT_SESSION);
-                showFragment(new SessionsFragment(), SessionsFragment.TAG);
+                showFragment(SessionsFragment.TAG);
                 break;
             case R.id.nav_speakers:
-                showFragment(FRAGMENT_SPEAKER);
-                showFragment(new SpeakersFragment(), SpeakersFragment.TAG);
+                showFragment(SpeakersFragment.TAG);
                 break;
             case R.id.nav_social:
-                showFragment(new SocialFragment(), SocialFragment.TAG);
+                showFragment(SocialFragment.TAG);
                 break;
             case R.id.nav_settings:
                 break;
@@ -80,32 +75,43 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         return true;
     }
 
-    private static final String FRAGMENT_SPEAKER = "speaker-fragment";
-    private static final String FRAGMENT_SESSION = "session-fragment";
-
-    private void showFragment(String fragmentToStart) {
+    private void showFragment(String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = getFragment(fragmentToStart);
+        Fragment fragment = getFragment(tag);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (fragmentManager.findFragmentById(R.id.containerContent) == null) {
-            fragmentManager.beginTransaction().add(R.id.containerContent, fragment, fragmentToStart).commitNow();
+            transaction.add(R.id.containerContent, fragment, tag);
         } else {
-            fragmentManager.beginTransaction().replace(R.id.containerContent, fragment, fragmentToStart).commitNow();
+            transaction.replace(R.id.containerContent, fragment, tag);
         }
+        transaction.addToBackStack(tag).commit();
     }
 
-    private Fragment getFragment(String fragmentToStart) {
+    private Fragment getFragment(String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(fragmentToStart);
+        Fragment fragment = fragmentManager.findFragmentByTag(tag);
         if(fragment != null) {
             return fragment;
         }
 
-        if(FRAGMENT_SPEAKER.equals(fragmentToStart)) {
-            return SpeakersFragment.newInstance();
-        } else if(FRAGMENT_SESSION.equals(fragmentToStart)) {
-            return ScheduleFragment.newInstance();
+        if (SpeakersFragment.TAG.equals(tag)) {
+            return new SpeakersFragment();
+        } else if (SessionsFragment.TAG.equals(tag)) {
+            return new SessionsFragment();
+        } else if (ScheduleFragment.TAG.equals(tag)) {
+            return new ScheduleFragment();
+        } else if (SocialFragment.TAG.equals(tag)) {
+            return new SocialFragment();
         }
 
         throw new IllegalStateException("No start fragment found");
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(0);
+        if (!getSupportFragmentManager().popBackStackImmediate(backStackEntry.getId(), 0)) {
+            finish();
+        }
     }
 }
