@@ -1,6 +1,7 @@
 package de.devfest.data.firebase;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import de.devfest.data.TrackManager;
@@ -11,11 +12,11 @@ import rx.Subscriber;
 public final class FirebaseTrackManager implements TrackManager {
 
     private static final String FIREBASE_CHILD_TRACKS = "tracks";
+    private final DatabaseReference reference;
 
-    private final FirebaseDatabase database;
 
-    public FirebaseTrackManager(FirebaseDatabase database) {
-        this.database = database;
+    public FirebaseTrackManager() {
+        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_TRACKS);
     }
 
     @Override
@@ -23,8 +24,7 @@ public final class FirebaseTrackManager implements TrackManager {
         return Observable.create(new Observable.OnSubscribe<Track>() {
             @Override
             public void call(Subscriber<? super Track> subscriber) {
-                database.getReference(FIREBASE_CHILD_TRACKS).child(trackId)
-                        .addListenerForSingleValueEvent(new TrackExctractor(subscriber, true));
+                reference.child(trackId).addListenerForSingleValueEvent(new TrackExctractor(subscriber, true));
             }
         });
     }

@@ -19,18 +19,17 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
 
     private static final String FIREBASE_CHILD_SPEAKER = "speaker";
 
-    private final FirebaseDatabase database;
+    private final DatabaseReference reference;
 
-    public FirebaseSpeakerManager(FirebaseDatabase database) {
-        this.database = database;
+    public FirebaseSpeakerManager() {
+        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_SPEAKER);
     }
 
     @Override
     public Observable<Speaker> insertOrUpdate(Speaker speaker) {
-        DatabaseReference databaseReference = database.getReference(FIREBASE_CHILD_SPEAKER);
-        String speakerId = (speaker.speakerId == null) ? databaseReference.push().getKey() : speaker.speakerId;
+        String speakerId = (speaker.speakerId == null) ? reference.push().getKey() : speaker.speakerId;
         FirebaseSpeaker firebaseSpeaker = new FirebaseSpeaker(speaker);
-        databaseReference.child(speakerId).setValue(firebaseSpeaker);
+        reference.child(speakerId).setValue(firebaseSpeaker);
         return getSpeaker(speakerId);
     }
 
@@ -40,10 +39,8 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
             @Override
             public void call(Subscriber<? super Speaker> subscriber) {
                 ValueEventListener listener = new SpeakerExtractor(subscriber, false);
-                subscriber.add(Subscriptions.create(() ->
-                        database.getReference(FIREBASE_CHILD_SPEAKER).removeEventListener(listener)));
-
-                database.getReference(FIREBASE_CHILD_SPEAKER).addValueEventListener(listener);
+                subscriber.add(Subscriptions.create(() -> reference.removeEventListener(listener)));
+                reference.addValueEventListener(listener);
             }
         });
     }
@@ -53,8 +50,7 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
         return Observable.create(new Observable.OnSubscribe<Speaker>() {
             @Override
             public void call(Subscriber<? super Speaker> subscriber) {
-                database.getReference(FIREBASE_CHILD_SPEAKER).child(uid)
-                        .addListenerForSingleValueEvent(new SpeakerExtractor(subscriber, true));
+                reference.child(uid).addListenerForSingleValueEvent(new SpeakerExtractor(subscriber, true));
             }
         });
     }

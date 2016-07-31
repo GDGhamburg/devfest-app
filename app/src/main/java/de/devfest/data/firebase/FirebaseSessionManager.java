@@ -1,6 +1,7 @@
 package de.devfest.data.firebase;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.threeten.bp.Instant;
@@ -29,14 +30,14 @@ public final class FirebaseSessionManager implements SessionManager {
 
     private static final String FIREBASE_CHILD_SESSIONS = "sessions";
 
-    private final FirebaseDatabase database;
     private final SpeakerManager speakerManager;
     private final StageManager stageManager;
     private final TrackManager trackManager;
+    private final DatabaseReference reference;
 
-    public FirebaseSessionManager(FirebaseDatabase database, SpeakerManager speakerManager,
+    public FirebaseSessionManager(SpeakerManager speakerManager,
                                   StageManager stageManager, TrackManager trackManager) {
-        this.database = database;
+        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_SESSIONS);
         this.speakerManager = speakerManager;
         this.stageManager = stageManager;
         this.trackManager = trackManager;
@@ -49,9 +50,8 @@ public final class FirebaseSessionManager implements SessionManager {
             public void call(Subscriber<? super Session> subscriber) {
                 SessionExtractor sessionExtractor =
                         new SessionExtractor(subscriber, speakerManager, stageManager, trackManager, false);
-                subscriber.add(Subscriptions.create(() ->
-                        database.getReference(FIREBASE_CHILD_SESSIONS).removeEventListener(sessionExtractor)));
-                database.getReference(FIREBASE_CHILD_SESSIONS).addValueEventListener(sessionExtractor);
+                subscriber.add(Subscriptions.create(() -> reference.removeEventListener(sessionExtractor)));
+                reference.addValueEventListener(sessionExtractor);
             }
         });
     }
@@ -64,7 +64,7 @@ public final class FirebaseSessionManager implements SessionManager {
                 long fromTime = from.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
                 long toTime = to.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
 
-                database.getReference(FIREBASE_CHILD_SESSIONS)
+                reference
                         // TODO: missing somthing !!!
                         .startAt(fromTime)
                         .endAt(toTime)

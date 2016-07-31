@@ -2,8 +2,6 @@ package de.devfest;
 
 import android.app.Application;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -23,11 +21,9 @@ import de.devfest.user.UserManager;
 public class ApplicationModule {
 
     private final Application application;
-    private final FirebaseDatabase database;
 
     public ApplicationModule(Application application) {
         this.application = application;
-        this.database = FirebaseDatabase.getInstance();
     }
 
     @Provides
@@ -39,25 +35,25 @@ public class ApplicationModule {
     @Provides
     @Singleton
     SpeakerManager provideSpeakerManager() {
-        return new FirebaseSpeakerManager(database);
+        return new FirebaseSpeakerManager();
     }
 
     @Provides
     @Singleton
     StageManager provideStageManager() {
-        return new FirebaseStageManager(database);
+        return new FirebaseStageManager();
     }
 
     @Provides
     @Singleton
     TrackManager provideTrackManager() {
-        return new FirebaseTrackManager(database);
+        return new FirebaseTrackManager();
     }
 
     @Provides
     @Singleton
     SessionManager provideSessionManager(TrackManager trackManager, StageManager stageManager,
                                          SpeakerManager speakerManager) {
-        return new FirebaseSessionManager(database, speakerManager, stageManager, trackManager);
+        return new FirebaseSessionManager(speakerManager, stageManager, trackManager);
     }
 }

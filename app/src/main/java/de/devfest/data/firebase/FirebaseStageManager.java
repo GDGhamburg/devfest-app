@@ -1,6 +1,7 @@
 package de.devfest.data.firebase;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import de.devfest.data.StageManager;
@@ -12,10 +13,10 @@ public final class FirebaseStageManager implements StageManager {
 
     private static final String FIREBASE_CHILD_STAGES = "stages";
 
-    private final FirebaseDatabase database;
+    private final DatabaseReference reference;
 
-    public FirebaseStageManager(FirebaseDatabase database) {
-        this.database = database;
+    public FirebaseStageManager() {
+        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_STAGES);
     }
 
     @Override
@@ -23,8 +24,7 @@ public final class FirebaseStageManager implements StageManager {
         return Observable.create(new Observable.OnSubscribe<Stage>() {
             @Override
             public void call(Subscriber<? super Stage> subscriber) {
-                database.getReference(FIREBASE_CHILD_STAGES).child(stageId)
-                        .addListenerForSingleValueEvent(new StageExtractor(subscriber, true));
+                reference.child(stageId).addListenerForSingleValueEvent(new StageExtractor(subscriber, true));
             }
         });
     }
