@@ -25,10 +25,6 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     SchedulePresenter presenter;
     private FragmentScheduleBinding binding;
 
-    public static Fragment newInstance() {
-        return new ScheduleFragment();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -96,7 +96,7 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-            subscriber.onError(new FirebaseException(databaseError.getDetails()));
+            subscriber.onError(new FirebaseException(databaseError.getMessage()));
         }
     }
 }

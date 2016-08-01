@@ -3,6 +3,7 @@ package de.devfest.mvpbase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import de.devfest.DevFestApplication;
 import de.devfest.injection.ApplicationComponent;
@@ -28,6 +29,17 @@ public abstract class BaseFragment<V extends MvpBase.View, P extends BasePresent
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        presenter.attachView((V) this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        presenter.detachView();
+        super.onDestroyView();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         presenter.onResume();
@@ -37,19 +49,6 @@ public abstract class BaseFragment<V extends MvpBase.View, P extends BasePresent
     public void onPause() {
         super.onPause();
         presenter.onPause();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        //noinspection unchecked
-        presenter.attachView((V) this);
-    }
-
-    @Override
-    public void onStop() {
-        presenter.detachView();
-        super.onStop();
     }
 
     @Override

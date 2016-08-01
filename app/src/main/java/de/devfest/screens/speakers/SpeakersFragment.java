@@ -4,10 +4,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.FirebaseException;
 
 import javax.inject.Inject;
 
@@ -29,11 +32,6 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
 
     private FragmentSpeakersBinding binding;
     private SpeakerAdapter adapter;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -60,7 +58,7 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
 
     @Override
     public void onError(Throwable error) {
-
+        Snackbar.make(binding.getRoot(), error.getMessage(), Snackbar.LENGTH_LONG).show();
     }
 
     private int getColumnCount() {
@@ -74,6 +72,6 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     @Override
     public void onClick(View view) {
         String speakerId = adapter.getSpeakerId(binding.listSpeakers.getChildAdapterPosition(view));
-        SpeakerDetailsActivity.start(getActivity(), speakerId);
+        SpeakerDetailsActivity.start(getActivity(), speakerId, view.findViewById(R.id.imageSpeaker));
     }
 }

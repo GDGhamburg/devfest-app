@@ -11,14 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import de.devfest.R;
 import de.devfest.databinding.ItemSpeakerBinding;
 import de.devfest.model.Speaker;
-
-import static de.devfest.model.Speaker.TAG_ANDROID;
-import static de.devfest.model.Speaker.TAG_CLOUD;
-import static de.devfest.model.Speaker.TAG_WEB;
+import de.devfest.ui.UiUtils;
 
 class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHolder> {
 
@@ -67,14 +65,14 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
             binding.textSpeakerName.setText(speaker.name);
             binding.textSpeakerInfo.setText(speaker.company);
 
-            int colorResId = 0;
-            if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
-            else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web_overlay;
-            else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
+            int colorResId = UiUtils.getTrackColor(speaker);
             if (colorResId != 0) binding.viewTag.setBackgroundResource(colorResId);
 
+            int pixels = itemView.getResources().getDisplayMetrics().widthPixels + 100;
+
             if (!TextUtils.isEmpty(speaker.photoUrl)) {
-                Glide.with(binding.imageSpeaker.getContext()).load(speaker.photoUrl).into(binding.imageSpeaker);
+                Glide.with(binding.imageSpeaker.getContext()).load(speaker.photoUrl).override(pixels, pixels)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL).dontTransform().into(binding.imageSpeaker);
             } else {
                 Glide.clear(binding.imageSpeaker);
             }

@@ -2,12 +2,22 @@ package de.devfest.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.ContextCompatApi24;
 import android.util.TypedValue;
+
+import de.devfest.R;
+import de.devfest.model.Speaker;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static android.util.TypedValue.COMPLEX_UNIT_PX;
+import static de.devfest.model.Speaker.TAG_ANDROID;
+import static de.devfest.model.Speaker.TAG_CLOUD;
+import static de.devfest.model.Speaker.TAG_WEB;
 
 public final class UiUtils {
 
@@ -51,5 +61,13 @@ public final class UiUtils {
 
     public static boolean isLandscape(@NonNull Context context) {
         return context.getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE;
+    }
+
+    public static @ColorRes int getTrackColor(Speaker speaker) {
+        int colorResId = 0;
+        if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
+        else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web_overlay;
+        else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
+        return colorResId;
     }
 }
