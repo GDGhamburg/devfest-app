@@ -96,19 +96,4 @@ public final class FirebaseSessionManager implements SessionManager {
             return session;
         }
     }
-
-    /**
-     *             ZonedDateTime startTime = ZonedDateTime
-     .ofInstant(Instant.ofEpochSecond(session.datetime), ZoneId.of("UTC"));
-     ZonedDateTime endTime = ZonedDateTime.from(startTime).plus(session.duration, SECONDS);
-     List<Speaker> speakers = new LinkedList<>();
-     for (Map.Entry<String, String> pair : session.speakers.entrySet()) {
-     Speaker speaker = speakerManager.getSpeaker(pair.getKey()).toBlocking().single();
-     speakers.add(speaker);
-     }
-     Stage stage = stageManager.getStage(session.stage).toBlocking().single();
-     Track track = trackManager.getTrack(session.track).toBlocking().single();
-
-
-     */
 }
