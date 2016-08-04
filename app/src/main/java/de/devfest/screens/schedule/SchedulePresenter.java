@@ -19,13 +19,13 @@ public class SchedulePresenter extends BasePresenter<ScheduleView> {
     @Override
     public void onResume() {
         super.onResume();
-//        untilOnPause(sessionManager.getSessions()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(session -> {
-//                    getView().onSessionRetreived(session);
-//                }, error -> {
-//                    getView().onError(error);
-//                }));
+        untilOnPause(sessionManager.getSessions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(session -> {
+                    getView().onSessionRetreived(session);
+                }, error -> {
+                    getView().onError(error);
+                }));
     }
 }
