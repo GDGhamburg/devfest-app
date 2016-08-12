@@ -86,6 +86,7 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
                     .photoUrl(speaker.photoUrl)
                     .description(speaker.description)
                     .company(speaker.company)
+                    .jobTitle(speaker.jobTitle)
                     .twitter(speaker.twitter)
                     .website(speaker.website)
                     .github(speaker.github)

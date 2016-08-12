@@ -6,4 +6,7 @@
     <color name="tag_android_overlay">#AAA4C639</color>
     <color name="tag_web_overlay">#AA0266C8</color>
     <color name="tag_cloud_overlay">#AAF2B50F</color>
+
+    <!-- black with 54% opacity -->
+    <color name="black_54">#8a000000</color>
 </resources>

@@ -13,6 +13,7 @@ public final class Speaker {
     public final String photoUrl;
     public final String twitter;
     public final String description;
+    public final String jobTitle;
     public final String company;
     public final String github;
     public final String gplus;
@@ -26,6 +27,7 @@ public final class Speaker {
         twitter = builder.twitter;
         description = builder.description;
         company = builder.company;
+        jobTitle = builder.jobTitle;
         github = builder.github;
         gplus = builder.gplus;
         website = builder.website;
@@ -49,6 +51,7 @@ public final class Speaker {
         if (twitter != null ? !twitter.equals(speaker.twitter) : speaker.twitter != null) return false;
         if (!description.equals(speaker.description)) return false;
         if (company != null ? !company.equals(speaker.company) : speaker.company != null) return false;
+        if (jobTitle != null ? !jobTitle.equals(speaker.jobTitle) : speaker.jobTitle != null) return false;
         if (github != null ? !github.equals(speaker.github) : speaker.github != null) return false;
         if (gplus != null ? !gplus.equals(speaker.gplus) : speaker.gplus != null) return false;
         if (website != null ? !website.equals(speaker.website) : speaker.website != null) return false;
@@ -64,6 +67,7 @@ public final class Speaker {
         result = 31 * result + (twitter != null ? twitter.hashCode() : 0);
         result = 31 * result + description.hashCode();
         result = 31 * result + (company != null ? company.hashCode() : 0);
+        result = 31 * result + (jobTitle != null ? jobTitle.hashCode() : 0);
         result = 31 * result + (github != null ? github.hashCode() : 0);
         result = 31 * result + (gplus != null ? gplus.hashCode() : 0);
         result = 31 * result + (website != null ? website.hashCode() : 0);
@@ -79,6 +83,7 @@ public final class Speaker {
         private String twitter;
         private String description;
         private String company;
+        private String jobTitle;
         private String github;
         private String gplus;
         private String website;
@@ -113,6 +118,11 @@ public final class Speaker {
 
         public Builder company(String val) {
             company = val;
+            return this;
+        }
+
+        public Builder jobTitle(String val) {
+            jobTitle = val;
             return this;
         }
 

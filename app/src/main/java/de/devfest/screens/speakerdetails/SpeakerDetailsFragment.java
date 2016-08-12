@@ -38,6 +38,8 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speaker_details, container, false);
+
+        binding.statusBarBackground.getLayoutParams().height = UiUtils.getStatusBarHeight(getContext());
         return binding.getRoot();
     }
 
@@ -75,7 +77,12 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
                 })
                 .into(binding.imageSpeaker);
         binding.toolbar.setTitle(speaker.name);
+        binding.textSpeakerDesc.setText(speaker.description);
         binding.textSpeakerName.setText(speaker.name);
+        binding.textSpeakerCompany.setText(speaker.jobTitle);
+        binding.collapsingToolbarLayout.setContentScrimResource(colorResId);
+        binding.collapsingToolbarLayout.setStatusBarScrimResource(colorResId);
+
     }
 
     @Override
