@@ -2,6 +2,10 @@
 <resources>
     <declare-styleable name="DevFestImageView">
         <attr name="squareSized" format="boolean" />
+        <attr name="squareLimitingDim">
+            <enum name="width" value="0" />
+            <enum name="height" value="1" />
+        </attr>
         <attr name="roundCorners" format="boolean" />
         <attr name="cornerRadius" format="dimension|reference" />
     </declare-styleable>

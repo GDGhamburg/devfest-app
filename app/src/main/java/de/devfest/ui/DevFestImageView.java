@@ -21,6 +21,7 @@ import de.devfest.R;
 public class DevFestImageView extends AppCompatImageView {
 
     boolean squareSized;
+    int squareLimitingDimension;
 
     public DevFestImageView(Context context) {
         this(context, null);
@@ -34,6 +35,7 @@ public class DevFestImageView extends AppCompatImageView {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DevFestImageView, defStyleAttr, 0);
         squareSized = a.getBoolean(R.styleable.DevFestImageView_squareSized, false);
+        squareLimitingDimension = a.getInt(R.styleable.DevFestImageView_squareLimitingDim, 0);
         boolean roundCorners = a.getBoolean(R.styleable.DevFestImageView_roundCorners, false);
         int cornerRadius = a.getDimensionPixelSize(R.styleable.DevFestImageView_cornerRadius, 0);
         a.recycle();
@@ -51,9 +53,7 @@ public class DevFestImageView extends AppCompatImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (squareSized) {
-            int width = getMeasuredWidth();
-            int height = getMeasuredHeight();
-            int size = width > height ? width : height;
+            int size = squareLimitingDimension == 0 ? getMeasuredWidth() : getMeasuredHeight();
             setMeasuredDimension(size, size);
         }
     }
