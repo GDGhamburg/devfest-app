@@ -113,5 +113,6 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         if (!getSupportFragmentManager().popBackStackImmediate(backStackEntry.getId(), 0)) {
             finish();
         }
+        binding.navView.setCheckedItem(R.id.nav_schedule);
     }
 }
