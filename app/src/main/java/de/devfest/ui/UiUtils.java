@@ -70,4 +70,12 @@ public final class UiUtils {
         else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
         return colorResId;
     }
+
+    public static int getDefaultGridColumnCount(Context context) {
+        int cols = 2;
+        if (UiUtils.isLargeScreen(context)) cols += 1;
+        if (UiUtils.isXLargeScreen(context)) cols += 2;
+        if (UiUtils.isLandscape(context)) cols += 1;
+        return cols;
+    }
 }

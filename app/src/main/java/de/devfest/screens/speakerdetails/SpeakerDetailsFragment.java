@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     SpeakerDetailsPresenter presenter;
 
     private FragmentSpeakerDetailsBinding binding;
+    private SocialButtonsAdapter socialButtonsAdapter;
 
     @Nullable
     @Override
@@ -40,6 +42,8 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speaker_details, container, false);
 
         binding.statusBarBackground.getLayoutParams().height = UiUtils.getStatusBarHeight(getContext());
+        binding.gridSocialButtons.setLayoutManager(
+                new GridLayoutManager(getContext(), UiUtils.getDefaultGridColumnCount(getContext())));
         return binding.getRoot();
     }
 
@@ -78,11 +82,10 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
                 .into(binding.imageSpeaker);
         binding.toolbar.setTitle(speaker.name);
         binding.textSpeakerDesc.setText(speaker.description);
-        binding.textSpeakerName.setText(speaker.name);
-        binding.textSpeakerCompany.setText(speaker.jobTitle);
+        binding.textSpeakerJobTitle.setText(speaker.jobTitle);
+        binding.textSpeakerCompany.setText(speaker.company);
         binding.collapsingToolbarLayout.setContentScrimResource(colorResId);
         binding.collapsingToolbarLayout.setStatusBarScrimResource(colorResId);
-
     }
 
     @Override

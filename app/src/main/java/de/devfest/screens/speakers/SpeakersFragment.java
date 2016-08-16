@@ -38,7 +38,8 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speakers, container, false);
-        binding.listSpeakers.setLayoutManager(new GridLayoutManager(getContext(), getColumnCount()));
+        binding.listSpeakers.setLayoutManager(
+                new GridLayoutManager(getContext(), UiUtils.getDefaultGridColumnCount(getContext())));
         adapter = new SpeakerAdapter(this);
         binding.listSpeakers.setAdapter(adapter);
 
@@ -59,14 +60,6 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     @Override
     public void onError(Throwable error) {
         Snackbar.make(binding.getRoot(), error.getMessage(), Snackbar.LENGTH_LONG).show();
-    }
-
-    private int getColumnCount() {
-        int cols = 2;
-        if (UiUtils.isLargeScreen(getContext())) cols += 1;
-        if (UiUtils.isXLargeScreen(getContext())) cols += 2;
-        if (UiUtils.isLandscape(getContext())) cols += 1;
-        return cols;
     }
 
     @Override
