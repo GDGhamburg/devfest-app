@@ -15,11 +15,14 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import de.devfest.R;
 import de.devfest.databinding.FragmentSpeakerDetailsBinding;
 import de.devfest.injection.ApplicationComponent;
+import de.devfest.model.Session;
 import de.devfest.model.Speaker;
 import de.devfest.mvpbase.BaseFragment;
 import de.devfest.ui.UiUtils;
@@ -59,7 +62,7 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     }
 
     @Override
-    public void onSpeakerAvailable(Speaker speaker) {
+    public void onSpeakerAvailable(Speaker speaker, List<Session> sessions) {
         int colorResId = UiUtils.getTrackColor(speaker);
         int pixels = getResources().getDisplayMetrics().widthPixels;
         Glide.with(getContext()).load(speaker.photoUrl)

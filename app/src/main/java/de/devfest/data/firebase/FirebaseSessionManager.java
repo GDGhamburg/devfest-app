@@ -37,6 +37,13 @@ public final class FirebaseSessionManager implements SessionManager {
     }
 
     @Override
+    public Observable<Session> getSessionById(String id) {
+        return toSession(Observable.create(subscriber -> {
+            reference.child(id).addListenerForSingleValueEvent(new SessionExtractor(subscriber, true));
+        }));
+    }
+
+    @Override
     public Observable<Session> getSessions() {
         return toSession(Observable.create(subscriber -> {
             SessionExtractor sessionExtractor = new SessionExtractor(subscriber, false);

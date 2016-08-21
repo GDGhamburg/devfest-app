@@ -1,5 +1,7 @@
 package de.devfest.data.firebase;
 
+import java.util.Map;
+
 import de.devfest.model.Speaker;
 
 final class FirebaseSpeaker {
@@ -13,6 +15,7 @@ final class FirebaseSpeaker {
     public String github;
     public String gplus;
     public String tags;
+    public Map<String, String> sessions;
 
     public FirebaseSpeaker() {
 

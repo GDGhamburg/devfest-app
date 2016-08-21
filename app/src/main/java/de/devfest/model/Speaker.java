@@ -19,6 +19,7 @@ public final class Speaker {
     public final String gplus;
     public final String website;
     public final List<String> tags;
+    public final List<String> sessions;
 
     private Speaker(Builder builder) {
         speakerId = builder.speakerId;
@@ -32,6 +33,7 @@ public final class Speaker {
         gplus = builder.gplus;
         website = builder.website;
         tags = builder.tags;
+        sessions = builder.sessions;
     }
 
     public static Builder newBuilder() {
@@ -87,6 +89,7 @@ public final class Speaker {
         private String github;
         private String gplus;
         private String website;
+        private List<String> sessions;
 
         private Builder() {
         }
@@ -143,6 +146,11 @@ public final class Speaker {
 
         public Builder tags(List<String> tags) {
             this.tags = tags;
+            return this;
+        }
+
+        public Builder sessions(List<String> sessions) {
+            this.sessions = sessions;
             return this;
         }
 

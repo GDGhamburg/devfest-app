@@ -8,6 +8,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import de.devfest.data.SpeakerManager;
 import de.devfest.model.Speaker;
@@ -80,6 +82,10 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
 
         private Speaker convert(DataSnapshot data) {
             FirebaseSpeaker speaker = data.getValue(FirebaseSpeaker.class);
+
+            List<String> sessions = new LinkedList<>();
+            if (speaker.sessions != null)
+                sessions.addAll(speaker.sessions.keySet());
             return Speaker.newBuilder()
                     .speakerId(data.getKey())
                     .name(speaker.name)
@@ -91,6 +97,7 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
                     .website(speaker.website)
                     .github(speaker.github)
                     .gplus(speaker.gplus)
+                    .sessions(sessions)
                     .tags(Arrays.asList(speaker.tags.split(",")))
                     .build();
         }
