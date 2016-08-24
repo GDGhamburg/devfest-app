@@ -13,4 +13,6 @@ public interface SpeakerDetailsView extends MvpBase.View {
     void onSpeakerAvailable(Speaker speaker, List<Session> sessions);
 
     void onError(Throwable error);
+
+    void openLink(String link);
 }

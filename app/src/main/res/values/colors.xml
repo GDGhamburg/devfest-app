@@ -9,4 +9,7 @@
 
     <!-- black with 54% opacity -->
     <color name="black_54">#8a000000</color>
+    <color name="twitter">#1DA1F2</color>
+    <color name="github">#000000</color>
+    <color name="gplus">#dd4d40</color>
 </resources>

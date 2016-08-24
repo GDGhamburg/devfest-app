@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button
+        android:id="@+id/btnSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:gravity="start|center_vertical"
+        android:drawablePadding="8dp"
+        android:paddingEnd="4dp"
+        android:paddingStart="8dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="8dp"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+</layout>

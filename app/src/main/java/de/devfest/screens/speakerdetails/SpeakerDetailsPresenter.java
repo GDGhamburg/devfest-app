@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
+import de.devfest.model.SocialLink;
 import de.devfest.mvpbase.BasePresenter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,5 +42,9 @@ public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView> {
                     getView().onError(error);
                 })
         );
+    }
+
+    public void onLinkClick(SocialLink link) {
+        getView().openLink(link.link);
     }
 }

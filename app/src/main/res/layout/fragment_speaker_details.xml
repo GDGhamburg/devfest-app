@@ -53,13 +53,19 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imageSpeakerDesc"
@@ -71,7 +77,8 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginLeft="16dp"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    tools:ignore="ContentDescription"/>
 
                 <TextView
                     android:id="@+id/textSpeakerDesc"
@@ -98,7 +105,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/textSpeakerDesc"
                     android:layout_marginStart="16dp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginLeft="16dp"/>
+                    android:layout_marginLeft="16dp"
+                    tools:ignore="ContentDescription"/>
 
                 <TextView
                     android:id="@+id/textSpeakerJobTitle"
@@ -125,19 +133,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/textSpeakerJobTitle"
                     app:layout_constraintBottom_toBottomOf="@+id/imageSpeakerCompany"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/gridSocialButtons"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginLeft="16dp"
-                    app:layout_constraintTop_toBottomOf="parent"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginRight="16dp"/>
             </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/gridSocialButtons"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintTop_toBottomOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="16dp"/>
+            </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

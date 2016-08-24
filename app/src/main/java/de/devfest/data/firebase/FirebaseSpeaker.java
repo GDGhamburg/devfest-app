@@ -24,13 +24,13 @@ final class FirebaseSpeaker {
     public FirebaseSpeaker(Speaker speaker) {
         name = speaker.name;
         photoUrl = speaker.photoUrl;
-        twitter = speaker.twitter;
+//        twitter = speaker.twitter;
         description = speaker.description;
         company = speaker.company;
         jobTitle = speaker.jobTitle;
-        website = speaker.website;
-        github = speaker.github;
-        gplus = speaker.gplus;
+//        website = speaker.website;
+//        github = speaker.github;
+//        gplus = speaker.gplus;
         tags = speaker.tags.toString().replaceAll("[\\s\\[\\]]", "");
     }
 }
