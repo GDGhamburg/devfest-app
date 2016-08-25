@@ -2,12 +2,13 @@ package de.devfest.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.ContextCompatApi24;
 import android.util.TypedValue;
+
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.DateTimeFormatterBuilder;
 
 import de.devfest.R;
 import de.devfest.model.Speaker;
@@ -65,9 +66,25 @@ public final class UiUtils {
 
     public static @ColorRes int getTrackColor(Speaker speaker) {
         int colorResId = 0;
+        if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android;
+        else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web;
+        else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud;
+        return colorResId;
+    }
+
+    public static @ColorRes int getTrackOverlayColor(Speaker speaker) {
+        int colorResId = 0;
         if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
         else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web_overlay;
         else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
+        return colorResId;
+    }
+
+    public static @DrawableRes int getTrackIconRes(Speaker speaker) {
+        int colorResId = 0;
+        if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.drawable.ic_mobile_circled;
+        else if (speaker.tags.contains(TAG_WEB)) colorResId = R.drawable.ic_web_circled;
+        else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.drawable.ic_cloud_circled;
         return colorResId;
     }
 
@@ -77,5 +94,9 @@ public final class UiUtils {
         if (UiUtils.isXLargeScreen(context)) cols += 2;
         if (UiUtils.isLandscape(context)) cols += 1;
         return cols;
+    }
+
+    public static DateTimeFormatter getSessionStartFormat() {
+        return new DateTimeFormatterBuilder().appendPattern("E, HH:mm").toFormatter();
     }
 }

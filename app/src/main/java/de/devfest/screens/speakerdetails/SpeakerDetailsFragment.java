@@ -17,12 +17,15 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
 import de.devfest.R;
 import de.devfest.databinding.FragmentSpeakerDetailsBinding;
+import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.model.SocialLink;
@@ -68,7 +71,24 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
 
     @Override
     public void onSpeakerAvailable(Speaker speaker, List<Session> sessions) {
-        int colorResId = UiUtils.getTrackColor(speaker);
+        setDetails(speaker);
+        setImage(speaker);
+        setSessions(speaker, sessions);
+        socialLinksAdapter.setSocialLinks(speaker.socialLinks);
+        binding.getRoot().requestLayout();
+    }
+
+    private void setDetails(Speaker speaker) {
+        int colorResId = UiUtils.getTrackOverlayColor(speaker);
+        binding.toolbar.setTitle(speaker.name);
+        binding.textSpeakerDesc.setText(speaker.description);
+        binding.textSpeakerJobTitle.setText(speaker.jobTitle);
+        binding.textSpeakerCompany.setText(speaker.company);
+        binding.collapsingToolbarLayout.setContentScrimResource(colorResId);
+        binding.collapsingToolbarLayout.setStatusBarScrimResource(colorResId);
+    }
+
+    private void setImage(Speaker speaker) {
         int pixels = getResources().getDisplayMetrics().widthPixels;
         Glide.with(getContext()).load(speaker.photoUrl)
                 .override(pixels, pixels).diskCacheStrategy(DiskCacheStrategy.ALL).dontTransform()
@@ -88,14 +108,20 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
                     }
                 })
                 .into(binding.imageSpeaker);
-        binding.toolbar.setTitle(speaker.name);
-        binding.textSpeakerDesc.setText(speaker.description);
-        binding.textSpeakerJobTitle.setText(speaker.jobTitle);
-        binding.textSpeakerCompany.setText(speaker.company);
-        binding.collapsingToolbarLayout.setContentScrimResource(colorResId);
-        binding.collapsingToolbarLayout.setStatusBarScrimResource(colorResId);
-        socialLinksAdapter.setSocialLinks(speaker.socialLinks);
-        binding.getRoot().requestLayout();
+    }
+
+    private void setSessions(Speaker speaker, List<Session> sessions) {
+        DateTimeFormatter sessionStartFormat = UiUtils.getSessionStartFormat();
+        for (int i = 0; i < sessions.size(); i++) {
+            Session session = sessions.get(i);
+            ItemSessionBinding sessionBinding = DataBindingUtil.inflate(getLayoutInflater(null), R.layout.item_session,
+                    binding.containerSpeakerContent, true);
+
+            sessionBinding.imageSession.setImageResource(UiUtils.getTrackIconRes(speaker));
+            sessionBinding.imageSessionBackground.setBackgroundResource(UiUtils.getTrackColor(speaker));
+            sessionBinding.textSessionTitle.setText(session.title);
+            sessionBinding.textSessionSub.setText(session.startTime.format(sessionStartFormat));
+        }
     }
 
     @Override
