@@ -15,9 +15,7 @@
         android:clickable="true"
         app:cardUseCompatPadding="true"
         app:cardPreventCornerOverlap="true"
-        app:cardCornerRadius="@dimen/spacing_xsmall"
-
-        >
+        app:cardCornerRadius="@dimen/spacing_xsmall">
 
         <ImageView
             android:id="@+id/imageSessionBackground"

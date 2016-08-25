@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
         Toolbar toolbar = binding.appbar.toolbar;
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.devfest_tag);
 
         DrawerLayout drawer = binding.drawerLayout;
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -53,15 +54,19 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_schedule:
+                getSupportActionBar().setTitle(R.string.devfest_tag);
                 showFragment(ScheduleFragment.TAG);
                 break;
             case R.id.nav_sessions:
+                getSupportActionBar().setTitle(R.string.nav_sessions);
                 showFragment(SessionsFragment.TAG);
                 break;
             case R.id.nav_speakers:
+                getSupportActionBar().setTitle(R.string.nav_speakers);
                 showFragment(SpeakersFragment.TAG);
                 break;
             case R.id.nav_social:
+                getSupportActionBar().setTitle(R.string.nav_social);
                 showFragment(SocialFragment.TAG);
                 break;
             case R.id.nav_settings:
