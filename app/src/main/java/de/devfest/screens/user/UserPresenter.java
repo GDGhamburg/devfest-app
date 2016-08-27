@@ -4,6 +4,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
 import de.devfest.mvpbase.BasePresenter;
 import de.devfest.user.UserManager;
 import rx.android.schedulers.AndroidSchedulers;
@@ -11,17 +12,17 @@ import rx.schedulers.Schedulers;
 
 public class UserPresenter extends BasePresenter<UserView> {
 
-    private final UserManager userManager;
+    private final Lazy<UserManager> userManager;
 
     @Inject
-    public UserPresenter(UserManager userManager) {
+    public UserPresenter(Lazy<UserManager> userManager) {
         this.userManager = userManager;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        userManager.getCurrentUser()
+        userManager.get().getCurrentUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user -> getView().showUser(user)
@@ -37,7 +38,7 @@ public class UserPresenter extends BasePresenter<UserView> {
     }
 
     public void onGoogleSignInSuccessful(GoogleSignInAccount account) {
-        userManager.authenticateWithGoogle(account)
+        userManager.get().authenticateWithGoogle(account)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user -> getView().showUser(user),
