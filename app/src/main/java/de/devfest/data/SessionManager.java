@@ -9,4 +9,5 @@ public interface SessionManager {
     Observable<Session> getSessionById(String id);
     Observable<Session> getSessions();
     Observable<Session> getSessions(ZonedDateTime from, ZonedDateTime to);
+    Observable<Session> getSessionsByTrack(String trackId);
 }

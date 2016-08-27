@@ -41,6 +41,7 @@ public final class FirebaseStageManager implements StageManager {
             return Stage.newBuilder()
                     .id(data.getKey())
                     .name(stage.name)
+                    .description(stage.description)
                     .build();
         }
     }

@@ -7,10 +7,12 @@ package de.devfest.model;
 public final class Stage {
     public final String id;
     public final String name;
+    public final String description;
 
     private Stage(Builder builder) {
         id = builder.id;
         name = builder.name;
+        description = builder.description;
     }
 
     public static Builder newBuilder() {
@@ -20,12 +22,18 @@ public final class Stage {
     public static final class Builder {
         private String id;
         private String name;
+        private String description;
 
         private Builder() {
         }
 
         public Builder id(String val) {
             id = val;
+            return this;
+        }
+
+        public Builder description(String val) {
+            description = val;
             return this;
         }
 

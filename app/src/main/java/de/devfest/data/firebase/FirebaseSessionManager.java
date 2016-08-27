@@ -23,6 +23,7 @@ import static org.threeten.bp.temporal.ChronoUnit.SECONDS;
 public final class FirebaseSessionManager implements SessionManager {
 
     private static final String FIREBASE_CHILD_SESSIONS = "sessions";
+    private static final String FIREBASE_CHILD_TRACK = "track";
 
     private final Lazy<SpeakerManager> speakerManager;
     private final Lazy<StageManager> stageManager;
@@ -66,12 +67,20 @@ public final class FirebaseSessionManager implements SessionManager {
         }));
     }
 
+    @Override
+    public Observable<Session> getSessionsByTrack(String trackId) {
+        return toSession(Observable.create(subscriber -> {
+            reference.orderByChild(FIREBASE_CHILD_TRACK).equalTo(trackId)
+                    .addValueEventListener(new SessionExtractor(subscriber, false));
+        }));
+    }
+
     private Observable<Session> toSession(Observable<FirebaseSession> observable) {
         return observable.flatMap(session -> Observable.zip(
                 Observable.just(session),
                 stageManager.get().getStage(session.stage),
                 trackManager.get().getTrack(session.track),
-                Observable.from(session.speakers.keySet()).flatMap(id-> speakerManager.get().getSpeaker(id)).toList(),
+                Observable.from(session.speakers.keySet()).flatMap(id -> speakerManager.get().getSpeaker(id)).toList(),
                 (firebaseSession, stage, track, speakers) -> {
                     ZonedDateTime startTime = ZonedDateTime
                             .ofInstant(Instant.ofEpochSecond(session.datetime), ZoneId.of("UTC"));
