@@ -1,6 +1,7 @@
 package de.devfest.screens.speakerdetails;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -15,6 +16,12 @@ import de.devfest.R;
 public class SpeakerDetailsActivity extends AppCompatActivity {
 
     public final static String EXTRA_SPEAKER_ID = "EXTRA_SPEAKER_ID";
+
+    public static Intent createIntent(Context context, String speakerId) {
+        Intent intent = new Intent(context, SpeakerDetailsActivity.class);
+        intent.putExtra(EXTRA_SPEAKER_ID, speakerId);
+        return intent;
+    }
 
     public static void start(Activity activity, String speakerId, View srcView) {
         Pair<View, String> pair = Pair.create(srcView, ViewCompat.getTransitionName(srcView));

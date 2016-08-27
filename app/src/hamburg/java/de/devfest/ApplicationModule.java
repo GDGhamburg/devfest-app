@@ -2,8 +2,11 @@ package de.devfest;
 
 import android.app.Application;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import javax.inject.Singleton;
 
+import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 import de.devfest.data.SessionManager;
@@ -21,21 +24,24 @@ import de.devfest.user.UserManager;
 public class ApplicationModule {
 
     private final Application application;
+    private final FirebaseDatabase database;
 
     public ApplicationModule(Application application) {
         this.application = application;
+        this.database = FirebaseDatabase.getInstance();
+        this.database.setPersistenceEnabled(true);
     }
 
     @Provides
     @Singleton
     UserManager provideUserManager() {
-        return new FirebaseUserManager();
+        return new FirebaseUserManager(database);
     }
 
     @Provides
     @Singleton
     SpeakerManager provideSpeakerManager() {
-        return new FirebaseSpeakerManager();
+        return new FirebaseSpeakerManager(database);
     }
 
     @Provides
@@ -47,13 +53,13 @@ public class ApplicationModule {
     @Provides
     @Singleton
     TrackManager provideTrackManager() {
-        return new FirebaseTrackManager();
+        return new FirebaseTrackManager(database);
     }
 
     @Provides
     @Singleton
-    SessionManager provideSessionManager(TrackManager trackManager, StageManager stageManager,
-                                         SpeakerManager speakerManager) {
-        return new FirebaseSessionManager(speakerManager, stageManager, trackManager);
+    SessionManager provideSessionManager(Lazy<SpeakerManager> speakerManager,
+                                         Lazy<StageManager> stageManager, Lazy<TrackManager> trackManager) {
+        return new FirebaseSessionManager(database, speakerManager, stageManager, trackManager);
     }
 }

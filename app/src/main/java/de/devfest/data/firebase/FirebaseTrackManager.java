@@ -15,8 +15,8 @@ public final class FirebaseTrackManager implements TrackManager {
     private final DatabaseReference reference;
 
 
-    public FirebaseTrackManager() {
-        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_TRACKS);
+    public FirebaseTrackManager(FirebaseDatabase database) {
+        this.reference = database.getReference(FIREBASE_CHILD_TRACKS);
     }
 
     @Override

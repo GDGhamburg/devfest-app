@@ -22,9 +22,9 @@ public class FirebaseUserManager implements UserManager {
     private final FirebaseAuth firebaseAuth;
     private final FirebaseDatabase database;
 
-    public FirebaseUserManager() {
+    public FirebaseUserManager(FirebaseDatabase database) {
         firebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        this.database = database;
     }
 
     @Override

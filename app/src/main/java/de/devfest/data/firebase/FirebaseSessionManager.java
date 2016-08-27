@@ -8,6 +8,7 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
+import dagger.Lazy;
 import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
@@ -23,14 +24,14 @@ public final class FirebaseSessionManager implements SessionManager {
 
     private static final String FIREBASE_CHILD_SESSIONS = "sessions";
 
-    private final SpeakerManager speakerManager;
-    private final StageManager stageManager;
-    private final TrackManager trackManager;
+    private final Lazy<SpeakerManager> speakerManager;
+    private final Lazy<StageManager> stageManager;
+    private final Lazy<TrackManager> trackManager;
     private final DatabaseReference reference;
 
-    public FirebaseSessionManager(SpeakerManager speakerManager,
-                                  StageManager stageManager, TrackManager trackManager) {
-        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_SESSIONS);
+    public FirebaseSessionManager(FirebaseDatabase database, Lazy<SpeakerManager> speakerManager,
+                                  Lazy<StageManager> stageManager, Lazy<TrackManager> trackManager) {
+        this.reference = database.getReference(FIREBASE_CHILD_SESSIONS);
         this.speakerManager = speakerManager;
         this.stageManager = stageManager;
         this.trackManager = trackManager;
@@ -68,9 +69,9 @@ public final class FirebaseSessionManager implements SessionManager {
     private Observable<Session> toSession(Observable<FirebaseSession> observable) {
         return observable.flatMap(session -> Observable.zip(
                 Observable.just(session),
-                stageManager.getStage(session.stage),
-                trackManager.getTrack(session.track),
-                Observable.from(session.speakers.keySet()).flatMap(speakerManager::getSpeaker).toList(),
+                stageManager.get().getStage(session.stage),
+                trackManager.get().getTrack(session.track),
+                Observable.from(session.speakers.keySet()).flatMap(id-> speakerManager.get().getSpeaker(id)).toList(),
                 (firebaseSession, stage, track, speakers) -> {
                     ZonedDateTime startTime = ZonedDateTime
                             .ofInstant(Instant.ofEpochSecond(session.datetime), ZoneId.of("UTC"));

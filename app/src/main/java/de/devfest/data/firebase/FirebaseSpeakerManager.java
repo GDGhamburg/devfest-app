@@ -30,8 +30,8 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
 
     private final DatabaseReference reference;
 
-    public FirebaseSpeakerManager() {
-        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_SPEAKER);
+    public FirebaseSpeakerManager(FirebaseDatabase database) {
+        this.reference = database.getReference(FIREBASE_CHILD_SPEAKER);
     }
 
     @Override
