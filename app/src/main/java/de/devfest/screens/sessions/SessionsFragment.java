@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import de.devfest.R;
 import de.devfest.databinding.FragmentSessionsBinding;
 import de.devfest.injection.ApplicationComponent;
+import de.devfest.model.Session;
 import de.devfest.mvpbase.BaseFragment;
 
 public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresenter> implements SessionsView {
@@ -42,4 +43,13 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
         return presenter;
     }
 
+    @Override
+    public void addSession(Session session) {
+
+    }
+
+    @Override
+    public void onError(Throwable error) {
+
+    }
 }
