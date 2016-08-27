@@ -6,6 +6,9 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.2.0-beta3'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'com.google.gms:google-services:3.0.0'
+
+        // dependency version checker. Use: ./gradlew dependencyUpdate
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     }
 }
 
