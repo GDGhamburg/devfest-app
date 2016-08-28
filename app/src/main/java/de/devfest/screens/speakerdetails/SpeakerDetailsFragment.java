@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,10 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speaker_details, container, false);
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            // fine as long as there is no deep linking to speaker details
+            ActivityCompat.finishAfterTransition(getActivity());
+        });
 
         binding.statusBarBackground.getLayoutParams().height = UiUtils.getStatusBarHeight(getContext());
         binding.gridSocialButtons.setLayoutManager(
