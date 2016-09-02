@@ -10,6 +10,7 @@ final class FirebaseSpeaker {
     public String twitter;
     public String description;
     public String company;
+    public String companyLogo;
     public String jobTitle;
     public String website;
     public String github;
@@ -27,6 +28,7 @@ final class FirebaseSpeaker {
 //        twitter = speaker.twitter;
         description = speaker.description;
         company = speaker.company;
+        companyLogo = speaker.companyLogo;
         jobTitle = speaker.jobTitle;
 //        website = speaker.website;
 //        github = speaker.github;

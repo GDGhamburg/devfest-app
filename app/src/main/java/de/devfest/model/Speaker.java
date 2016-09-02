@@ -7,6 +7,8 @@ public final class Speaker {
     public final static String TAG_ANDROID = "android";
     public final static String TAG_WEB = "web";
     public final static String TAG_CLOUD = "cloud";
+    public final static String TAG_GDE = "gde";
+    public final static String TAG_GDG = "gdg";
 
     public final String speakerId;
     public final String name;
@@ -14,6 +16,7 @@ public final class Speaker {
     public final String description;
     public final String jobTitle;
     public final String company;
+    public final String companyLogo;
     public final List<String> tags;
     public final List<SocialLink> socialLinks;
     public final List<String> sessions;
@@ -24,6 +27,7 @@ public final class Speaker {
         photoUrl = builder.photoUrl;
         description = builder.description;
         company = builder.company;
+        companyLogo = builder.companyLogo;
         jobTitle = builder.jobTitle;
         tags = builder.tags;
         socialLinks = builder.socialLinks;
@@ -46,6 +50,7 @@ public final class Speaker {
         if (photoUrl != null ? !photoUrl.equals(speaker.photoUrl) : speaker.photoUrl != null) return false;
         if (!description.equals(speaker.description)) return false;
         if (company != null ? !company.equals(speaker.company) : speaker.company != null) return false;
+        if (companyLogo != null ? !companyLogo.equals(speaker.companyLogo) : speaker.companyLogo != null) return false;
         if (jobTitle != null ? !jobTitle.equals(speaker.jobTitle) : speaker.jobTitle != null) return false;
         return tags != null ? tags.equals(speaker.tags) : speaker.tags == null;
 
@@ -58,6 +63,7 @@ public final class Speaker {
         result = 31 * result + (photoUrl != null ? photoUrl.hashCode() : 0);
         result = 31 * result + description.hashCode();
         result = 31 * result + (company != null ? company.hashCode() : 0);
+        result = 31 * result + (companyLogo != null ? companyLogo.hashCode() : 0);
         result = 31 * result + (jobTitle != null ? jobTitle.hashCode() : 0);
         result = 31 * result + (tags != null ? tags.hashCode() : 0);
         result = 31 * result + (socialLinks != null ? socialLinks.hashCode() : 0);
@@ -72,6 +78,7 @@ public final class Speaker {
         private String photoUrl;
         private String description;
         private String company;
+        private String companyLogo;
         private String jobTitle;
         private List<String> sessions;
 
@@ -100,6 +107,11 @@ public final class Speaker {
 
         public Builder company(String val) {
             company = val;
+            return this;
+        }
+
+        public Builder companyLogo(String val) {
+            companyLogo = val;
             return this;
         }
 

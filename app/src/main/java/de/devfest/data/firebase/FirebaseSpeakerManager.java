@@ -100,6 +100,7 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
                     .photoUrl(speaker.photoUrl)
                     .description(speaker.description)
                     .company(speaker.company)
+                    .companyLogo(speaker.companyLogo)
                     .jobTitle(speaker.jobTitle)
                     .sessions(sessions)
                     .tags(Arrays.asList(speaker.tags.split(",")))
