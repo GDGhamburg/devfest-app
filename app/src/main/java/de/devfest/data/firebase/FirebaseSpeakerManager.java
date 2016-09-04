@@ -111,8 +111,9 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
         private List<SocialLink> parseSocialLinks(FirebaseSpeaker speaker) {
             List<SocialLink> links = new ArrayList<>();
             if (!TextUtils.isEmpty(speaker.twitter)) {
-                String name = "@" + Uri.parse(speaker.twitter).getLastPathSegment();
-                links.add(new SocialLink(name, speaker.twitter, R.drawable.ic_twitter, R.color.twitter));
+                String link = speaker.twitter.replace("@", "");
+                String name = "@" + Uri.parse(link).getLastPathSegment();
+                links.add(new SocialLink(name, link, R.drawable.ic_twitter, R.color.twitter));
             }
             if (!TextUtils.isEmpty(speaker.github)) {
                 String name = "/" + Uri.parse(speaker.github).getLastPathSegment();
