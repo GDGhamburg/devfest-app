@@ -2,9 +2,13 @@ package de.devfest.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 
 import org.threeten.bp.format.DateTimeFormatter;
@@ -80,12 +84,21 @@ public final class UiUtils {
         return colorResId;
     }
 
-    public static @DrawableRes int getTrackIconRes(Speaker speaker) {
-        int colorResId = 0;
-        if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.drawable.ic_mobile_circled;
-        else if (speaker.tags.contains(TAG_WEB)) colorResId = R.drawable.ic_web_circled;
-        else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.drawable.ic_cloud_circled;
-        return colorResId;
+    public static Drawable getCircledTrackIcon(Context context, Speaker speaker) {
+        int drawableResId = 0;
+        if (speaker.tags.contains(TAG_ANDROID)) drawableResId = R.drawable.ic_mobile;
+        else if (speaker.tags.contains(TAG_WEB)) drawableResId = R.drawable.ic_web;
+        else if (speaker.tags.contains(TAG_CLOUD)) drawableResId = R.drawable.ic_cloud;
+        if (drawableResId != 0) {
+            int color = getTrackColor(speaker);
+            Drawable[] layers = new Drawable[2];
+            layers[0] = ContextCompat.getDrawable(context, R.drawable.shape_circle).mutate();
+            layers[0].setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_OVER);
+            int bounds = (int) dipsToPxls(context, 8);
+            layers[1] = new InsetDrawable(ContextCompat.getDrawable(context, drawableResId), bounds);
+            return new LayerDrawable(layers);
+        }
+        return null;
     }
 
     public static int getDefaultGridColumnCount(Context context) {

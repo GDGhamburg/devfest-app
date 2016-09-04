@@ -54,7 +54,6 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
             // fine as long as there is no deep linking to speaker details
             ActivityCompat.finishAfterTransition(getActivity());
         });
-
         binding.statusBarBackground.getLayoutParams().height = UiUtils.getStatusBarHeight(getContext());
         binding.gridSocialButtons.setLayoutManager(
                 new GridLayoutManager(getContext(), UiUtils.getDefaultGridColumnCount(getContext())));
@@ -122,8 +121,7 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
             ItemSessionBinding sessionBinding = DataBindingUtil.inflate(getLayoutInflater(null), R.layout.item_session,
                     binding.containerSpeakerContent, true);
 
-            sessionBinding.imageSession.setImageResource(UiUtils.getTrackIconRes(speaker));
-            sessionBinding.imageSessionBackground.setBackgroundResource(UiUtils.getTrackColor(speaker));
+            sessionBinding.imageSession.setImageDrawable(UiUtils.getCircledTrackIcon(getContext(), speaker));
             sessionBinding.textSessionTitle.setText(session.title);
             sessionBinding.textSessionSub.setText(session.startTime.format(sessionStartFormat));
         }
