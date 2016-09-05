@@ -3,10 +3,12 @@ package de.devfest.screens.speakerdetails;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +56,9 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
             // fine as long as there is no deep linking to speaker details
             ActivityCompat.finishAfterTransition(getActivity());
         });
-        binding.statusBarBackground.getLayoutParams().height = UiUtils.getStatusBarHeight(getContext());
+        if (!UiUtils.isLandscape(getContext())) {
+            binding.statusBarBackground.getLayoutParams().height = UiUtils.getStatusBarHeight(getContext());
+        }
         binding.gridSocialButtons.setLayoutManager(
                 new GridLayoutManager(getContext(), UiUtils.getDefaultGridColumnCount(getContext())));
         socialLinksAdapter = new SocialLinksAdapter(this);
@@ -83,13 +87,21 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     }
 
     private void setDetails(Speaker speaker) {
-        int colorResId = UiUtils.getTrackOverlayColor(speaker);
         binding.toolbar.setTitle(speaker.name);
         binding.textSpeakerDesc.setText(speaker.description);
         binding.textSpeakerJobTitle.setText(speaker.jobTitle);
         binding.textSpeakerCompany.setText(speaker.company);
-        binding.collapsingToolbarLayout.setContentScrimResource(colorResId);
-        binding.collapsingToolbarLayout.setStatusBarScrimResource(colorResId);
+        int colorResId = UiUtils.getTrackOverlayColor(speaker);
+        if (UiUtils.isLandscape(getContext())) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int statusBarColor = ContextCompat.getColor(getContext(), UiUtils.getTrackDarkColor(speaker));
+                getActivity().getWindow().setStatusBarColor(statusBarColor);
+            }
+            binding.toolbar.setBackgroundResource(colorResId);
+        } else {
+            binding.collapsingToolbarLayout.setContentScrimResource(colorResId);
+            binding.collapsingToolbarLayout.setStatusBarScrimResource(colorResId);
+        }
     }
 
     private void setImage(Speaker speaker) {

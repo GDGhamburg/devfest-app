@@ -76,6 +76,14 @@ public final class UiUtils {
         return colorResId;
     }
 
+    public static @ColorRes int getTrackDarkColor(Speaker speaker) {
+        int colorResId = 0;
+        if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_dark;
+        else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web_dark;
+        else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_dark;
+        return colorResId;
+    }
+
     public static @ColorRes int getTrackOverlayColor(Speaker speaker) {
         int colorResId = 0;
         if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
