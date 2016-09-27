@@ -7,9 +7,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import rx.Subscriber;
 
-abstract class FirebaseExtractor<T> implements ValueEventListener {
+public abstract class FirebaseExtractor<T> implements ValueEventListener {
     private final Subscriber<? super T> subscriber;
     private final boolean single;
+
 
     FirebaseExtractor(Subscriber<? super T> subscriber, boolean single) {
         this.subscriber = subscriber;

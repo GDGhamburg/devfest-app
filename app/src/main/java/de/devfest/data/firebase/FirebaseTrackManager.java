@@ -8,8 +8,9 @@ import java.util.List;
 
 import de.devfest.data.TrackManager;
 import de.devfest.model.Track;
+import rx.Observable;
 import rx.Single;
-import rx.SingleSubscriber;
+import rx.Subscriber;
 
 public final class FirebaseTrackManager implements TrackManager {
 
@@ -23,23 +24,28 @@ public final class FirebaseTrackManager implements TrackManager {
 
     @Override
     public Single<Track> getTrack(String trackId) {
-        return Single.create(new Single.OnSubscribe<Track>() {
+        return Observable.create(new Observable.OnSubscribe<Track>() {
             @Override
-            public void call(SingleSubscriber<? super Track> singleSubscriber) {
-                reference.child(trackId).addListenerForSingleValueEvent(new TrackExctractor(singleSubscriber));
+            public void call(Subscriber<? super Track> subscriber) {
+                reference.child(trackId).addListenerForSingleValueEvent(new TrackExctractor(subscriber, true));
             }
-        });
+        }).toSingle();
     }
 
     @Override
     public Single<List<Track>> getTracks() {
-        return null;
+        return Observable.create(new Observable.OnSubscribe<Track>() {
+            @Override
+            public void call(Subscriber<? super Track> subscriber) {
+                reference.addListenerForSingleValueEvent(new TrackExctractor(subscriber, false));
+            }
+        }).toList().toSingle();
     }
 
-    static final class TrackExctractor extends FirebaseSingleExtractor<Track> {
+    private static final class TrackExctractor extends FirebaseExtractor<Track> {
 
-        TrackExctractor(SingleSubscriber<? super Track> subscriber) {
-            super(subscriber);
+        TrackExctractor(Subscriber<? super Track> subscriber, boolean single) {
+            super(subscriber, single);
         }
 
         @Override

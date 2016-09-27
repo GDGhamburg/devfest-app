@@ -3,18 +3,18 @@ package de.devfest.data.firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
+
+import java.util.List;
 
 import de.devfest.data.EventManager;
 import de.devfest.model.EventPart;
 import rx.Observable;
 import rx.Single;
 import rx.Subscriber;
-import rx.subscriptions.Subscriptions;
 
 
 public class FirebaseEventManager implements EventManager {
@@ -28,15 +28,13 @@ public class FirebaseEventManager implements EventManager {
     }
 
     @Override
-    public Observable<EventPart> getEventParts() {
+    public Single<List<EventPart>> getEventParts() {
         return Observable.create(new Observable.OnSubscribe<EventPart>() {
             @Override
             public void call(Subscriber<? super EventPart> subscriber) {
-                ValueEventListener listener = new EventPartExtractor(subscriber, false);
-                subscriber.add(Subscriptions.create(() -> reference.removeEventListener(listener)));
-                reference.addValueEventListener(listener);
+                reference.addListenerForSingleValueEvent(new EventPartExtractor(subscriber, false));
             }
-        });
+        }).toList().toSingle();
     }
 
     @Override

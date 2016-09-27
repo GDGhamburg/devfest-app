@@ -20,6 +20,7 @@ import de.devfest.data.SpeakerManager;
 import de.devfest.model.SocialLink;
 import de.devfest.model.Speaker;
 import rx.Observable;
+import rx.Single;
 import rx.Subscriber;
 import rx.subscriptions.Subscriptions;
 
@@ -39,7 +40,7 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
         String speakerId = (speaker.speakerId == null) ? reference.push().getKey() : speaker.speakerId;
         FirebaseSpeaker firebaseSpeaker = new FirebaseSpeaker(speaker);
         reference.child(speakerId).setValue(firebaseSpeaker);
-        return getSpeaker(speakerId);
+        return getSpeaker(speakerId).toObservable();
     }
 
     @Override
@@ -49,19 +50,19 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
             public void call(Subscriber<? super Speaker> subscriber) {
                 ValueEventListener listener = new SpeakerExtractor(subscriber, false);
                 subscriber.add(Subscriptions.create(() -> reference.removeEventListener(listener)));
-                reference.addValueEventListener(listener);
+                reference.addListenerForSingleValueEvent(listener);
             }
         });
     }
 
     @Override
-    public Observable<Speaker> getSpeaker(String uid) {
+    public Single<Speaker> getSpeaker(String uid) {
         return Observable.create(new Observable.OnSubscribe<Speaker>() {
             @Override
             public void call(Subscriber<? super Speaker> subscriber) {
                 reference.child(uid).addListenerForSingleValueEvent(new SpeakerExtractor(subscriber, true));
             }
-        });
+        }).toSingle();
     }
 
     static final class SpeakerExtractor implements ValueEventListener {
