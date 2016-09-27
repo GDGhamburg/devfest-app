@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import de.devfest.R;
 import de.devfest.databinding.FragmentSessionsBinding;
 import de.devfest.injection.ApplicationComponent;
+import de.devfest.model.EventPart;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.BaseFragment;
 
@@ -45,6 +46,11 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
 
     @Override
     public void addSession(Session session) {
+
+    }
+
+    @Override
+    public void provideEventPart(EventPart part) {
 
     }
 

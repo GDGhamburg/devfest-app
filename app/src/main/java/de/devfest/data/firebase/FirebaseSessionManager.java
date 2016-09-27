@@ -14,6 +14,7 @@ import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
 import de.devfest.model.Session;
+import de.devfest.model.Track;
 import rx.Observable;
 import rx.Subscriber;
 import rx.subscriptions.Subscriptions;
@@ -55,7 +56,7 @@ public final class FirebaseSessionManager implements SessionManager {
     }
 
     @Override
-    public Observable<Session> getSessions(ZonedDateTime from, ZonedDateTime to) {
+    public Observable<Session> getSessions(Track track, ZonedDateTime from, ZonedDateTime to) {
         return toSession(Observable.create(subscriber -> {
             long fromTime = from.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
             long toTime = to.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
