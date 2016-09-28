@@ -23,6 +23,7 @@ public abstract class FirebaseExtractor<T> implements ValueEventListener {
             for (DataSnapshot data : dataSnapshot.getChildren()) {
                 subscriber.onNext(convert(data));
             }
+            subscriber.onCompleted();
         } else {
             subscriber.onNext(convert(dataSnapshot));
             subscriber.onCompleted();

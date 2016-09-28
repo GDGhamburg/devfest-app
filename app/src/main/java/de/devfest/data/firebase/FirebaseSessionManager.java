@@ -73,8 +73,8 @@ public final class FirebaseSessionManager implements SessionManager {
     private Observable<Session> toSession(Observable<FirebaseSession> observable) {
         return observable.flatMap(session -> Observable.zip(
                 Observable.just(session),
-                stageManager.get().getStage(session.stage),
-                trackManager.get().getTrack(session.track),
+                stageManager.get().getStage(session.stage).toObservable(),
+                trackManager.get().getTrack(session.track).toObservable(),
                 Observable.from(session.speakers.keySet()).flatMap(id -> speakerManager.get().getSpeaker(id).toObservable()).toList(),
                 (firebaseSession, stage, track, speakers) -> {
                     ZonedDateTime startTime = ZonedDateTime

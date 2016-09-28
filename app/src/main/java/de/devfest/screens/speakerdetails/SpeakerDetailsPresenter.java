@@ -29,10 +29,10 @@ public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView> {
         super.attachView(mvpView);
         String speakerId = getView().getSpeakerId();
         untilDetach(speakerManager.get().getSpeaker(speakerId)
-                .flatMap(speaker -> Observable.zip(
+                .flatMapObservable(speaker -> Observable.zip(
                         Observable.just(speaker),
                         Observable.from(speaker.sessions)
-                                .flatMap(id -> sessionManager.get().getSessionById(id))
+                                .flatMap(id -> sessionManager.get().getSessionById(id).toObservable())
                                 .toList(),
                         Pair::create))
                 .subscribeOn(Schedulers.io())

@@ -1,5 +1,7 @@
 package de.devfest.data.firebase;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,7 +25,7 @@ public class FirebaseEventManager implements EventManager {
 
     private final DatabaseReference reference;
 
-    FirebaseEventManager(FirebaseDatabase database) {
+    public FirebaseEventManager(FirebaseDatabase database) {
         this.reference = database.getReference(FIREBASE_CHILD_DETAILS);
     }
 
@@ -32,9 +34,10 @@ public class FirebaseEventManager implements EventManager {
         return Observable.create(new Observable.OnSubscribe<EventPart>() {
             @Override
             public void call(Subscriber<? super EventPart> subscriber) {
-                reference.addListenerForSingleValueEvent(new EventPartExtractor(subscriber, false));
+                reference.child("eventPart").addListenerForSingleValueEvent(new EventPartExtractor(subscriber, false));
             }
-        }).toList().toSingle();
+        }).doOnNext(l -> Log.e("ite", "item"))
+                .toList().toSingle();
     }
 
     @Override

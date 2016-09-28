@@ -1,11 +1,20 @@
 package de.devfest.screens.sessions;
 
-import de.devfest.model.EventPart;
+import java.util.List;
+
 import de.devfest.model.Session;
 import de.devfest.mvpbase.MvpBase;
 
 public interface SessionsView extends MvpBase.View {
-    void addSession(Session session);
-    void provideEventPart(EventPart part);
+
+    /**
+     * TODO ugly!
+     *
+     * @param size tells the view how many pages are available
+     */
+    void finishedInitializaiton(int size);
+
+    void onSessionsReceived(int requestedPage, List<Session> sessions);
+
     void onError(Throwable error);
 }

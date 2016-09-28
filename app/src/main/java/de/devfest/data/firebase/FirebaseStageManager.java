@@ -16,8 +16,8 @@ public final class FirebaseStageManager implements StageManager {
 
     private final DatabaseReference reference;
 
-    public FirebaseStageManager() {
-        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_STAGES);
+    public FirebaseStageManager(FirebaseDatabase database) {
+        this.reference = database.getReference(FIREBASE_CHILD_STAGES);
     }
 
     @Override
