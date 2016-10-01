@@ -19,8 +19,8 @@ import de.devfest.data.firebase.FirebaseSessionManager;
 import de.devfest.data.firebase.FirebaseSpeakerManager;
 import de.devfest.data.firebase.FirebaseStageManager;
 import de.devfest.data.firebase.FirebaseTrackManager;
-import de.devfest.user.FirebaseUserManager;
-import de.devfest.user.UserManager;
+import de.devfest.data.firebase.FirebaseUserManager;
+import de.devfest.data.UserManager;
 
 @Module
 public class ApplicationModule {

@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 import de.devfest.mvpbase.BasePresenter;
-import de.devfest.user.UserManager;
+import de.devfest.data.UserManager;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

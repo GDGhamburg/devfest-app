@@ -8,6 +8,7 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
+import java.util.Collection;
 import java.util.List;
 
 import dagger.Lazy;
@@ -47,6 +48,14 @@ public final class FirebaseSessionManager implements SessionManager {
         return toSession(Observable.create(subscriber -> {
             reference.child(id).addListenerForSingleValueEvent(new SessionExtractor(subscriber, true));
         })).toSingle();
+    }
+
+    @Override
+    public Single<List<Session>> getSessionsById(Collection<String> ids) {
+        return getSessions()
+                .flatMapObservable(Observable::from)
+                .filter(item -> ids.contains(item.id))
+                .toList().toSingle();
     }
 
     @Override

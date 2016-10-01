@@ -47,7 +47,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     }
 
     @Override
-    public void onSessionRetreived(List<Session> session) {
+    public void onScheduleSessionReceived(List<Session> session) {
         // TODO presenter not final yet
         Timber.e("session: %s", session.size());
     }
