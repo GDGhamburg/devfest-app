@@ -5,6 +5,8 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import de.devfest.data.EventManager;
 import de.devfest.data.SessionManager;
+import de.devfest.data.UserManager;
+import de.devfest.model.Session;
 import de.devfest.mvpbase.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -15,13 +17,11 @@ import rx.schedulers.Schedulers;
  */
 public class SessionsPresenter extends BasePresenter<SessionsView> {
 
-    private final Lazy<SessionManager> sessionManager;
     private final Lazy<EventManager> eventManager;
 
 
     @Inject
-    public SessionsPresenter(Lazy<SessionManager> sessionManager, Lazy<EventManager> eventManager) {
-        this.sessionManager = sessionManager;
+    public SessionsPresenter(Lazy<EventManager> eventManager) {
         this.eventManager = eventManager;
     }
 
@@ -38,7 +38,5 @@ public class SessionsPresenter extends BasePresenter<SessionsView> {
                             getView().onError(error);
                         })
         );
-
     }
-
 }

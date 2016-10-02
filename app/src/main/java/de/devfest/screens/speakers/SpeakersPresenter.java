@@ -20,7 +20,7 @@ public class SpeakersPresenter extends BasePresenter<SpeakersView> {
     @Override
     public void onResume() {
         super.onResume();
-        untilOnPause(speakerManager.get().getSpeakers()
+        untilDetach(speakerManager.get().getSpeakers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(speaker -> {

@@ -1,13 +1,9 @@
 package de.devfest.data;
 
 import java.util.Collection;
-import java.util.List;
 
-import de.devfest.model.EventPart;
 import de.devfest.model.Session;
-import de.devfest.model.Track;
 import rx.Observable;
-import rx.Single;
 
 public interface SessionManager {
     /**
@@ -27,12 +23,11 @@ public interface SessionManager {
      */
     Observable<Session> getSessions();
 
-
+    /**
+     * @param eventPart id of the eventpart in which the emitted items should occur
+     * @param trackId   of the track in which the sessions are
+     * @return a hot observable emitting sessions which are on the given track and in a specific
+     * event part
+     */
     Observable<Session> getEventPartSessions(String eventPart, String trackId);
-
-    /*
-    Single<List<Session>> getSessionsById(Collection<String> ids);
-    Single<List<Session>> getSessions();
-    Single<List<Session>> getSessions(Track track, EventPart eventPart);
-    */
 }
