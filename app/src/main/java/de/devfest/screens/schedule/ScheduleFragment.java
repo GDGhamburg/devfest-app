@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import de.devfest.R;
@@ -45,8 +47,9 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     }
 
     @Override
-    public void onSessionRetreived(Session session) {
-        Timber.e("session: %s", session.description);
+    public void onScheduleSessionReceived(List<Session> session) {
+        // TODO presenter not final yet
+        Timber.e("session: %s", session.size());
     }
 
     @Override

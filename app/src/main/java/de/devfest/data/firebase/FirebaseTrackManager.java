@@ -4,9 +4,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 import de.devfest.data.TrackManager;
 import de.devfest.model.Track;
 import rx.Observable;
+import rx.Single;
 import rx.Subscriber;
 
 public final class FirebaseTrackManager implements TrackManager {
@@ -20,16 +23,26 @@ public final class FirebaseTrackManager implements TrackManager {
     }
 
     @Override
-    public Observable<Track> getTrack(String trackId) {
+    public Single<Track> getTrack(String trackId) {
         return Observable.create(new Observable.OnSubscribe<Track>() {
             @Override
             public void call(Subscriber<? super Track> subscriber) {
                 reference.child(trackId).addListenerForSingleValueEvent(new TrackExctractor(subscriber, true));
             }
-        });
+        }).toSingle();
     }
 
-    static final class TrackExctractor extends FirebaseExtractor<Track> {
+    @Override
+    public Single<List<Track>> getTracks() {
+        return Observable.create(new Observable.OnSubscribe<Track>() {
+            @Override
+            public void call(Subscriber<? super Track> subscriber) {
+                reference.addListenerForSingleValueEvent(new TrackExctractor(subscriber, false));
+            }
+        }).toList().toSingle();
+    }
+
+    private static final class TrackExctractor extends FirebaseExtractor<Track> {
 
         TrackExctractor(Subscriber<? super Track> subscriber, boolean single) {
             super(subscriber, single);

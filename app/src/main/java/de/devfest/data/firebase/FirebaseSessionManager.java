@@ -8,15 +8,20 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
+import java.util.Collection;
+import java.util.List;
+
 import dagger.Lazy;
 import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
+import de.devfest.model.EventPart;
 import de.devfest.model.Session;
+import de.devfest.model.Track;
 import rx.Observable;
+import rx.Single;
 import rx.Subscriber;
-import rx.subscriptions.Subscriptions;
 
 import static org.threeten.bp.temporal.ChronoUnit.SECONDS;
 
@@ -39,48 +44,47 @@ public final class FirebaseSessionManager implements SessionManager {
     }
 
     @Override
-    public Observable<Session> getSessionById(String id) {
+    public Single<Session> getSessionById(String id) {
         return toSession(Observable.create(subscriber -> {
             reference.child(id).addListenerForSingleValueEvent(new SessionExtractor(subscriber, true));
-        }));
+        })).toSingle();
     }
 
     @Override
-    public Observable<Session> getSessions() {
-        return toSession(Observable.create(subscriber -> {
-            SessionExtractor sessionExtractor = new SessionExtractor(subscriber, false);
-            subscriber.add(Subscriptions.create(() -> reference.removeEventListener(sessionExtractor)));
-            reference.addValueEventListener(sessionExtractor);
-        }));
+    public Single<List<Session>> getSessionsById(Collection<String> ids) {
+        return getSessions()
+                .flatMapObservable(Observable::from)
+                .filter(item -> ids.contains(item.id))
+                .toList().toSingle();
     }
 
     @Override
-    public Observable<Session> getSessions(ZonedDateTime from, ZonedDateTime to) {
+    public Single<List<Session>> getSessions() {
         return toSession(Observable.create(subscriber -> {
-            long fromTime = from.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
-            long toTime = to.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
+            reference.addListenerForSingleValueEvent(new SessionExtractor(subscriber, false));
+        })).toList().toSingle();
+    }
+
+    @Override
+    public Single<List<Session>> getSessions(Track track, EventPart eventPart) {
+        return toSession(Observable.create(subscriber -> {
+            long fromTime = eventPart.startTime.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
+            long toTime = eventPart.endTime.withZoneSameInstant(ZoneId.of("UTC")).toEpochSecond();
             reference
-                    // TODO: missing somthing !!!
                     .startAt(fromTime)
                     .endAt(toTime)
-                    .addValueEventListener(new SessionExtractor(subscriber, false));
-        }));
-    }
-
-    @Override
-    public Observable<Session> getSessionsByTrack(String trackId) {
-        return toSession(Observable.create(subscriber -> {
-            reference.orderByChild(FIREBASE_CHILD_TRACK).equalTo(trackId)
-                    .addValueEventListener(new SessionExtractor(subscriber, false));
-        }));
+                    .orderByChild(FIREBASE_CHILD_TRACK)
+                    .equalTo(track.id)
+                    .addListenerForSingleValueEvent(new SessionExtractor(subscriber, false));
+        })).toList().toSingle();
     }
 
     private Observable<Session> toSession(Observable<FirebaseSession> observable) {
         return observable.flatMap(session -> Observable.zip(
                 Observable.just(session),
-                stageManager.get().getStage(session.stage),
-                trackManager.get().getTrack(session.track),
-                Observable.from(session.speakers.keySet()).flatMap(id -> speakerManager.get().getSpeaker(id)).toList(),
+                stageManager.get().getStage(session.stage).toObservable(),
+                trackManager.get().getTrack(session.track).toObservable(),
+                Observable.from(session.speakers.keySet()).flatMap(id -> speakerManager.get().getSpeaker(id).toObservable()).toList(),
                 (firebaseSession, stage, track, speakers) -> {
                     ZonedDateTime startTime = ZonedDateTime
                             .ofInstant(Instant.ofEpochSecond(session.datetime), ZoneId.of("UTC"));
@@ -101,7 +105,7 @@ public final class FirebaseSessionManager implements SessionManager {
         ));
     }
 
-    static final class SessionExtractor extends FirebaseExtractor<FirebaseSession> {
+    private static final class SessionExtractor extends FirebaseExtractor<FirebaseSession> {
         SessionExtractor(Subscriber<? super FirebaseSession> subscriber, boolean single) {
             super(subscriber, single);
         }

@@ -9,16 +9,18 @@ import javax.inject.Singleton;
 import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
+import de.devfest.data.EventManager;
 import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
+import de.devfest.data.firebase.FirebaseEventManager;
 import de.devfest.data.firebase.FirebaseSessionManager;
 import de.devfest.data.firebase.FirebaseSpeakerManager;
 import de.devfest.data.firebase.FirebaseStageManager;
 import de.devfest.data.firebase.FirebaseTrackManager;
-import de.devfest.user.FirebaseUserManager;
-import de.devfest.user.UserManager;
+import de.devfest.data.firebase.FirebaseUserManager;
+import de.devfest.data.UserManager;
 
 @Module
 public class ApplicationModule {
@@ -47,7 +49,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     StageManager provideStageManager() {
-        return new FirebaseStageManager();
+        return new FirebaseStageManager(database);
     }
 
     @Provides
@@ -61,5 +63,11 @@ public class ApplicationModule {
     SessionManager provideSessionManager(Lazy<SpeakerManager> speakerManager,
                                          Lazy<StageManager> stageManager, Lazy<TrackManager> trackManager) {
         return new FirebaseSessionManager(database, speakerManager, stageManager, trackManager);
+    }
+
+    @Provides
+    @Singleton
+    EventManager provideEventManager() {
+        return new FirebaseEventManager(database);
     }
 }

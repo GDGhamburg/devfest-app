@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import de.devfest.R;
@@ -44,7 +46,12 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
     }
 
     @Override
-    public void addSession(Session session) {
+    public void finishedInitializaiton(int size) {
+        presenter.loadSession(3);
+    }
+
+    @Override
+    public void onSessionsReceived(int requestedPage, List<Session> sessions) {
 
     }
 

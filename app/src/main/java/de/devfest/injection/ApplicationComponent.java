@@ -17,7 +17,7 @@ import de.devfest.screens.social.SocialFragment;
 import de.devfest.screens.speakerdetails.SpeakerDetailsFragment;
 import de.devfest.screens.speakers.SpeakersFragment;
 import de.devfest.screens.user.UserFragment;
-import de.devfest.user.UserManager;
+import de.devfest.data.UserManager;
 
 @Singleton
 @Component(modules = ApplicationModule.class)

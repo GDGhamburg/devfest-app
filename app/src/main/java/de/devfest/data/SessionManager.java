@@ -1,13 +1,16 @@
 package de.devfest.data;
 
-import org.threeten.bp.ZonedDateTime;
+import java.util.Collection;
+import java.util.List;
 
+import de.devfest.model.EventPart;
 import de.devfest.model.Session;
-import rx.Observable;
+import de.devfest.model.Track;
+import rx.Single;
 
 public interface SessionManager {
-    Observable<Session> getSessionById(String id);
-    Observable<Session> getSessions();
-    Observable<Session> getSessions(ZonedDateTime from, ZonedDateTime to);
-    Observable<Session> getSessionsByTrack(String trackId);
+    Single<Session> getSessionById(String id);
+    Single<List<Session>> getSessionsById(Collection<String> ids);
+    Single<List<Session>> getSessions();
+    Single<List<Session>> getSessions(Track track, EventPart eventPart);
 }

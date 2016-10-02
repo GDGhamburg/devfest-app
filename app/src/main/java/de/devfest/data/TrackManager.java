@@ -1,12 +1,11 @@
 package de.devfest.data;
 
-import de.devfest.model.Track;
-import rx.Observable;
+import java.util.List;
 
-/**
- * Created by andre on 06.07.2016.
- */
+import de.devfest.model.Track;
+import rx.Single;
 
 public interface TrackManager {
-    Observable<Track> getTrack(String trackId);
+    Single<Track> getTrack(String trackId);
+    Single<List<Track>> getTracks();
 }

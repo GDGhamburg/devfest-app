@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import de.devfest.data.StageManager;
 import de.devfest.model.Stage;
 import rx.Observable;
+import rx.Single;
 import rx.Subscriber;
 
 public final class FirebaseStageManager implements StageManager {
@@ -15,21 +16,21 @@ public final class FirebaseStageManager implements StageManager {
 
     private final DatabaseReference reference;
 
-    public FirebaseStageManager() {
-        this.reference = FirebaseDatabase.getInstance().getReference(FIREBASE_CHILD_STAGES);
+    public FirebaseStageManager(FirebaseDatabase database) {
+        this.reference = database.getReference(FIREBASE_CHILD_STAGES);
     }
 
     @Override
-    public Observable<Stage> getStage(String stageId) {
+    public Single<Stage> getStage(String stageId) {
         return Observable.create(new Observable.OnSubscribe<Stage>() {
             @Override
             public void call(Subscriber<? super Stage> subscriber) {
                 reference.child(stageId).addListenerForSingleValueEvent(new StageExtractor(subscriber, true));
             }
-        });
+        }).toSingle();
     }
 
-    static final class StageExtractor extends FirebaseExtractor<Stage> {
+    private static final class StageExtractor extends FirebaseExtractor<Stage> {
 
         StageExtractor(Subscriber<? super Stage> subscriber, boolean single) {
             super(subscriber, single);

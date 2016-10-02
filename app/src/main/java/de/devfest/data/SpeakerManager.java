@@ -2,6 +2,7 @@ package de.devfest.data;
 
 import de.devfest.model.Speaker;
 import rx.Observable;
+import rx.Single;
 
 public interface SpeakerManager {
     /**
@@ -9,7 +10,7 @@ public interface SpeakerManager {
      */
     Observable<Speaker> getSpeakers();
 
-    Observable<Speaker> getSpeaker(String uid);
+    Single<Speaker> getSpeaker(String uid);
 
     @Deprecated
     Observable<Speaker> insertOrUpdate(Speaker speaker);
