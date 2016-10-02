@@ -12,18 +12,16 @@ import rx.subscriptions.CompositeSubscription;
  */
 public abstract class BasePresenter<V extends MvpBase.View> implements MvpBase.Presenter<V> {
     private V view;
-    private CompositeSubscription pauseSubscription;
-    private CompositeSubscription attachedViewSubscription;
+    private final CompositeSubscription attachedViewSubscription = new CompositeSubscription();
 
     @Override
     public void attachView(V mvpView) {
         view = mvpView;
-        attachedViewSubscription = new CompositeSubscription();
     }
 
     @Override
     public void detachView() {
-        attachedViewSubscription.unsubscribe();
+        attachedViewSubscription.clear();
         view = null;
     }
 
@@ -35,24 +33,19 @@ public abstract class BasePresenter<V extends MvpBase.View> implements MvpBase.P
         return view;
     }
 
-    protected void untilOnPause(Subscription subscription) {
-        pauseSubscription.add(subscription);
-    }
-
     protected void untilDetach(Subscription subscription) {
         attachedViewSubscription.add(subscription);
     }
 
     @CallSuper
-    public void onPause() {
-        pauseSubscription.unsubscribe();
-    }
-
-    @CallSuper
     public void onResume() {
-        pauseSubscription = new CompositeSubscription();
+
     }
 
     public void destroy() {
+    }
+
+    @CallSuper
+    public void onPause() {
     }
 }

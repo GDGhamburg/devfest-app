@@ -78,12 +78,17 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     }
 
     @Override
-    public void onSpeakerAvailable(Speaker speaker, List<Session> sessions) {
+    public void onSpeakerAvailable(Speaker speaker) {
         setDetails(speaker);
         setImage(speaker);
-        setSessions(speaker, sessions);
+    }
+
+    @Override
+    public void onSessionAvailable(Session session) {
+        // TODO: recycler view for sessions!!!
+        /* setSessions(speaker, sessions);
         socialLinksAdapter.setSocialLinks(speaker.socialLinks);
-        binding.getRoot().requestLayout();
+        binding.getRoot().requestLayout(); */
     }
 
     private void setDetails(Speaker speaker) {

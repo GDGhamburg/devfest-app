@@ -1,7 +1,6 @@
 package de.devfest.data.firebase;
 
 import android.support.annotation.NonNull;
-import android.util.NoSuchPropertyException;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.AuthCredential;
@@ -14,6 +13,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import de.devfest.data.UserManager;
@@ -38,12 +38,12 @@ public class FirebaseUserManager implements UserManager {
     }
 
     @Override
-    public Observable<User> getCurrentUser() {
+    public Single<User> getCurrentUser() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
-            return transformUser(firebaseUser);
+            return transformUser(firebaseUser).toSingle();
         }
-        return Observable.error(new NoSuchPropertyException("User not logged in!"));
+        return Single.error(new NoSuchElementException("User not logged in!"));
     }
 
     private Observable<User> transformUser(FirebaseUser firebaseUser) {
@@ -59,10 +59,10 @@ public class FirebaseUserManager implements UserManager {
     }
 
     @Override
-    public Observable<User> authenticateWithGoogle(@NonNull GoogleSignInAccount account) {
-        return Observable.create(new Observable.OnSubscribe<FirebaseUser>() {
+    public Single<User> authenticateWithGoogle(@NonNull GoogleSignInAccount account) {
+        return Single.create(new Single.OnSubscribe<FirebaseUser>() {
             @Override
-            public void call(Subscriber<? super FirebaseUser> subscriber) {
+            public void call(SingleSubscriber<? super FirebaseUser> subscriber) {
                 AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signInWithCredential(credential)
@@ -72,25 +72,38 @@ public class FirebaseUserManager implements UserManager {
                                 subscriber.onError(task.getException());
                                 return;
                             }
-                            subscriber.onNext(task.getResult().getUser());
-                            subscriber.onCompleted();
+                            subscriber.onSuccess(task.getResult().getUser());
                         });
             }
-        }).flatMap(this::transformUser);
+        }).flatMapObservable(this::transformUser).toSingle();
     }
 
     @Override
-    public Single<Boolean> addToSchedule(Session sessionToStore, boolean insert) {
-        return getCurrentUser().single().toSingle()
+    public Single<Boolean> addToSchedule(Session sessionToStore) {
+        return getCurrentUser()
                 .flatMap(user -> Single.create(new Single.OnSubscribe<Boolean>() {
                     @Override
                     public void call(SingleSubscriber<? super Boolean> singleSubscriber) {
                         database.getReference(FIREBASE_USER).child(user.userId)
                                 .child("schedule").child(sessionToStore.id)
-                                .setValue(insert,
+                                .setValue(true,
                                         (databaseError, databaseReference) -> singleSubscriber.onSuccess(true));
                     }
-                }));
+                })).onErrorResumeNext(throwable -> Single.just(false));
+    }
+
+    @Override
+    public Single<Boolean> removeFromSchedule(Session sessionToRemove) {
+        return getCurrentUser()
+                .flatMap(user -> Single.create(new Single.OnSubscribe<Boolean>() {
+                    @Override
+                    public void call(SingleSubscriber<? super Boolean> singleSubscriber) {
+                        database.getReference(FIREBASE_USER).child(user.userId)
+                                .child("schedule").child(sessionToRemove.id)
+                                .setValue(false,
+                                        (databaseError, databaseReference) -> singleSubscriber.onSuccess(true));
+                    }
+                })).onErrorResumeNext(throwable -> Single.just(false));
     }
 
     private static class FirebaseUserExtractor extends FirebaseExtractor<User> {
@@ -98,7 +111,7 @@ public class FirebaseUserManager implements UserManager {
         private final FirebaseUser firebaseUser;
 
         FirebaseUserExtractor(FirebaseUser user, Subscriber<? super User> subscriber, boolean single) {
-            super(subscriber, single);
+            super(subscriber, single, false);
             this.firebaseUser = user;
         }
 

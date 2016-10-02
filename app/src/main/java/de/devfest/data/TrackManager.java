@@ -1,11 +1,12 @@
 package de.devfest.data;
 
-import java.util.List;
-
 import de.devfest.model.Track;
-import rx.Single;
+import rx.Observable;
 
 public interface TrackManager {
-    Single<Track> getTrack(String trackId);
-    Single<List<Track>> getTracks();
+    /**
+     * @param trackId id of the track you want to observe
+     * @return hot observable of the track
+     */
+    Observable<Track> getTrack(String trackId);
 }

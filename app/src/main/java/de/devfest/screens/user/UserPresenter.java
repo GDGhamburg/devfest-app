@@ -5,8 +5,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import javax.inject.Inject;
 
 import dagger.Lazy;
-import de.devfest.mvpbase.BasePresenter;
 import de.devfest.data.UserManager;
+import de.devfest.mvpbase.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -42,9 +42,7 @@ public class UserPresenter extends BasePresenter<UserView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user -> getView().showUser(user),
-                        error -> {
-                            getView().showAuthenticationFailedError(error);
-                        }
+                        error -> getView().showAuthenticationFailedError(error)
                 );
     }
 }

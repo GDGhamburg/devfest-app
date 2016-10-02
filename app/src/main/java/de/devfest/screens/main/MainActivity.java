@@ -9,21 +9,30 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import javax.inject.Inject;
+
+import de.devfest.DevFestApplication;
 import de.devfest.R;
 import de.devfest.databinding.ActivityMainBinding;
+import de.devfest.injection.ApplicationComponent;
+import de.devfest.mvpbase.BaseActivity;
+import de.devfest.screens.notstarted.EventNotStartedFragment;
 import de.devfest.screens.schedule.ScheduleFragment;
 import de.devfest.screens.sessions.SessionsFragment;
 import de.devfest.screens.social.SocialFragment;
 import de.devfest.screens.speakers.SpeakersFragment;
+import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity<MainActivityView, MainActivityPresenter>
+        implements OnNavigationItemSelectedListener, MainActivityView {
 
     private ActivityMainBinding binding;
-    private ActionBarDrawerToggle drawerToggle;
+
+    @Inject
+    MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +50,40 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         toggle.syncState();
 
         binding.navView.setNavigationItemSelectedListener(this);
+        ((DevFestApplication) getApplication()).getComponent()
+                .inject(this);
+
 
         if (savedInstanceState == null) {
-            showFragment(ScheduleFragment.TAG);
             binding.navView.setCheckedItem(R.id.nav_schedule);
         }
+    }
+
+    @Override
+    public void onEventStarted(boolean started) {
+        // true when event started
+        // (firebaseroot->eventdetail->startTime < now < firebaseroot->eventdetail->endTime)
+        // use this to show/hide content before the event
+        // if the user is an admin true will be emitted all the time
+        if (started) {
+            showFragment(ScheduleFragment.TAG);
+        } else {
+            showFragment(EventNotStartedFragment.TAG);
+        }
+
+        Timber.e("Event started: %s", started);
+    }
+
+    @Override
+    public void onError(Throwable error) {
+        // TODO
+    }
+
+
+    @Override
+    protected MainActivityPresenter inject(ApplicationComponent component) {
+        component.inject(this);
+        return presenter;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -95,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     private Fragment getFragment(String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(tag);
-        if(fragment != null) {
+        if (fragment != null) {
             return fragment;
         }
 
@@ -107,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             return new ScheduleFragment();
         } else if (SocialFragment.TAG.equals(tag)) {
             return new SocialFragment();
+        } else if (EventNotStartedFragment.TAG.equals(tag)) {
+            return new EventNotStartedFragment();
         }
 
         throw new IllegalStateException("No start fragment found");

@@ -24,9 +24,9 @@ public class SchedulePresenter extends BasePresenter<ScheduleView> {
     @Override
     public void onResume() {
         super.onResume();
-        userManager.get().getCurrentUser().toSingle()
+        userManager.get().getCurrentUser().toObservable()
                 .map(user -> user.schedule)
-                .flatMap(ids -> sessionManager.get().getSessionsById(ids))
+                .flatMap(ids -> sessionManager.get().getSessions(ids))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -36,7 +36,7 @@ public class SchedulePresenter extends BasePresenter<ScheduleView> {
     }
 
     public void removeFromSchedule(Session session) {
-        userManager.get().addToSchedule(session, false)
+        userManager.get().removeFromSchedule(session)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(success -> {

@@ -1,16 +1,33 @@
 package de.devfest.data;
 
 import java.util.Collection;
-import java.util.List;
 
-import de.devfest.model.EventPart;
 import de.devfest.model.Session;
-import de.devfest.model.Track;
-import rx.Single;
+import rx.Observable;
 
 public interface SessionManager {
-    Single<Session> getSessionById(String id);
-    Single<List<Session>> getSessionsById(Collection<String> ids);
-    Single<List<Session>> getSessions();
-    Single<List<Session>> getSessions(Track track, EventPart eventPart);
+    /**
+     * @param id of the session you want to observe
+     * @return a hot observable emitting a single session by the given id
+     */
+    Observable<Session> getSession(String id);
+
+    /**
+     * @param ids of the session you want to observe
+     * @return a hot observable emitting all sessions by the given ids
+     */
+    Observable<Session> getSessions(Collection<String> ids);
+
+    /**
+     * @return a hot observable emitting all available sessions
+     */
+    Observable<Session> getSessions();
+
+    /**
+     * @param eventPart id of the eventpart in which the emitted items should occur
+     * @param trackId   of the track in which the sessions are
+     * @return a hot observable emitting sessions which are on the given track and in a specific
+     * event part
+     */
+    Observable<Session> getEventPartSessions(String eventPart, String trackId);
 }

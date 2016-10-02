@@ -3,12 +3,13 @@ package de.devfest.data.firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import de.devfest.data.StageManager;
 import de.devfest.model.Stage;
 import rx.Observable;
-import rx.Single;
 import rx.Subscriber;
+import rx.subscriptions.Subscriptions;
 
 public final class FirebaseStageManager implements StageManager {
 
@@ -21,13 +22,16 @@ public final class FirebaseStageManager implements StageManager {
     }
 
     @Override
-    public Single<Stage> getStage(String stageId) {
+    public Observable<Stage> getStage(String stageId) {
         return Observable.create(new Observable.OnSubscribe<Stage>() {
             @Override
             public void call(Subscriber<? super Stage> subscriber) {
-                reference.child(stageId).addListenerForSingleValueEvent(new StageExtractor(subscriber, true));
+                ValueEventListener listener = new StageExtractor(subscriber, true);
+                subscriber.add(Subscriptions.create(() ->
+                        reference.child(stageId).removeEventListener(listener)));
+                reference.child(stageId).addListenerForSingleValueEvent(listener);
             }
-        }).toSingle();
+        });
     }
 
     private static final class StageExtractor extends FirebaseExtractor<Stage> {

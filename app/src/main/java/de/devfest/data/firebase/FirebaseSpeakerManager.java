@@ -3,9 +3,7 @@ package de.devfest.data.firebase;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -20,7 +18,6 @@ import de.devfest.data.SpeakerManager;
 import de.devfest.model.SocialLink;
 import de.devfest.model.Speaker;
 import rx.Observable;
-import rx.Single;
 import rx.Subscriber;
 import rx.subscriptions.Subscriptions;
 
@@ -36,64 +33,43 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
     }
 
     @Override
-    public Observable<Speaker> insertOrUpdate(Speaker speaker) {
-        String speakerId = (speaker.speakerId == null) ? reference.push().getKey() : speaker.speakerId;
-        FirebaseSpeaker firebaseSpeaker = new FirebaseSpeaker(speaker);
-        reference.child(speakerId).setValue(firebaseSpeaker);
-        return getSpeaker(speakerId).toObservable();
-    }
-
-    @Override
     public Observable<Speaker> getSpeakers() {
         return Observable.create(new Observable.OnSubscribe<Speaker>() {
             @Override
             public void call(Subscriber<? super Speaker> subscriber) {
                 ValueEventListener listener = new SpeakerExtractor(subscriber, false);
                 subscriber.add(Subscriptions.create(() -> reference.removeEventListener(listener)));
-                reference.addListenerForSingleValueEvent(listener);
+                reference.addValueEventListener(listener);
             }
         });
     }
 
     @Override
-    public Single<Speaker> getSpeaker(String uid) {
+    public Observable<Speaker> getSpeaker(String uid) {
         return Observable.create(new Observable.OnSubscribe<Speaker>() {
             @Override
             public void call(Subscriber<? super Speaker> subscriber) {
-                reference.child(uid).addListenerForSingleValueEvent(new SpeakerExtractor(subscriber, true));
+                SpeakerExtractor speakerExtractor = new SpeakerExtractor(subscriber, true);
+                DatabaseReference db = reference.child(uid);
+                subscriber.add(Subscriptions.create(() -> db.removeEventListener(speakerExtractor)));
+                db.addValueEventListener(new SpeakerExtractor(subscriber, true));
             }
-        }).toSingle();
+        });
     }
 
-    static final class SpeakerExtractor implements ValueEventListener {
-
-        private final Subscriber<? super Speaker> subscriber;
-        private final boolean single;
-
-        SpeakerExtractor(Subscriber<? super Speaker> subscriber, boolean single) {
-            this.subscriber = subscriber;
-            this.single = single;
+    private static final class SpeakerExtractor extends FirebaseExtractor<Speaker> {
+        private SpeakerExtractor(Subscriber<? super Speaker> subscriber, boolean single) {
+            super(subscriber, single);
         }
 
         @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            if (!single) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Speaker speaker = convert(data);
-                    subscriber.onNext(speaker);
-                }
-            } else {
-                subscriber.onNext(convert(dataSnapshot));
-                subscriber.onCompleted();
-            }
-        }
-
-        private Speaker convert(DataSnapshot data) {
+        public Speaker convert(DataSnapshot data) {
             FirebaseSpeaker speaker = data.getValue(FirebaseSpeaker.class);
 
             List<String> sessions = new LinkedList<>();
             if (speaker.sessions != null)
                 sessions.addAll(speaker.sessions.keySet());
+
             List<SocialLink> socialLinks = parseSocialLinks(speaker);
             return Speaker.newBuilder()
                     .speakerId(data.getKey())
@@ -131,11 +107,6 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
                 links.add(new SocialLink(name, speaker.website, R.drawable.ic_link, 0));
             }
             return links;
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            subscriber.onError(new FirebaseException(databaseError.getMessage()));
         }
     }
 }

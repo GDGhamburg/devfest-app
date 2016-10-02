@@ -14,13 +14,13 @@ import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
+import de.devfest.data.UserManager;
 import de.devfest.data.firebase.FirebaseEventManager;
 import de.devfest.data.firebase.FirebaseSessionManager;
 import de.devfest.data.firebase.FirebaseSpeakerManager;
 import de.devfest.data.firebase.FirebaseStageManager;
 import de.devfest.data.firebase.FirebaseTrackManager;
 import de.devfest.data.firebase.FirebaseUserManager;
-import de.devfest.data.UserManager;
 
 @Module
 public class ApplicationModule {
@@ -61,13 +61,16 @@ public class ApplicationModule {
     @Provides
     @Singleton
     SessionManager provideSessionManager(Lazy<SpeakerManager> speakerManager,
-                                         Lazy<StageManager> stageManager, Lazy<TrackManager> trackManager) {
-        return new FirebaseSessionManager(database, speakerManager, stageManager, trackManager);
+                                         Lazy<StageManager> stageManager,
+                                         Lazy<TrackManager> trackManager,
+                                         Lazy<EventManager> eventManager) {
+        return new FirebaseSessionManager(database, speakerManager, stageManager, trackManager,
+                eventManager);
     }
 
     @Provides
     @Singleton
-    EventManager provideEventManager() {
-        return new FirebaseEventManager(database);
+    EventManager provideEventManager(Lazy<TrackManager> trackManager) {
+        return new FirebaseEventManager(database, trackManager);
     }
 }
