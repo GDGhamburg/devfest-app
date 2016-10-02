@@ -1,6 +1,5 @@
 package de.devfest.data.firebase;
 
-import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -39,6 +38,6 @@ public abstract class FirebaseExtractor<T> implements ValueEventListener {
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-        subscriber.onError(new FirebaseException(databaseError.getDetails()));
+        subscriber.onError(databaseError.toException());
     }
 }

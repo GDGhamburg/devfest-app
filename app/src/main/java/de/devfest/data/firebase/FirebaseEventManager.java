@@ -1,6 +1,7 @@
 package de.devfest.data.firebase;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -14,6 +15,8 @@ import de.devfest.data.EventManager;
 import de.devfest.data.TrackManager;
 import de.devfest.model.EventPart;
 import rx.Observable;
+import rx.Single;
+import rx.SingleSubscriber;
 import rx.Subscriber;
 import rx.subscriptions.Subscriptions;
 
@@ -49,6 +52,32 @@ public class FirebaseEventManager implements EventManager {
                     databaseReference.removeEventListener(listener)));
             databaseReference.addValueEventListener(listener);
         }));
+    }
+
+    @Override
+    public Single<Boolean> isActive() {
+        return Single.create(new Single.OnSubscribe<Boolean>() {
+            @Override
+            public void call(SingleSubscriber<? super Boolean> singleSubscriber) {
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ZonedDateTime startTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(dataSnapshot.child("startTime").getValue(Long.class)), ZoneId.of("UTC"));
+                        ZonedDateTime endTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(dataSnapshot.child("endTime").getValue(Long.class)), ZoneId.of("UTC"));
+                        ZonedDateTime now = ZonedDateTime.now();
+                        singleSubscriber.onSuccess(
+                                now.isAfter(startTime)
+                                        && now.isBefore(endTime)
+                        );
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Single.error(databaseError.toException());
+                    }
+                });
+            }
+        });
     }
 
     private Observable<EventPart> toEventPart(Observable<FirebaseEventPart> partObservable) {
