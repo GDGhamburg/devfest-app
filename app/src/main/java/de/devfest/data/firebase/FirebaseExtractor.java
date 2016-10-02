@@ -10,11 +10,17 @@ import rx.Subscriber;
 public abstract class FirebaseExtractor<T> implements ValueEventListener {
     private final Subscriber<? super T> subscriber;
     private final boolean single;
+    private final boolean ishot;
 
 
-    FirebaseExtractor(Subscriber<? super T> subscriber, boolean single) {
+    protected FirebaseExtractor(Subscriber<? super T> subscriber, boolean singleValue, boolean ishot) {
         this.subscriber = subscriber;
-        this.single = single;
+        this.single = singleValue;
+        this.ishot = ishot;
+    }
+
+    protected FirebaseExtractor(Subscriber<? super T> subscriber, boolean singleValue) {
+        this(subscriber, singleValue, true);
     }
 
     @Override
@@ -23,11 +29,10 @@ public abstract class FirebaseExtractor<T> implements ValueEventListener {
             for (DataSnapshot data : dataSnapshot.getChildren()) {
                 subscriber.onNext(convert(data));
             }
-            subscriber.onCompleted();
         } else {
             subscriber.onNext(convert(dataSnapshot));
-            subscriber.onCompleted();
         }
+        if (!ishot) subscriber.onCompleted();
     }
 
     protected abstract T convert(DataSnapshot snapshot);

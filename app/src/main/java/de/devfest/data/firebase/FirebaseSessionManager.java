@@ -3,6 +3,7 @@ package de.devfest.data.firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
@@ -22,6 +23,7 @@ import de.devfest.model.Track;
 import rx.Observable;
 import rx.Single;
 import rx.Subscriber;
+import rx.subscriptions.Subscriptions;
 
 import static org.threeten.bp.temporal.ChronoUnit.SECONDS;
 
@@ -44,10 +46,18 @@ public final class FirebaseSessionManager implements SessionManager {
     }
 
     @Override
-    public Single<Session> getSessionById(String id) {
+    public Observable<Session> getSession(String id) {
         return toSession(Observable.create(subscriber -> {
-            reference.child(id).addListenerForSingleValueEvent(new SessionExtractor(subscriber, true));
-        })).toSingle();
+            ValueEventListener listener = new SessionExtractor(subscriber, true);
+            subscriber.add(Subscriptions.create(() ->
+                    reference.child(id).removeEventListener(listener)));
+            reference.child(id).addValueEventListener(new SessionExtractor(subscriber, true));
+        }));
+    }
+
+    @Override
+    public Observable<Session> getSession(Collection<String> ids) {
+        return null;
     }
 
     @Override
@@ -84,7 +94,7 @@ public final class FirebaseSessionManager implements SessionManager {
                 Observable.just(session),
                 stageManager.get().getStage(session.stage).toObservable(),
                 trackManager.get().getTrack(session.track).toObservable(),
-                Observable.from(session.speakers.keySet()).flatMap(id -> speakerManager.get().getSpeaker(id).toObservable()).toList(),
+                Observable.from(session.speakers.keySet()).flatMap(id -> speakerManager.get().getSpeaker(id).take(1)).toList(),
                 (firebaseSession, stage, track, speakers) -> {
                     ZonedDateTime startTime = ZonedDateTime
                             .ofInstant(Instant.ofEpochSecond(session.datetime), ZoneId.of("UTC"));

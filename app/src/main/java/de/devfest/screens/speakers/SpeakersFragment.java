@@ -25,8 +25,8 @@ import de.devfest.mvpbase.BaseFragment;
 import de.devfest.screens.speakerdetails.SpeakerDetailsActivity;
 import de.devfest.ui.UiUtils;
 
-public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresenter> implements SpeakersView,
-        View.OnClickListener {
+public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresenter>
+        implements SpeakersView, View.OnClickListener {
 
     public static final String TAG = SpeakersFragment.class.toString();
 
