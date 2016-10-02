@@ -30,7 +30,7 @@ public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(speaker -> getView().onSpeakerAvailable(speaker))
                 .observeOn(Schedulers.io())
-                .flatMap(speaker -> sessionManager.get().getSession(speaker.sessions))
+                .flatMap(speaker -> sessionManager.get().getSessions(speaker.sessions))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         session -> {

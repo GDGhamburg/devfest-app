@@ -1,11 +1,17 @@
 package de.devfest.data;
 
-import java.util.List;
-
 import de.devfest.model.EventPart;
-import rx.Single;
+import rx.Observable;
 
 public interface EventManager {
-    Single<List<EventPart>> getEventParts();
-    Single<String> getEventName();
+    /**
+     * @return a hot observable emmiting all eventparts
+     */
+    Observable<EventPart> getEventParts();
+
+    /**
+     * @param id of the part you want to receive
+     * @return a hot observable emmiting eventparts by the given id
+     */
+    Observable<EventPart> getEventPart(String id);
 }

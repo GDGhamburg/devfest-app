@@ -1,9 +1,5 @@
 package de.devfest.model;
 
-/**
- * Created by andre on 24/06/16.
- */
-
 public final class Track {
     public final String id;
     public final String name;

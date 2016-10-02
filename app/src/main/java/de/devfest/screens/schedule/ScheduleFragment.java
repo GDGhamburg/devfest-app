@@ -3,12 +3,9 @@ package de.devfest.screens.schedule;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,11 +24,6 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     SchedulePresenter presenter;
     private FragmentScheduleBinding binding;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -47,9 +39,9 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     }
 
     @Override
-    public void onScheduleSessionReceived(List<Session> session) {
+    public void onScheduleSessionReceived(Session session) {
         // TODO presenter not final yet
-        Timber.e("session: %s", session.size());
+        Timber.e("session: %s", session.title);
     }
 
     @Override
