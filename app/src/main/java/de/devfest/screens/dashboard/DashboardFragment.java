@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import de.devfest.R;
-import de.devfest.databinding.FragmentScheduleBinding;
+import de.devfest.databinding.FragmentDashboardBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.BaseFragment;
@@ -22,13 +22,13 @@ public class DashboardFragment extends BaseFragment<DashboardView, DashboardPres
 
     @Inject
     DashboardPresenter presenter;
-    private FragmentScheduleBinding binding;
+    private FragmentDashboardBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_schedule, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false);
         return binding.getRoot();
     }
 
@@ -46,6 +46,6 @@ public class DashboardFragment extends BaseFragment<DashboardView, DashboardPres
 
     @Override
     public void onError(Throwable error) {
-
+        Timber.e(error);
     }
 }

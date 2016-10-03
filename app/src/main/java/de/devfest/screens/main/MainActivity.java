@@ -61,22 +61,12 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
 
     @Override
     public void onEventStarted(boolean started) {
-        // true when event started
-        // (firebaseroot->eventdetail->startTime < now < firebaseroot->eventdetail->endTime)
-        // use this to show/hide content before the event
-        // if the user is an admin true will be emitted all the time
-        if (started) {
-            showFragment(DashboardFragment.TAG);
-        } else {
-            showFragment(EventNotStartedFragment.TAG);
-        }
-
-        Timber.e("Event started: %s", started);
+        showFragment(DashboardFragment.TAG);
     }
 
     @Override
     public void onError(Throwable error) {
-        // TODO
+        Timber.e(error);
     }
 
 
