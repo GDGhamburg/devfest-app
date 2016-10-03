@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,21 +21,17 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import org.threeten.bp.format.DateTimeFormatter;
-
-import java.util.List;
-
 import javax.inject.Inject;
 
 import de.devfest.R;
 import de.devfest.databinding.FragmentSpeakerDetailsBinding;
-import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.model.SocialLink;
 import de.devfest.model.Speaker;
 import de.devfest.mvpbase.BaseFragment;
 import de.devfest.ui.UiUtils;
+import timber.log.Timber;
 
 public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, SpeakerDetailsPresenter>
         implements SpeakerDetailsView, View.OnClickListener {
@@ -46,6 +43,7 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
 
     private FragmentSpeakerDetailsBinding binding;
     private SocialLinksAdapter socialLinksAdapter;
+    private SpeakerSessionAdapter speakerSessionAdapter;
 
     @Nullable
     @Override
@@ -63,6 +61,9 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
                 new GridLayoutManager(getContext(), UiUtils.getDefaultGridColumnCount(getContext())));
         socialLinksAdapter = new SocialLinksAdapter(this);
         binding.gridSocialButtons.setAdapter(socialLinksAdapter);
+        binding.sessionList.setLayoutManager(new LinearLayoutManager(
+                getContext(), LinearLayoutManager.VERTICAL, false));
+
         return binding.getRoot();
     }
 
@@ -81,14 +82,13 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     public void onSpeakerAvailable(Speaker speaker) {
         setDetails(speaker);
         setImage(speaker);
+        speakerSessionAdapter = new SpeakerSessionAdapter(speaker);
+        binding.sessionList.setAdapter(speakerSessionAdapter);
     }
 
     @Override
     public void onSessionAvailable(Session session) {
-        // TODO: recycler view for sessions!!!
-        /* setSessions(speaker, sessions);
-        socialLinksAdapter.setSocialLinks(speaker.socialLinks);
-        binding.getRoot().requestLayout(); */
+        speakerSessionAdapter.addSession(session);
     }
 
     private void setDetails(Speaker speaker) {
@@ -131,23 +131,10 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
                 .into(binding.imageSpeaker);
     }
 
-    private void setSessions(Speaker speaker, List<Session> sessions) {
-        DateTimeFormatter sessionStartFormat = UiUtils.getSessionStartFormat();
-        for (int i = 0; i < sessions.size(); i++) {
-            Session session = sessions.get(i);
-            ItemSessionBinding sessionBinding = DataBindingUtil.inflate(getLayoutInflater(null), R.layout.item_session,
-                    binding.containerSpeakerContent, true);
-
-            sessionBinding.imageSession.setImageDrawable(UiUtils.getCircledTrackIcon(getContext(), speaker));
-            sessionBinding.textSessionTitle.setText(session.title);
-            sessionBinding.textSessionSub.setText(session.startTime.format(sessionStartFormat));
-        }
-    }
-
     @Override
     public void onError(Throwable error) {
         Snackbar.make(binding.getRoot(), R.string.error_default, Snackbar.LENGTH_LONG).show();
-//        error.printStackTrace();
+        Timber.e(error);
     }
 
     @Override
