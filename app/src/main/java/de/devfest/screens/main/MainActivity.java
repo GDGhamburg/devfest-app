@@ -56,12 +56,13 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
 
         if (savedInstanceState == null) {
             binding.navView.setCheckedItem(R.id.nav_dashboard);
+            showFragment(DashboardFragment.TAG);
         }
     }
 
     @Override
     public void onEventStarted(boolean started) {
-        showFragment(DashboardFragment.TAG);
+
     }
 
     @Override
