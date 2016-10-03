@@ -1,4 +1,4 @@
-package de.devfest.screens.schedule;
+package de.devfest.screens.dashboard;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -16,12 +16,12 @@ import de.devfest.model.Session;
 import de.devfest.mvpbase.BaseFragment;
 import timber.log.Timber;
 
-public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresenter> implements ScheduleView {
+public class DashboardFragment extends BaseFragment<DashboardView, DashboardPresenter> implements DashboardView {
 
-    public static final String TAG = ScheduleFragment.class.toString();
+    public static final String TAG = DashboardFragment.class.toString();
 
     @Inject
-    SchedulePresenter presenter;
+    DashboardPresenter presenter;
     private FragmentScheduleBinding binding;
 
     @Nullable
@@ -33,13 +33,13 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     }
 
     @Override
-    protected SchedulePresenter inject(ApplicationComponent component) {
+    protected DashboardPresenter inject(ApplicationComponent component) {
         component.inject(this);
         return presenter;
     }
 
     @Override
-    public void onScheduleSessionReceived(Session session) {
+    public void onSessionReceived(Session session) {
         // TODO presenter not final yet
         Timber.e("session: %s", session.title);
     }

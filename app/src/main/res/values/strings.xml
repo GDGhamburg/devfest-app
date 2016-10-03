@@ -3,7 +3,7 @@
 
     <string name="nav_drawer_open">Open navigation drawer</string>
     <string name="nav_drawer_close">Close navigation drawer</string>
-    <string name="nav_schedule">Schedule</string>
+    <string name="nav_dashboard">Dashboard</string>
     <string name="nav_sessions">Sessions</string>
     <string name="nav_speakers">Speakers</string>
     <string name="nav_social">Social</string>

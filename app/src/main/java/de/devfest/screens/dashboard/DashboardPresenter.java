@@ -1,4 +1,4 @@
-package de.devfest.screens.schedule;
+package de.devfest.screens.dashboard;
 
 import javax.inject.Inject;
 
@@ -10,13 +10,13 @@ import de.devfest.mvpbase.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class SchedulePresenter extends BasePresenter<ScheduleView> {
+public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     private final Lazy<SessionManager> sessionManager;
     private final Lazy<UserManager> userManager;
 
     @Inject
-    public SchedulePresenter(Lazy<SessionManager> sessionManager, Lazy<UserManager> userManager) {
+    public DashboardPresenter(Lazy<SessionManager> sessionManager, Lazy<UserManager> userManager) {
         this.sessionManager = sessionManager;
         this.userManager = userManager;
     }
@@ -30,7 +30,7 @@ public class SchedulePresenter extends BasePresenter<ScheduleView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        session -> getView().onScheduleSessionReceived(session),
+                        session -> getView().onSessionReceived(session),
                         error -> getView().onError(error)
                 );
     }
