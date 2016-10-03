@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.rohitarya.glide.facedetection.transformation.FaceCenterCrop;
 
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -48,7 +49,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         holder.binding.containerSessionForeground.setBackgroundColor(color);
         Glide.with(holder.itemView.getContext())
                 .load(speaker.photoUrl)
-//                .transform(new FaceCenterCrop())
+                .transform(new FaceCenterCrop())
                 .into(holder.binding.imageSessionBackground);
     }
 

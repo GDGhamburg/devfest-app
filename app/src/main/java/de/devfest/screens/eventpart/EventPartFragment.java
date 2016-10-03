@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rohitarya.glide.facedetection.transformation.core.GlideFaceDetector;
+
 import javax.inject.Inject;
 
 import de.devfest.R;
@@ -57,7 +59,7 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        GlideFaceDetector.initialize(getContext());
+        GlideFaceDetector.initialize(getContext());
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
         binding.trackSessionList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new SessionsAdapter();
@@ -68,7 +70,7 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        GlideFaceDetector.releaseDetector();
+        GlideFaceDetector.releaseDetector();
     }
 
     @Override

@@ -4,13 +4,13 @@
           package="de.devfest">
 
     <application
+        tools:replace="android:allowBackup, android:supportsRtl"
         android:name=".DevFestApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
-        android:theme="@style/DevFest.NoActionBar"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:theme="@style/DevFest.NoActionBar">
         <activity android:name=".screens.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
