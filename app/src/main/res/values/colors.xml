@@ -6,7 +6,7 @@
 
     <color name="tag_android">#A4C639</color>
     <color name="tag_android_dark">#7C962B</color>
-    <color name="tag_android_overlay">#AAA4C639</color>
+    <color name="tag_android_overlay">#CAA4C639</color>
     <color name="tag_web">#FF0000</color>
     <color name="tag_web_dark">#AC0000</color>
     <color name="tag_web_overlay">#AAFF0000</color>
