@@ -14,8 +14,9 @@ import android.util.TypedValue;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
 
+import java.util.List;
+
 import de.devfest.R;
-import de.devfest.model.Speaker;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
@@ -68,37 +69,37 @@ public final class UiUtils {
         return context.getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE;
     }
 
-    public static @ColorRes int getTrackColor(Speaker speaker) {
+    public static @ColorRes int getTagColor(List<String> tags) {
         int colorResId = 0;
-        if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android;
-        else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web;
-        else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud;
+        if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android;
+        else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web;
+        else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud;
         return colorResId;
     }
 
-    public static @ColorRes int getTrackDarkColor(Speaker speaker) {
+    public static @ColorRes int getTagDarkColor(List<String> tags) {
         int colorResId = 0;
-        if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_dark;
-        else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web_dark;
-        else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_dark;
+        if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_dark;
+        else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web_dark;
+        else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_dark;
         return colorResId;
     }
 
-    public static @ColorRes int getTrackOverlayColor(Speaker speaker) {
+    public static @ColorRes int getTagOverlayColor(List<String> tags) {
         int colorResId = 0;
-        if (speaker.tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
-        else if (speaker.tags.contains(TAG_WEB)) colorResId = R.color.tag_web_overlay;
-        else if (speaker.tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
+        if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
+        else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web_overlay;
+        else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
         return colorResId;
     }
 
-    public static Drawable getCircledTrackIcon(Context context, Speaker speaker) {
+    public static Drawable getCircledTrackIcon(Context context, List<String> tags) {
         int drawableResId = 0;
-        if (speaker.tags.contains(TAG_ANDROID)) drawableResId = R.drawable.ic_mobile;
-        else if (speaker.tags.contains(TAG_WEB)) drawableResId = R.drawable.ic_web;
-        else if (speaker.tags.contains(TAG_CLOUD)) drawableResId = R.drawable.ic_cloud;
+        if (tags.contains(TAG_ANDROID)) drawableResId = R.drawable.ic_mobile;
+        else if (tags.contains(TAG_WEB)) drawableResId = R.drawable.ic_web;
+        else if (tags.contains(TAG_CLOUD)) drawableResId = R.drawable.ic_cloud;
         if (drawableResId != 0) {
-            int color = getTrackColor(speaker);
+            int color = getTagColor(tags);
             Drawable[] layers = new Drawable[2];
             layers[0] = ContextCompat.getDrawable(context, R.drawable.shape_circle).mutate();
             layers[0].setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_OVER);

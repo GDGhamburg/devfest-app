@@ -96,10 +96,10 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
         binding.textSpeakerDesc.setText(speaker.description);
         binding.textSpeakerJobTitle.setText(speaker.jobTitle);
         binding.textSpeakerCompany.setText(speaker.company);
-        int colorResId = UiUtils.getTrackOverlayColor(speaker);
+        int colorResId = UiUtils.getTagOverlayColor(speaker.tags);
         if (UiUtils.isLandscape(getContext())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int statusBarColor = ContextCompat.getColor(getContext(), UiUtils.getTrackDarkColor(speaker));
+                int statusBarColor = ContextCompat.getColor(getContext(), UiUtils.getTagDarkColor(speaker.tags));
                 getActivity().getWindow().setStatusBarColor(statusBarColor);
             }
             binding.toolbar.setBackgroundResource(colorResId);
@@ -137,8 +137,7 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
             Session session = sessions.get(i);
             ItemSessionBinding sessionBinding = DataBindingUtil.inflate(getLayoutInflater(null), R.layout.item_session,
                     binding.containerSpeakerContent, true);
-
-            sessionBinding.imageSession.setImageDrawable(UiUtils.getCircledTrackIcon(getContext(), speaker));
+            sessionBinding.imageSession.setImageDrawable(UiUtils.getCircledTrackIcon(getContext(), speaker.tags));
             sessionBinding.textSessionTitle.setText(session.title);
             sessionBinding.textSessionSub.setText(session.startTime.format(sessionStartFormat));
         }

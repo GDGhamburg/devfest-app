@@ -21,9 +21,11 @@
             android:id="@+id/imageSessionBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             tools:ignore="ContentDescription"/>
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/containerSessionForeground"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

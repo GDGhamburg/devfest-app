@@ -7,6 +7,5 @@ public interface SessionsView extends MvpBase.View {
 
     void onError(Throwable error);
 
-
     void onEventPartReceived(EventPart eventPart);
 }

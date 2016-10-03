@@ -44,7 +44,7 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sessions, container, false);
-        binding.tracksPager.setAdapter(pagerAdapter);
+        binding.pagerTracks.setAdapter(pagerAdapter);
         return binding.getRoot();
     }
 
@@ -53,7 +53,6 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
         component.inject(this);
         return presenter;
     }
-
 
     @Override
     public void onError(Throwable error) {

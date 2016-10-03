@@ -3,6 +3,7 @@ package de.devfest.screens.eventpart;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
     private String trackId;
     private String eventPartId;
     private FragmentEventPartBinding binding;
+    private SessionsAdapter adapter;
 
     public static EventPartFragment newInstance(String eventPartId, String trackId) {
         EventPartFragment fragment = new EventPartFragment();
@@ -55,9 +57,18 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        GlideFaceDetector.initialize(getContext());
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
-
+        binding.trackSessionList.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        adapter = new SessionsAdapter();
+        binding.trackSessionList.setAdapter(adapter);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        GlideFaceDetector.releaseDetector();
     }
 
     @Override
@@ -76,11 +87,9 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
         return eventPartId;
     }
 
-    private int tmp = 0;
     @Override
     public void onSessionReceived(Session session) {
-        // TODO: fill list
-        binding.testTitle.setText(session.track.name + ": " + ++tmp );
+        adapter.addSession(session);
     }
 
     @Override
