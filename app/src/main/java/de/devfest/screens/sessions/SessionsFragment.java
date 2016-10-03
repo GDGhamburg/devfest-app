@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import javax.inject.Inject;
 
 import de.devfest.R;
@@ -32,12 +31,12 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
 
     private FragmentSessionsBinding binding;
 
-    private EventTrackPagerAdapter pageradapter;
+    private EventTrackPagerAdapter pagerAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageradapter = new EventTrackPagerAdapter(getFragmentManager());
+        pagerAdapter = new EventTrackPagerAdapter(getFragmentManager());
     }
 
     @Nullable
@@ -45,7 +44,7 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sessions, container, false);
-        binding.sessionViewPager.setAdapter(pageradapter);
+        binding.tracksPager.setAdapter(pagerAdapter);
         return binding.getRoot();
     }
 
@@ -63,8 +62,8 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
 
     @Override
     public void onEventPartReceived(EventPart eventPart) {
-        pageradapter.addEventPart(eventPart);
-        pageradapter.notifyDataSetChanged();
+        pagerAdapter.addEventPart(eventPart);
+        pagerAdapter.notifyDataSetChanged();
     }
 
     private static class EventTrackPagerAdapter extends SmartFragmentStatePagerAdapter<EventPartFragment> {
