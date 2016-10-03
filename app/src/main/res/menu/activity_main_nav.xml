@@ -4,9 +4,9 @@
     <group android:id="@+id/group_content"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_schedule"
-            android:icon="@drawable/ic_schedule"
-            android:title="@string/nav_schedule" />
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/nav_dashboard" />
         <item
             android:id="@+id/nav_sessions"
             android:icon="@drawable/ic_lecture"

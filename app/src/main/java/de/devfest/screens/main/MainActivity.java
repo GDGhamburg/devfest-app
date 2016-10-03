@@ -19,8 +19,8 @@ import de.devfest.R;
 import de.devfest.databinding.ActivityMainBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.mvpbase.BaseActivity;
+import de.devfest.screens.dashboard.DashboardFragment;
 import de.devfest.screens.notstarted.EventNotStartedFragment;
-import de.devfest.screens.schedule.ScheduleFragment;
 import de.devfest.screens.sessions.SessionsFragment;
 import de.devfest.screens.social.SocialFragment;
 import de.devfest.screens.speakers.SpeakersFragment;
@@ -55,13 +55,13 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
 
 
         if (savedInstanceState == null) {
-            binding.navView.setCheckedItem(R.id.nav_schedule);
+            binding.navView.setCheckedItem(R.id.nav_dashboard);
         }
     }
 
     @Override
     public void onEventStarted(boolean started) {
-        showFragment(ScheduleFragment.TAG);
+        showFragment(DashboardFragment.TAG);
     }
 
     @Override
@@ -81,9 +81,9 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.nav_schedule:
+            case R.id.nav_dashboard:
                 getSupportActionBar().setTitle(R.string.devfest_tag);
-                showFragment(ScheduleFragment.TAG);
+                showFragment(DashboardFragment.TAG);
                 break;
             case R.id.nav_sessions:
                 getSupportActionBar().setTitle(R.string.nav_sessions);
@@ -131,8 +131,8 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
             return new SpeakersFragment();
         } else if (SessionsFragment.TAG.equals(tag)) {
             return new SessionsFragment();
-        } else if (ScheduleFragment.TAG.equals(tag)) {
-            return new ScheduleFragment();
+        } else if (DashboardFragment.TAG.equals(tag)) {
+            return new DashboardFragment();
         } else if (SocialFragment.TAG.equals(tag)) {
             return new SocialFragment();
         } else if (EventNotStartedFragment.TAG.equals(tag)) {
@@ -148,6 +148,6 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
         if (!getSupportFragmentManager().popBackStackImmediate(backStackEntry.getId(), 0)) {
             finish();
         }
-        binding.navView.setCheckedItem(R.id.nav_schedule);
+        binding.navView.setCheckedItem(R.id.nav_dashboard);
     }
 }

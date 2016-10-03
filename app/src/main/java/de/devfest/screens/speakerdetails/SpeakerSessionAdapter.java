@@ -8,24 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Collections;
+
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.model.Session;
-import de.devfest.model.Speaker;
 import de.devfest.ui.UiUtils;
-
-/**
- * Created by andre on 03.10.2016.
- */
 
 public class SpeakerSessionAdapter extends
         RecyclerView.Adapter<SpeakerSessionAdapter.SpeakerSessionViewHolder> {
 
     private final SortedList<Session> list;
-    private final Speaker speaker;
 
-    public SpeakerSessionAdapter(Speaker speaker) {
-        this.speaker = speaker;
+    public SpeakerSessionAdapter() {
         this.list = new SortedList<>(Session.class, new SessionSorter(this));
     }
 
@@ -35,7 +30,7 @@ public class SpeakerSessionAdapter extends
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_session, parent, false);
         ItemSessionBinding binding = DataBindingUtil.bind(view);
-        return new SpeakerSessionViewHolder(binding, speaker);
+        return new SpeakerSessionViewHolder(binding);
     }
 
     @Override
@@ -54,17 +49,16 @@ public class SpeakerSessionAdapter extends
 
     public static class SpeakerSessionViewHolder extends RecyclerView.ViewHolder {
         private final ItemSessionBinding binding;
-        private final Speaker speaker;
 
-        public SpeakerSessionViewHolder(ItemSessionBinding binding, Speaker speaker) {
+        public SpeakerSessionViewHolder(ItemSessionBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            this.speaker = speaker;
         }
 
         public void bind(Session session) {
             binding.imageSession.setImageDrawable(
-                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), speaker));
+                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(),
+                            Collections.singletonList(session.track.id)));
             binding.textSessionTitle.setText(session.title);
             binding.textSessionSub.setText(
                     session.startTime.format(UiUtils.getSessionStartFormat()));

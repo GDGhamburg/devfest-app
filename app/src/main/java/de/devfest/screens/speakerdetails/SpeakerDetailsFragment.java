@@ -82,7 +82,7 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     public void onSpeakerAvailable(Speaker speaker) {
         setDetails(speaker);
         setImage(speaker);
-        speakerSessionAdapter = new SpeakerSessionAdapter(speaker);
+        speakerSessionAdapter = new SpeakerSessionAdapter();
         binding.sessionList.setAdapter(speakerSessionAdapter);
     }
 
@@ -96,10 +96,10 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
         binding.textSpeakerDesc.setText(speaker.description);
         binding.textSpeakerJobTitle.setText(speaker.jobTitle);
         binding.textSpeakerCompany.setText(speaker.company);
-        int colorResId = UiUtils.getTrackOverlayColor(speaker);
+        int colorResId = UiUtils.getTagOverlayColor(speaker.tags);
         if (UiUtils.isLandscape(getContext())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int statusBarColor = ContextCompat.getColor(getContext(), UiUtils.getTrackDarkColor(speaker));
+                int statusBarColor = ContextCompat.getColor(getContext(), UiUtils.getTagDarkColor(speaker.tags));
                 getActivity().getWindow().setStatusBarColor(statusBarColor);
             }
             binding.toolbar.setBackgroundResource(colorResId);
