@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Collections;
-
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.model.Session;
@@ -57,8 +55,7 @@ public class SpeakerSessionAdapter extends
 
         public void bind(Session session) {
             binding.imageSession.setImageDrawable(
-                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(),
-                            Collections.singletonList(session.track.id)));
+                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), session.speaker.get(0).tags));
             binding.textSessionTitle.setText(session.title);
             binding.textSessionSub.setText(
                     session.startTime.format(UiUtils.getSessionStartFormat()));
