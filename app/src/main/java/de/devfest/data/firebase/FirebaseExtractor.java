@@ -5,6 +5,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import rx.Subscriber;
+import timber.log.Timber;
 
 public abstract class FirebaseExtractor<T> implements ValueEventListener {
     private final Subscriber<? super T> subscriber;
@@ -26,10 +27,18 @@ public abstract class FirebaseExtractor<T> implements ValueEventListener {
     public void onDataChange(DataSnapshot dataSnapshot) {
         if (!single) {
             for (DataSnapshot data : dataSnapshot.getChildren()) {
-                subscriber.onNext(convert(data));
+                try {
+                    subscriber.onNext(convert(data));
+                } catch (Exception e) {
+                    Timber.e(e);
+                }
             }
         } else {
-            subscriber.onNext(convert(dataSnapshot));
+            try {
+                subscriber.onNext(convert(dataSnapshot));
+            } catch (Exception e) {
+                Timber.e(e);
+            }
         }
         if (!ishot) subscriber.onCompleted();
     }
