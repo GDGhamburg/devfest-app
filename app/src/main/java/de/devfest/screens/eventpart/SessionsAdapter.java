@@ -64,7 +64,6 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     public void addSession(Session session) {
         sessions.add(session);
-        notifyDataSetChanged();
     }
 
     public static class SessionViewHolder extends RecyclerView.ViewHolder {
