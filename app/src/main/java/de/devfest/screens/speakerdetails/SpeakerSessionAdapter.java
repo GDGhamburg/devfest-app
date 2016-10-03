@@ -1,6 +1,7 @@
 package de.devfest.screens.speakerdetails;
 
 import android.databinding.DataBindingUtil;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
@@ -28,6 +29,8 @@ public class SpeakerSessionAdapter extends
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_session, parent, false);
         ItemSessionBinding binding = DataBindingUtil.bind(view);
+        TextViewCompat.setTextAppearance(binding.textSessionTitle, R.style.TextAppearance_DevFest_Card_Title);
+        TextViewCompat.setTextAppearance(binding.textSessionSub, R.style.TextAppearance_DevFest_Card_Subtitle);
         return new SpeakerSessionViewHolder(binding);
     }
 

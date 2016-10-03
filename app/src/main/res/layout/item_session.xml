@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/textSessionTitle"
-                android:textAppearance="@style/TextAppearance.DevFest.Card.Title"
+                android:textAppearance="@style/TextAppearance.DevFest.Card.Title.Inverse"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@+id/imageSession"
@@ -59,7 +59,7 @@
 
             <TextView
                 android:id="@+id/textSessionSub"
-                android:textAppearance="@style/TextAppearance.DevFest.Card.Subtitle"
+                android:textAppearance="@style/TextAppearance.DevFest.Card.Subtitle.Inverse"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/textSessionTitle"

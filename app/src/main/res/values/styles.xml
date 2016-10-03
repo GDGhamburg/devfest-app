@@ -25,8 +25,18 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="TextAppearance.DevFest.Card.Title.Inverse"
+           parent="TextAppearance.AppCompat.Title.Inverse">
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="TextAppearance.DevFest.Card.Subtitle"
            parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.DevFest.Card.Subtitle.Inverse"
+           parent="TextAppearance.AppCompat.Subhead.Inverse">
         <item name="android:textSize">14sp</item>
     </style>
 </resources>
