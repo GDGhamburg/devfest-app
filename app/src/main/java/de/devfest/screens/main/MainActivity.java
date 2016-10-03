@@ -21,7 +21,7 @@ import de.devfest.injection.ApplicationComponent;
 import de.devfest.mvpbase.BaseActivity;
 import de.devfest.screens.dashboard.DashboardFragment;
 import de.devfest.screens.notstarted.EventNotStartedFragment;
-import de.devfest.screens.sessions.SessionsFragment;
+import de.devfest.screens.schedule.ScheduleFragment;
 import de.devfest.screens.social.SocialFragment;
 import de.devfest.screens.speakers.SpeakersFragment;
 import timber.log.Timber;
@@ -86,9 +86,9 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
                 getSupportActionBar().setTitle(R.string.devfest_tag);
                 showFragment(DashboardFragment.TAG);
                 break;
-            case R.id.nav_sessions:
-                getSupportActionBar().setTitle(R.string.nav_sessions);
-                showFragment(SessionsFragment.TAG);
+            case R.id.nav_schedule:
+                getSupportActionBar().setTitle(R.string.nav_schedule);
+                showFragment(ScheduleFragment.TAG);
                 break;
             case R.id.nav_speakers:
                 getSupportActionBar().setTitle(R.string.nav_speakers);
@@ -130,8 +130,8 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
 
         if (SpeakersFragment.TAG.equals(tag)) {
             return new SpeakersFragment();
-        } else if (SessionsFragment.TAG.equals(tag)) {
-            return new SessionsFragment();
+        } else if (ScheduleFragment.TAG.equals(tag)) {
+            return new ScheduleFragment();
         } else if (DashboardFragment.TAG.equals(tag)) {
             return new DashboardFragment();
         } else if (SocialFragment.TAG.equals(tag)) {

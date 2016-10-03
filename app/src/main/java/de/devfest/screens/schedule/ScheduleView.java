@@ -1,9 +1,9 @@
-package de.devfest.screens.sessions;
+package de.devfest.screens.schedule;
 
 import de.devfest.model.EventPart;
 import de.devfest.mvpbase.MvpBase;
 
-public interface SessionsView extends MvpBase.View {
+public interface ScheduleView extends MvpBase.View {
 
     void onError(Throwable error);
 

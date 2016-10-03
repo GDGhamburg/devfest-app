@@ -1,4 +1,4 @@
-package de.devfest.screens.sessions;
+package de.devfest.screens.schedule;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,12 +22,12 @@ import de.devfest.mvpbase.BaseFragment;
 import de.devfest.screens.eventpart.EventPartFragment;
 import de.devfest.screens.eventpart.SmartFragmentStatePagerAdapter;
 
-public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresenter> implements SessionsView {
+public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresenter> implements ScheduleView {
 
-    public static final String TAG = SessionsFragment.class.toString();
+    public static final String TAG = ScheduleFragment.class.toString();
 
     @Inject
-    SessionsPresenter presenter;
+    SchedulePresenter presenter;
 
     private FragmentSessionsBinding binding;
 
@@ -43,13 +43,13 @@ public class SessionsFragment extends BaseFragment<SessionsView, SessionsPresent
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sessions, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_schedule, container, false);
         binding.pagerTracks.setAdapter(pagerAdapter);
         return binding.getRoot();
     }
 
     @Override
-    protected SessionsPresenter inject(ApplicationComponent component) {
+    protected SchedulePresenter inject(ApplicationComponent component) {
         component.inject(this);
         return presenter;
     }

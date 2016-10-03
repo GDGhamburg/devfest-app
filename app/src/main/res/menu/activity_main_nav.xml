@@ -8,9 +8,9 @@
             android:icon="@drawable/ic_dashboard"
             android:title="@string/nav_dashboard" />
         <item
-            android:id="@+id/nav_sessions"
+            android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_lecture"
-            android:title="@string/nav_sessions" />
+            android:title="@string/nav_schedule" />
         <item
             android:id="@+id/nav_speakers"
             android:icon="@drawable/ic_speaker"
