@@ -59,7 +59,7 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        GlideFaceDetector.initialize(getContext());
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
-        binding.trackSessionList.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        binding.trackSessionList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new SessionsAdapter();
         binding.trackSessionList.setAdapter(adapter);
         return binding.getRoot();
