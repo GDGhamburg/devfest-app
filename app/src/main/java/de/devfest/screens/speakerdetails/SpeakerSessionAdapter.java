@@ -58,7 +58,7 @@ public class SpeakerSessionAdapter extends
 
         public void bind(Session session) {
             binding.imageSession.setImageDrawable(
-                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), session.speaker.get(0).tags));
+                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), session.speaker.get(0).tags, true));
             binding.textSessionTitle.setText(session.title);
             binding.textSessionSub.setText(
                     session.startTime.format(UiUtils.getSessionStartFormat()));

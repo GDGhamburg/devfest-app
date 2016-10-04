@@ -42,7 +42,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         Speaker speaker = session.speaker.get(0);
         holder.binding.textSessionTitle.setText(session.title);
         holder.binding.imageSession.setImageDrawable(
-                UiUtils.getCircledTrackIcon(holder.itemView.getContext(), speaker.tags));
+                UiUtils.getCircledTrackIcon(holder.itemView.getContext(), speaker.tags, false));
         holder.binding.textSessionTitle.setText(session.title);
         holder.binding.textSessionSub.setText(session.startTime.format(sessionStartFormat));
         int color = ContextCompat.getColor(holder.itemView.getContext(), UiUtils.getTagOverlayColor(speaker.tags));

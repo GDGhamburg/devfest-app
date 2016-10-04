@@ -93,16 +93,21 @@ public final class UiUtils {
         return colorResId;
     }
 
-    public static Drawable getCircledTrackIcon(Context context, List<String> tags) {
+    public static Drawable getCircledTrackIcon(Context context, List<String> tags, boolean coloredCircle) {
         int drawableResId = 0;
-        if (tags.contains(TAG_ANDROID)) drawableResId = R.drawable.ic_mobile;
-        else if (tags.contains(TAG_WEB)) drawableResId = R.drawable.ic_web;
-        else if (tags.contains(TAG_CLOUD)) drawableResId = R.drawable.ic_cloud;
+        if (tags.contains(TAG_ANDROID)) {
+            drawableResId = coloredCircle ? R.drawable.ic_android : R.drawable.ic_android_colored;
+        } else if (tags.contains(TAG_WEB)) drawableResId = coloredCircle ? R.drawable.ic_web : R.drawable.ic_web_colored;
+        else if (tags.contains(TAG_CLOUD)) {
+            drawableResId = coloredCircle ? R.drawable.ic_cloud : R.drawable.ic_cloud_colored;
+        }
         if (drawableResId != 0) {
-            int color = getTagColor(tags);
             Drawable[] layers = new Drawable[2];
             layers[0] = ContextCompat.getDrawable(context, R.drawable.shape_circle).mutate();
-            layers[0].setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_OVER);
+            if (coloredCircle) {
+                int color = getTagColor(tags);
+                layers[0].setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_OVER);
+            }
             int bounds = (int) dipsToPxls(context, 8);
             layers[1] = new InsetDrawable(ContextCompat.getDrawable(context, drawableResId), bounds);
             return new LayerDrawable(layers);
