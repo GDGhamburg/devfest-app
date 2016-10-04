@@ -4,6 +4,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import de.devfest.model.Session;
 import de.devfest.model.User;
+import rx.Observable;
 import rx.Single;
 
 public interface UserManager {
@@ -34,4 +35,6 @@ public interface UserManager {
      * @return <code>true</code> on success
      */
     Single<Boolean> removeFromSchedule(Session session);
+
+    Observable<Boolean> loggedInState();
 }

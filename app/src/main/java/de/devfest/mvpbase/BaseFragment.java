@@ -57,5 +57,7 @@ public abstract class BaseFragment<V extends MvpBase.View, P extends BasePresent
         presenter.destroy();
     }
 
+    public void onLoginRequired() {}
+
     protected abstract P inject(ApplicationComponent component);
 }

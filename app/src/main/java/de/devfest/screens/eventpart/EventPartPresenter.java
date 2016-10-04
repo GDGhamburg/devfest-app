@@ -1,5 +1,7 @@
 package de.devfest.screens.eventpart;
 
+import android.support.v4.util.Pair;
+
 import javax.inject.Inject;
 
 import dagger.Lazy;
@@ -7,6 +9,7 @@ import de.devfest.data.SessionManager;
 import de.devfest.data.UserManager;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.BasePresenter;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -25,12 +28,17 @@ public class EventPartPresenter extends BasePresenter<EventPartView> {
     public void attachView(EventPartView mvpView) {
         super.attachView(mvpView);
         untilDetach(
-                sessionManager.get()
-                        .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId())
+                Observable.zip(
+                        sessionManager.get()
+                                .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId()),
+                        userManager.get().getCurrentUser().toObservable()
+                        .onErrorResumeNext(error -> null),
+                        Pair::create
+                )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(session -> {
-                            getView().onSessionReceived(session);
+                        .subscribe(pair -> {
+                            getView().onSessionReceived(pair.first, pair.second.schedule.contains(pair.first.id));
                         }, error -> getView().onError(error))
         );
     }

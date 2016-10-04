@@ -17,6 +17,7 @@ import de.devfest.databinding.FragmentEventPartBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.BaseFragment;
+import timber.log.Timber;
 
 public class EventPartFragment extends BaseFragment<EventPartView, EventPartPresenter>
         implements EventPartView {
@@ -90,12 +91,12 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
     }
 
     @Override
-    public void onSessionReceived(Session session) {
+    public void onSessionReceived(Session session, boolean scheduled) {
         adapter.addSession(session);
     }
 
     @Override
     public void onError(Throwable error) {
-        // TODO: show error
+        Timber.e(error);
     }
 }

@@ -23,6 +23,7 @@ import rx.Observable;
 import rx.Single;
 import rx.SingleSubscriber;
 import rx.Subscriber;
+import rx.subjects.BehaviorSubject;
 
 public class FirebaseUserManager implements UserManager {
 
@@ -32,9 +33,12 @@ public class FirebaseUserManager implements UserManager {
     private final FirebaseAuth firebaseAuth;
     private final FirebaseDatabase database;
 
+    private final BehaviorSubject<Boolean> loggedInState = BehaviorSubject.create();
+
     public FirebaseUserManager(FirebaseDatabase database) {
         firebaseAuth = FirebaseAuth.getInstance();
         this.database = database;
+        loggedInState.onNext(firebaseAuth.getCurrentUser() != null);
     }
 
     @Override
@@ -75,7 +79,9 @@ public class FirebaseUserManager implements UserManager {
                             subscriber.onSuccess(task.getResult().getUser());
                         });
             }
-        }).flatMapObservable(this::transformUser).toSingle();
+        }).flatMapObservable(this::transformUser)
+                .doOnNext(user -> loggedInState.onNext(firebaseAuth.getCurrentUser() != null))
+                .toSingle();
     }
 
     @Override
@@ -104,6 +110,11 @@ public class FirebaseUserManager implements UserManager {
                                         (databaseError, databaseReference) -> singleSubscriber.onSuccess(true));
                     }
                 })).onErrorResumeNext(throwable -> Single.just(false));
+    }
+
+    @Override
+    public Observable<Boolean> loggedInState() {
+        return loggedInState;
     }
 
     private static class FirebaseUserExtractor extends FirebaseExtractor<User> {
