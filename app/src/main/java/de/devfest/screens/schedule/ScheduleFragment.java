@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import de.devfest.R;
-import de.devfest.databinding.FragmentSessionsBinding;
+import de.devfest.databinding.FragmentScheduleBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.EventPart;
 import de.devfest.model.Track;
@@ -29,7 +29,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     @Inject
     SchedulePresenter presenter;
 
-    private FragmentSessionsBinding binding;
+    private FragmentScheduleBinding binding;
 
     private EventTrackPagerAdapter pagerAdapter;
 
