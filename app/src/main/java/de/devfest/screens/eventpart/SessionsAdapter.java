@@ -1,12 +1,16 @@
 package de.devfest.screens.eventpart;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.bumptech.glide.Glide;
 import com.rohitarya.glide.facedetection.transformation.FaceCenterCrop;
@@ -23,16 +27,27 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     private final SortedList<Session> sessions;
     private final DateTimeFormatter sessionStartFormat;
+    private final View.OnClickListener addClickListener;
 
     public SessionsAdapter() {
         sessionStartFormat = UiUtils.getSessionStartFormat();
         sessions = new SortedList<>(Session.class, new SessionsListUpdate(this));
+        addClickListener = view -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) ((ImageButton) view).getDrawable();
+                drawable.start();
+            }
+        };
     }
 
     @Override
     public SessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemSessionBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.item_session, parent, false);
+        binding.buttonAdd.setOnClickListener(addClickListener);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            binding.buttonAdd.setImageResource(R.drawable.avd_add);
+        }
         return new SessionViewHolder(binding);
     }
 
@@ -45,8 +60,9 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 UiUtils.getCircledTrackIcon(holder.itemView.getContext(), speaker.tags, false));
         holder.binding.textSessionTitle.setText(session.title);
         holder.binding.textSessionSub.setText(session.startTime.format(sessionStartFormat));
-        int color = ContextCompat.getColor(holder.itemView.getContext(), UiUtils.getTagOverlayColor(speaker.tags));
-        holder.binding.containerSessionForeground.setBackgroundColor(color);
+        int overlayColor = ContextCompat.getColor(holder.itemView.getContext(), UiUtils.getTagOverlayColor(speaker.tags));
+        holder.binding.containerSessionForeground.setBackgroundColor(overlayColor);
+        int darkColor = ContextCompat.getColor(holder.itemView.getContext(), UiUtils.getTagDarkColor(speaker.tags));
         Glide.with(holder.itemView.getContext())
                 .load(speaker.photoUrl)
                 .transform(new FaceCenterCrop())
