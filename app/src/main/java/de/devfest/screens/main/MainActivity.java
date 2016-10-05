@@ -53,7 +53,6 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
         ((DevFestApplication) getApplication()).getComponent()
                 .inject(this);
 
-
         if (savedInstanceState == null) {
             binding.navView.setCheckedItem(R.id.nav_dashboard);
             showFragment(DashboardFragment.TAG);

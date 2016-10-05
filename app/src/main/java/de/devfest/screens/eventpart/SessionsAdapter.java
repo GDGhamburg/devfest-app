@@ -27,9 +27,11 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     private final SortedList<Session> sessions;
     private final DateTimeFormatter sessionStartFormat;
+    private final EventPartPresenter presenter;
     private final View.OnClickListener addClickListener;
 
-    public SessionsAdapter() {
+    public SessionsAdapter(EventPartPresenter presenter) {
+        this.presenter = presenter;
         sessionStartFormat = UiUtils.getSessionStartFormat();
         sessions = new SortedList<>(Session.class, new SessionsListUpdate(this));
         addClickListener = view -> {
@@ -37,6 +39,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) ((ImageButton) view).getDrawable();
                 drawable.start();
             }
+            presenter.addToSchedule(getItem((String) view.getTag()));
         };
     }
 
@@ -62,7 +65,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         holder.binding.textSessionSub.setText(session.startTime.format(sessionStartFormat));
         int overlayColor = ContextCompat.getColor(holder.itemView.getContext(), UiUtils.getTagOverlayColor(speaker.tags));
         holder.binding.containerSessionForeground.setBackgroundColor(overlayColor);
-        int darkColor = ContextCompat.getColor(holder.itemView.getContext(), UiUtils.getTagDarkColor(speaker.tags));
+        holder.binding.buttonAdd.setTag(session.id);
         Glide.with(holder.itemView.getContext())
                 .load(speaker.photoUrl)
                 .transform(new FaceCenterCrop())
@@ -77,6 +80,18 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
     @Override
     public int getItemCount() {
         return sessions.size();
+    }
+
+    public Session getItem(int position) {
+        return sessions.get(position);
+    }
+
+    public Session getItem(String id) {
+        for (int i = 0; i < sessions.size(); i++) {
+            Session session = sessions.get(i);
+            if (session.id.equals(id)) return session;
+        }
+        return null;
     }
 
     public void addSession(Session session) {

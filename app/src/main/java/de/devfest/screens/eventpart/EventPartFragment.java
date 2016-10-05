@@ -24,9 +24,9 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
 
     private static final String ARGS_TRACK_ID = "track_id";
     private static final String ARGS_PART_ID = "event_part_id";
-    private final SessionsAdapter adapter = new SessionsAdapter();
     @Inject
     EventPartPresenter presenter;
+    private SessionsAdapter adapter;
     private String trackId;
     private String eventPartId;
     private FragmentEventPartBinding binding;
@@ -62,6 +62,7 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
         binding.trackSessionList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.trackSessionList.setAdapter(adapter);
+        adapter = new SessionsAdapter(presenter);
         return binding.getRoot();
     }
 

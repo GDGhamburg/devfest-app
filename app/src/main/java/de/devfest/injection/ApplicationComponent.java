@@ -16,6 +16,7 @@ import de.devfest.screens.eventpart.EventPartFragment;
 import de.devfest.screens.main.MainActivity;
 import de.devfest.screens.notstarted.EventNotStartedFragment;
 import de.devfest.screens.schedule.ScheduleFragment;
+import de.devfest.screens.sessiondetails.SessionDetailsFragment;
 import de.devfest.screens.social.SocialFragment;
 import de.devfest.screens.speakerdetails.SpeakerDetailsFragment;
 import de.devfest.screens.speakers.SpeakersFragment;
@@ -31,6 +32,7 @@ public abstract class ApplicationComponent {
     public abstract void inject(MainActivity activity);
     public abstract void inject(UserFragment fragment);
     public abstract void inject(ScheduleFragment fragment);
+    public abstract void inject(SessionDetailsFragment fragment);
     public abstract void inject(DashboardFragment fragment);
     public abstract void inject(SpeakersFragment fragment);
     public abstract void inject(SpeakerDetailsFragment fragment);
