@@ -12,6 +12,7 @@ import de.devfest.mvpbase.BasePresenter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class EventPartPresenter extends BasePresenter<EventPartView> {
 
@@ -28,36 +29,55 @@ public class EventPartPresenter extends BasePresenter<EventPartView> {
     public void attachView(EventPartView mvpView) {
         super.attachView(mvpView);
         untilDetach(
-                Observable.zip(
-                        sessionManager.get()
-                                .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId()),
-                        userManager.get().getCurrentUser().toObservable()
-                        .onErrorResumeNext(error -> null),
-                        Pair::create
-                )
+                userManager.get().loggedInState()
+                        .flatMap(loggedIn -> {
+                            Observable<Pair<Session, Boolean>> o;
+                            if (loggedIn) {
+                                o = Observable.zip(
+                                        sessionManager.get()
+                                                .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId()),
+                                        userManager.get().getCurrentUser().toObservable(),
+                                        (session, user) -> Pair.create(session, user.schedule.contains(session.id)));
+                            } else {
+                                o = sessionManager.get()
+                                        .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId())
+                                        .map(session -> Pair.create(session, Boolean.FALSE));
+                            }
+                            return o;
+                        })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(pair -> {
-                            getView().onSessionReceived(pair.first, pair.second.schedule.contains(pair.first.id));
-                        }, error -> getView().onError(error))
-        );
+                        .subscribe(
+                                pair -> {
+                                    getView().onSessionReceived(pair.first, pair.second);
+                                }, error -> {
+                                    getView().onError(error);
+                                }));
     }
 
     public void addToSchedule(Session session) {
-        userManager.get().addToSchedule(session)
+        userManager.get().getCurrentUser()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(throwable -> getView().onLoginRequired())
+                .flatMap(user -> userManager.get().addToSchedule(session))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(success -> {
+                            Timber.d("Session added to schedule: %s", success);
                         },
                         error -> getView().onError(error));
     }
 
     public void removeFromSchedule(Session session) {
-        userManager.get().removeFromSchedule(session)
+        userManager.get().getCurrentUser()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(throwable -> getView().onLoginRequired())
+                .flatMap(user -> userManager.get().removeFromSchedule(session))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(success -> {
-                    // don't do anything for now
-                }, error -> getView().onError(error));
+                            Timber.d("Session removed from schedule: %s", success);
+                        },
+                        error -> getView().onError(error));
     }
 }

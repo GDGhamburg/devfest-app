@@ -39,7 +39,7 @@ public class DashboardFragment extends BaseFragment<DashboardView, DashboardPres
     }
 
     @Override
-    public void onSessionReceived(Session session) {
+    public void onSessionReceived(Session session, boolean scheduled) {
         // TODO presenter not final yet
         Timber.e("session: %s", session.title);
     }

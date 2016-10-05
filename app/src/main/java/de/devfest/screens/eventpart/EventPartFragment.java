@@ -24,14 +24,12 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
 
     private static final String ARGS_TRACK_ID = "track_id";
     private static final String ARGS_PART_ID = "event_part_id";
-
-
+    private final SessionsAdapter adapter = new SessionsAdapter();
     @Inject
     EventPartPresenter presenter;
     private String trackId;
     private String eventPartId;
     private FragmentEventPartBinding binding;
-    private SessionsAdapter adapter;
 
     public static EventPartFragment newInstance(String eventPartId, String trackId) {
         EventPartFragment fragment = new EventPartFragment();
@@ -63,7 +61,6 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
         GlideFaceDetector.initialize(getContext());
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
         binding.trackSessionList.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new SessionsAdapter();
         binding.trackSessionList.setAdapter(adapter);
         return binding.getRoot();
     }

@@ -114,7 +114,7 @@ public class FirebaseUserManager implements UserManager {
 
     @Override
     public Observable<Boolean> loggedInState() {
-        return loggedInState;
+        return loggedInState.distinctUntilChanged();
     }
 
     private static class FirebaseUserExtractor extends FirebaseExtractor<User> {

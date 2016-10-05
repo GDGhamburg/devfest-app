@@ -87,7 +87,7 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     }
 
     @Override
-    public void onSessionAvailable(Session session, boolean scheduled) {
+    public void onSessionReceived(Session session, boolean scheduled) {
         speakerSessionAdapter.addSession(session);
     }
 

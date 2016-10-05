@@ -9,7 +9,7 @@ public interface SpeakerDetailsView extends MvpBase.View {
     String getSpeakerId();
 
     void onSpeakerAvailable(Speaker speaker);
-    void onSessionAvailable(Session session, boolean scheduled);
+    void onSessionReceived(Session session, boolean scheduled);
 
     void onError(Throwable error);
 

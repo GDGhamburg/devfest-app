@@ -60,7 +60,7 @@ public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView> {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 pair -> {
-                                    getView().onSessionAvailable(pair.first, pair.second);
+                                    getView().onSessionReceived(pair.first, pair.second);
                                 }, error -> {
                                     getView().onError(error);
                                 }));

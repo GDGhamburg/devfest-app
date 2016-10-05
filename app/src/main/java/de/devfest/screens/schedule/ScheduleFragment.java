@@ -65,14 +65,18 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
         pagerAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
     private static class EventTrackPagerAdapter extends SmartFragmentStatePagerAdapter<EventPartFragment> {
 
-        private SparseArray<Pair<String, String>> trackList;
+        private final SparseArray<Pair<String, String>> trackList = new SparseArray<>();
 
 
         public EventTrackPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
-            trackList = new SparseArray<>();
         }
 
         @Override
