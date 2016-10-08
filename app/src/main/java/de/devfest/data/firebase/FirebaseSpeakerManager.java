@@ -103,7 +103,7 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
             if (!TextUtils.isEmpty(speaker.website)) {
                 Uri uri = Uri.parse(speaker.website);
                 String name = uri.getAuthority();
-                if (name.startsWith(URL_PREFIX_WWW)) name = name.replace(URL_PREFIX_WWW, "");
+                if (name != null && name.startsWith(URL_PREFIX_WWW)) name = name.replace(URL_PREFIX_WWW, "");
                 links.add(new SocialLink(name, speaker.website, R.drawable.ic_link, 0));
             }
             return links;
