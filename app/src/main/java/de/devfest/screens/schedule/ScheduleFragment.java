@@ -2,6 +2,7 @@ package de.devfest.screens.schedule;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -94,6 +95,24 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
             for (Track track : eventPart.tracks) {
                 trackList.put((eventPart.id + track.id).hashCode(), Pair.create(eventPart.id, track.id));
             }
+        }
+
+        @Override
+        public Parcelable saveState() {
+            for (int i = 0; i < getCount(); i++) {
+                EventPartFragment fragment = getRegisteredFragment(i);
+                fragment.onPause();
+            }
+            return super.saveState();
+        }
+
+        @Override
+        public void restoreState(Parcelable state, ClassLoader loader) {
+            for (int i = 0; i < getCount(); i++) {
+                EventPartFragment fragment = getRegisteredFragment(i);
+                fragment.onResume();
+            }
+            super.restoreState(state, loader);
         }
     }
 }

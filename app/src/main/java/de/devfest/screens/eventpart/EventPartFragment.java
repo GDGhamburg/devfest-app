@@ -90,7 +90,10 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
 
     @Override
     public void onSessionReceived(Session session, boolean scheduled) {
+        Timber.e("Session: \"%s\" was scheduled: %s", session.title, scheduled);
         adapter.addSession(session);
+
+        Timber.e("Adapter size: %d", adapter.getItemCount());
     }
 
     @Override

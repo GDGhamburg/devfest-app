@@ -16,7 +16,7 @@ import de.devfest.model.EventPart;
 */
 public abstract class SmartFragmentStatePagerAdapter<T extends Fragment> extends FragmentStatePagerAdapter {
 
-    private SparseArray<T> registeredFragments = new SparseArray<>();
+    private final SparseArray<T> registeredFragments = new SparseArray<>();
 
     public SmartFragmentStatePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);

@@ -33,17 +33,17 @@ public class EventPartPresenter extends BasePresenter<EventPartView> {
                         .flatMap(loggedIn -> {
                             Observable<Pair<Session, Boolean>> o;
                             if (loggedIn) {
-                                o = Observable.zip(
-                                        sessionManager.get()
-                                                .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId()),
-                                        userManager.get().getCurrentUser().toObservable(),
-                                        (session, user) -> Pair.create(session, user.schedule.contains(session.id)));
+                                return userManager.get().getCurrentUser().toObservable()
+                                        .flatMap(user ->
+                                                sessionManager.get()
+                                                        .getEventPartSessions(mvpView.getEventPartId(),
+                                                                mvpView.getTrackId())
+                                                        .map(session -> Pair.create(session, user.schedule.contains(session.id))));
                             } else {
-                                o = sessionManager.get()
+                                return sessionManager.get()
                                         .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId())
                                         .map(session -> Pair.create(session, Boolean.FALSE));
                             }
-                            return o;
                         })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
