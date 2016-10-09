@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import com.bumptech.glide.Glide;
 import com.rohitarya.glide.facedetection.transformation.FaceCenterCrop;
 
+import java.util.Collections;
 import java.util.List;
 
 import de.devfest.R;
@@ -96,7 +97,8 @@ public class SessionAdapter extends
         }
 
         public void bind(ScheduleSession session, boolean useSimpleView) {
-            List<String> tags = session.session.speaker.get(0).tags;
+            List<String> tags = Collections.emptyList();
+            if (!session.session.speakers.isEmpty()) tags = session.session.speakers.get(0).tags;
             binding.imageSession.setImageDrawable(
                     UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), tags, useSimpleView));
             binding.textSessionTitle.setText(session.session.title);
@@ -109,7 +111,7 @@ public class SessionAdapter extends
             if (!useSimpleView) {
                 int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(), UiUtils.getTagOverlayColor(tags));
                 binding.containerSessionForeground.setBackgroundColor(overlayColor);
-                Speaker speaker = session.session.speaker.get(0);
+                Speaker speaker = session.session.speakers.get(0);
                 Glide.with(binding.imageSessionBackground.getContext())
                         .load(speaker.photoUrl)
                         .transform(new FaceCenterCrop())

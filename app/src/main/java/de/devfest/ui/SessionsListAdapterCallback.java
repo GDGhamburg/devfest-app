@@ -3,6 +3,7 @@ package de.devfest.ui;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
 
+import de.devfest.data.DataUtils;
 import de.devfest.model.ScheduleSession;
 
 public class SessionsListAdapterCallback extends SortedListAdapterCallback<ScheduleSession> {
@@ -18,7 +19,7 @@ public class SessionsListAdapterCallback extends SortedListAdapterCallback<Sched
 
     @Override
     public boolean areContentsTheSame(ScheduleSession oldItem, ScheduleSession newItem) {
-        return oldItem.session.id.equals(newItem.session.id);
+        return oldItem.isScheduled == newItem.isScheduled && DataUtils.equals(oldItem.session, newItem.session);
     }
 
     @Override
