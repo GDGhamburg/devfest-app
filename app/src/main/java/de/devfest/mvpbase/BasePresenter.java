@@ -11,6 +11,7 @@ import rx.subscriptions.CompositeSubscription;
  * @param <V> View to handle within this presenter
  */
 public abstract class BasePresenter<V extends MvpBase.View> implements MvpBase.Presenter<V> {
+
     private V view;
     private final CompositeSubscription attachedViewSubscription = new CompositeSubscription();
 
@@ -39,10 +40,9 @@ public abstract class BasePresenter<V extends MvpBase.View> implements MvpBase.P
 
     @CallSuper
     public void onResume() {
-
     }
 
-    public void destroy() {
+    public void onDestroy() {
     }
 
     @CallSuper

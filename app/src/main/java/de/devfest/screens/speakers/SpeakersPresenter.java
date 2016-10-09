@@ -18,8 +18,8 @@ public class SpeakersPresenter extends BasePresenter<SpeakersView> {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void attachView(SpeakersView mvpView) {
+        super.attachView(mvpView);
         untilDetach(speakerManager.get().getSpeakers()
                 .onBackpressureBuffer()
                 .subscribeOn(Schedulers.io())

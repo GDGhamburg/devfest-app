@@ -32,6 +32,7 @@ public class EventNotStartedFragment extends
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_not_started, container, false);
         // TODO: show a count down or smth similar
         return binding.getRoot();

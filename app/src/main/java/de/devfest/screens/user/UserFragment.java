@@ -38,6 +38,7 @@ public class UserFragment extends AuthFragment<UserView, UserPresenter>
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false);
         int statusBarHeight = UiUtils.getStatusBarHeight(getContext());
         binding.getRoot().setPadding(0, statusBarHeight, 0, 0);

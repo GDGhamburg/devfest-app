@@ -12,7 +12,6 @@ import de.devfest.data.UserManager;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.AuthPresenter;
 import de.devfest.ui.SessionAdapter;
-import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -33,18 +32,17 @@ public class EventPartPresenter extends AuthPresenter<EventPartView>
         untilDetach(
                 userManager.get().loggedInState()
                         .switchMap(loggedIn -> {
-                            Observable<Pair<Session, Boolean>> o;
                             if (loggedIn) {
                                 return userManager.get().getCurrentUser().toObservable()
                                         .flatMap(user ->
                                                 sessionManager.get()
-                                                        .getEventPartSessions(mvpView.getEventPartId(),
-                                                                mvpView.getTrackId())
+                                                        .getEventPartSessions(getView().getEventPartId(),
+                                                                getView().getTrackId())
                                                         .map(session -> Pair.create(session,
                                                                 user.schedule.contains(session.id))));
                             } else {
                                 return sessionManager.get()
-                                        .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId())
+                                        .getEventPartSessions(getView().getEventPartId(), getView().getTrackId())
                                         .map(session -> Pair.create(session, Boolean.FALSE));
                             }
                         })

@@ -5,13 +5,10 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import de.devfest.data.UserManager;
 import de.devfest.mvpbase.AuthPresenter;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class UserPresenter extends AuthPresenter<UserView> {
-
-    private Subscription userSubscription;
 
     @Inject
     public UserPresenter(Lazy<UserManager> userManager) {
@@ -20,9 +17,9 @@ public class UserPresenter extends AuthPresenter<UserView> {
 
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        userSubscription = userManager.get().loggedInState()
+    public void attachView(UserView mvpView) {
+        super.attachView(mvpView);
+        untilDetach(userManager.get().loggedInState()
                 .switchMap(state -> userManager.get().getCurrentUser().toObservable().onErrorReturn(error -> null))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -34,13 +31,7 @@ public class UserPresenter extends AuthPresenter<UserView> {
                                 getView().showLogin();
                             }
                         }
-                );
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        userSubscription.unsubscribe();
+                ));
     }
 
     public void requestLogin() {

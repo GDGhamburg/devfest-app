@@ -29,6 +29,7 @@ public class DashboardFragment extends AuthFragment<DashboardView, DashboardPres
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false);
         return binding.getRoot();
     }

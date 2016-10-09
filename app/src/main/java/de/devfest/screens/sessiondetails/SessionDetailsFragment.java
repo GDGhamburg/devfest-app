@@ -27,6 +27,7 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_session_details, container, false);
         return binding.getRoot();
     }

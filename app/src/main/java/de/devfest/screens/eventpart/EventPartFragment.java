@@ -66,6 +66,7 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         GlideFaceDetector.initialize(getContext());
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
         binding.trackSessionList.setLayoutManager(new LinearLayoutManager(getContext()));

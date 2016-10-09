@@ -40,6 +40,7 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_speakers, container, false);
         binding.listSpeakers.setLayoutManager(
                 new GridLayoutManager(getContext(), UiUtils.getDefaultGridColumnCount(getContext())));

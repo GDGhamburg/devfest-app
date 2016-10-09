@@ -51,7 +51,7 @@ public abstract class BaseActivity<V extends MvpBase.View, P extends BasePresent
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.destroy();
+        presenter.onDestroy();
     }
 
     public void onLoginRequired() {
