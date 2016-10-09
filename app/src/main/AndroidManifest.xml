@@ -20,6 +20,8 @@
 
         <activity android:name=".screens.speakerdetails.SpeakerDetailsActivity"/>
 
+        <activity android:name=".screens.sessiondetails.SessionDetailsActivity"/>
+
         <service
             android:name=".notifications.NotificationService"
             android:exported="false">

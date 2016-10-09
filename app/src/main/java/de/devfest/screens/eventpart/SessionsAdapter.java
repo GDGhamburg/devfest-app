@@ -1,12 +1,12 @@
 package de.devfest.screens.eventpart;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +19,15 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
+import de.devfest.model.ScheduleSession;
 import de.devfest.model.Session;
 import de.devfest.model.Speaker;
+import de.devfest.ui.SessionsListAdapterCallback;
 import de.devfest.ui.UiUtils;
 
 public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.SessionViewHolder> {
 
-    private final SortedList<Session> sessions;
+    private final SortedList<ScheduleSession> sessions;
     private final DateTimeFormatter sessionStartFormat;
     private final EventPartPresenter presenter;
     private final View.OnClickListener addClickListener;
@@ -33,13 +35,13 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
     public SessionsAdapter(EventPartPresenter presenter) {
         this.presenter = presenter;
         sessionStartFormat = UiUtils.getSessionStartFormat();
-        sessions = new SortedList<>(Session.class, new SessionsListUpdate(this));
+        sessions = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
         addClickListener = view -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) ((ImageButton) view).getDrawable();
                 drawable.start();
             }
-            presenter.addToSchedule(getItem((String) view.getTag()));
+            presenter.addToSchedule(getItem((String) view.getTag()).session);
         };
     }
 
@@ -56,16 +58,17 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     @Override
     public void onBindViewHolder(SessionViewHolder holder, int position) {
-        Session session = sessions.get(position);
-        Speaker speaker = session.speaker.get(0);
-        holder.binding.textSessionTitle.setText(session.title);
+        ScheduleSession session = sessions.get(position);
+        Speaker speaker = session.session.speaker.get(0);
+        holder.binding.textSessionTitle.setText(session.session.title);
         holder.binding.imageSession.setImageDrawable(
                 UiUtils.getCircledTrackIcon(holder.itemView.getContext(), speaker.tags, false));
-        holder.binding.textSessionTitle.setText(session.title);
-        holder.binding.textSessionSub.setText(session.startTime.format(sessionStartFormat));
+        holder.binding.textSessionTitle.setText(session.session.title);
+        holder.binding.textSessionSub.setText(session.session.startTime.format(sessionStartFormat));
         int overlayColor = ContextCompat.getColor(holder.itemView.getContext(), UiUtils.getTagOverlayColor(speaker.tags));
         holder.binding.containerSessionForeground.setBackgroundColor(overlayColor);
-        holder.binding.buttonAdd.setTag(session.id);
+        holder.binding.buttonAdd.setTag(session.session.id);
+        UiUtils.setAddDrawable(session.isScheduled, holder.binding.buttonAdd, Color.WHITE);
         Glide.with(holder.itemView.getContext())
                 .load(speaker.photoUrl)
                 .transform(new FaceCenterCrop())
@@ -74,7 +77,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     @Override
     public long getItemId(int position) {
-        return sessions.get(position).id.hashCode();
+        return sessions.get(position).session.id.hashCode();
     }
 
     @Override
@@ -82,20 +85,21 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         return sessions.size();
     }
 
-    public Session getItem(int position) {
+    public ScheduleSession getItem(int position) {
         return sessions.get(position);
     }
 
-    public Session getItem(String id) {
+    public ScheduleSession getItem(String id) {
         for (int i = 0; i < sessions.size(); i++) {
-            Session session = sessions.get(i);
-            if (session.id.equals(id)) return session;
+            ScheduleSession session = sessions.get(i);
+            if (session.session.id.equals(id)) return session;
         }
         return null;
     }
 
-    public void addSession(Session session) {
-        sessions.add(session);
+    public void addSession(Session session, boolean isScheduled) {
+        sessions.add(new ScheduleSession(session, isScheduled));
+
     }
 
     public static class SessionViewHolder extends RecyclerView.ViewHolder {
@@ -108,25 +112,5 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         }
     }
 
-    private class SessionsListUpdate extends SortedListAdapterCallback<Session> {
 
-        public SessionsListUpdate(RecyclerView.Adapter adapter) {
-            super(adapter);
-        }
-
-        @Override
-        public int compare(Session session1, Session session2) {
-            return session1.startTime.compareTo(session2.startTime);
-        }
-
-        @Override
-        public boolean areContentsTheSame(Session oldItem, Session newItem) {
-            return oldItem.id.equals(newItem.id);
-        }
-
-        @Override
-        public boolean areItemsTheSame(Session item1, Session item2) {
-            return item1.id.equals(item2.id);
-        }
-    }
 }

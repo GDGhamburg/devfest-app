@@ -15,7 +15,8 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView> {
+public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView>
+        implements SpeakerSessionAdapter.SessionInteractionListener {
 
     private final Lazy<SpeakerManager> speakerManager;
     private final Lazy<SessionManager> sessionManager;
@@ -66,7 +67,17 @@ public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView> {
                                 }));
     }
 
-    public void addToSchedule(Session session) {
+    public void onLinkClick(SocialLink link) {
+        getView().openLink(link.link);
+    }
+
+    @Override
+    public void onSessionClick(Session session) {
+        getView().showSessionDetails(session.id);
+    }
+
+    @Override
+    public void onAddSessionClick(Session session) {
         userManager.get().getCurrentUser()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(throwable -> getView().onLoginRequired())
@@ -78,7 +89,8 @@ public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView> {
                         error -> getView().onError(error));
     }
 
-    public void removeFromSchedule(Session session) {
+    @Override
+    public void onRemoveSessionClick(Session session) {
         userManager.get().getCurrentUser()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(throwable -> getView().onLoginRequired())
@@ -88,9 +100,5 @@ public class SpeakerDetailsPresenter extends BasePresenter<SpeakerDetailsView> {
                 .subscribe(success -> {
                         },
                         error -> getView().onError(error));
-    }
-
-    public void onLinkClick(SocialLink link) {
-        getView().openLink(link.link);
     }
 }

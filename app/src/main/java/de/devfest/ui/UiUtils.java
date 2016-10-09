@@ -3,13 +3,16 @@ package de.devfest.ui;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
+import android.widget.ImageButton;
 
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
@@ -125,5 +128,16 @@ public final class UiUtils {
 
     public static DateTimeFormatter getSessionStartFormat() {
         return new DateTimeFormatterBuilder().appendPattern("E, HH:mm").toFormatter();
+    }
+
+    public static void setAddDrawable(boolean isScheduled, ImageButton buttonAdd, @ColorInt int color) {
+        Drawable drawable = buttonAdd.getDrawable();
+        if (drawable instanceof AnimatedVectorDrawable) {
+            ((AnimatedVectorDrawable) drawable).stop();
+        }
+        int drawableRes = isScheduled ? R.drawable.avd_remove : R.drawable.avd_add;
+        drawable = ContextCompat.getDrawable(buttonAdd.getContext(), drawableRes).mutate();
+        drawable.setTint(color);
+        buttonAdd.setImageDrawable(drawable);
     }
 }

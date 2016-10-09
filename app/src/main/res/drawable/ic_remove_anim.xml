@@ -14,11 +14,11 @@
             android:pivotY="12.0">
             <path
                 android:name="line_1"
-                android:pathData="M12,5L12,19"
-                android:strokeColor="@android:color/white"
+                android:pathData="M2.11,10.71L11.98,20.64"
+                android:strokeColor="?android:textColorPrimaryInverse"
                 android:strokeWidth="2"
-                android:trimPathEnd="1.0"
-                android:trimPathStart="0.0"/>
+                android:trimPathEnd="@fraction/add_tick_line_1_trim_end"
+                android:trimPathStart="@fraction/add_tick_line_1_trim_start"/>
         </group>
         <group
             android:name="line_2_group"
@@ -26,11 +26,9 @@
             android:pivotY="12.0">
             <path
                 android:name="line_2"
-                android:pathData="M4.5,12 L19.5,12"
-                android:strokeColor="@android:color/white"
-                android:strokeWidth="2"
-                android:trimPathEnd="@fraction/add_plus_line_2_trim_end"
-                android:trimPathStart="@fraction/add_plus_line_2_trim_start"/>
+                android:pathData="M20.31,6.3L9.7,16.91"
+                android:strokeColor="?android:textColorPrimaryInverse"
+                android:strokeWidth="2"/>
         </group>
     </group>
 </vector>

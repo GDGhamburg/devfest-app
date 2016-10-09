@@ -1,28 +1,36 @@
 package de.devfest.screens.speakerdetails;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+
+import java.util.List;
 
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
+import de.devfest.model.ScheduleSession;
 import de.devfest.model.Session;
+import de.devfest.ui.SessionsListAdapterCallback;
 import de.devfest.ui.UiUtils;
 
 public class SpeakerSessionAdapter extends
-        RecyclerView.Adapter<SpeakerSessionAdapter.SpeakerSessionViewHolder> {
+        RecyclerView.Adapter<SpeakerSessionAdapter.SpeakerSessionViewHolder> implements View.OnClickListener {
 
-    private final SortedList<Session> list;
+    private final SortedList<ScheduleSession> list;
+    private final SessionInteractionListener interactionListener;
 
-    public SpeakerSessionAdapter() {
-        this.list = new SortedList<>(Session.class, new SessionSorter(this));
+    private int addIconColor = -1;
+
+    public SpeakerSessionAdapter(SessionInteractionListener interactionListener) {
+        this.list = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
+        this.interactionListener = interactionListener;
     }
-
 
     @Override
     public SpeakerSessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,6 +39,9 @@ public class SpeakerSessionAdapter extends
         ItemSessionBinding binding = DataBindingUtil.bind(view);
         TextViewCompat.setTextAppearance(binding.textSessionTitle, R.style.TextAppearance_DevFest_Card_Title);
         TextViewCompat.setTextAppearance(binding.textSessionSub, R.style.TextAppearance_DevFest_Card_Subtitle);
+        if (addIconColor == -1) addIconColor = binding.textSessionTitle.getCurrentTextColor();
+        binding.getRoot().setOnClickListener(this);
+        binding.buttonAdd.setOnClickListener(this);
         return new SpeakerSessionViewHolder(binding);
     }
 
@@ -44,8 +55,26 @@ public class SpeakerSessionAdapter extends
         return list.size();
     }
 
-    public void addSession(Session session) {
-        list.add(session);
+    public void addSession(Session session, boolean isScheduled) {
+        list.add(new ScheduleSession(session, isScheduled));
+    }
+
+    @Override
+    public void onClick(View view) {
+        ScheduleSession session = (ScheduleSession) view.getTag();
+        switch (view.getId()) {
+            case R.id.buttonAdd:
+                ((AnimatedVectorDrawable) ((ImageButton) view).getDrawable()).start();
+                view.postDelayed(() -> {
+                    if (session.isScheduled) interactionListener.onRemoveSessionClick(session.session);
+                    else interactionListener.onAddSessionClick(session.session);
+                    session.isScheduled = !session.isScheduled;
+                    UiUtils.setAddDrawable(session.isScheduled, (ImageButton) view, addIconColor);
+                }, view.getContext().getResources().getInteger(R.integer.add_duration) + 100);
+                break;
+            default:
+                interactionListener.onSessionClick(session.session);
+        }
     }
 
     public static class SpeakerSessionViewHolder extends RecyclerView.ViewHolder {
@@ -56,34 +85,24 @@ public class SpeakerSessionAdapter extends
             this.binding = binding;
         }
 
-        public void bind(Session session) {
+        public void bind(ScheduleSession session) {
+            List<String> tags = session.session.speaker.get(0).tags;
             binding.imageSession.setImageDrawable(
-                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), session.speaker.get(0).tags, true));
-            binding.textSessionTitle.setText(session.title);
-            binding.textSessionSub.setText(
-                    session.startTime.format(UiUtils.getSessionStartFormat()));
+                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), tags, true));
+            binding.textSessionTitle.setText(session.session.title);
+            binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
+            UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd, binding.textSessionTitle.getCurrentTextColor());
+            binding.buttonAdd.setTag(session);
+            binding.getRoot().setTag(session);
         }
     }
 
-    private static class SessionSorter extends SortedListAdapterCallback<Session> {
-        public SessionSorter(RecyclerView.Adapter adapter) {
-            super(adapter);
-        }
+    public interface SessionInteractionListener {
 
-        @Override
-        public int compare(Session o1, Session o2) {
-            return o1.startTime.compareTo(o2.startTime);
-        }
+        void onSessionClick(Session session);
 
-        @Override
-        public boolean areContentsTheSame(Session oldItem, Session newItem) {
-            // TODO
-            return oldItem.equals(newItem);
-        }
+        void onAddSessionClick(Session session);
 
-        @Override
-        public boolean areItemsTheSame(Session item1, Session item2) {
-            return item1.id.equals(item2.id);
-        }
+        void onRemoveSessionClick(Session session);
     }
 }

@@ -12,9 +12,9 @@ public class SessionDetailsActivity extends AppCompatActivity {
 
     public final static String EXTRA_SESSION_ID = "EXTRA_SESSION_ID";
 
-    public static Intent createIntent(Context context, String speakerId) {
+    public static Intent createIntent(Context context, String sessionId) {
         Intent intent = new Intent(context, SessionDetailsActivity.class);
-        intent.putExtra(EXTRA_SESSION_ID, speakerId);
+        intent.putExtra(EXTRA_SESSION_ID, sessionId);
         return intent;
     }
 

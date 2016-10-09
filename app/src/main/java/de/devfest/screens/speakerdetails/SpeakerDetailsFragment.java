@@ -30,6 +30,7 @@ import de.devfest.model.Session;
 import de.devfest.model.SocialLink;
 import de.devfest.model.Speaker;
 import de.devfest.mvpbase.BaseFragment;
+import de.devfest.screens.sessiondetails.SessionDetailsActivity;
 import de.devfest.ui.UiUtils;
 import timber.log.Timber;
 
@@ -82,13 +83,13 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
     public void onSpeakerAvailable(Speaker speaker) {
         setDetails(speaker);
         setImage(speaker);
-        speakerSessionAdapter = new SpeakerSessionAdapter();
+        speakerSessionAdapter = new SpeakerSessionAdapter(presenter);
         binding.sessionList.setAdapter(speakerSessionAdapter);
     }
 
     @Override
     public void onSessionReceived(Session session, boolean scheduled) {
-        speakerSessionAdapter.addSession(session);
+        speakerSessionAdapter.addSession(session, scheduled);
     }
 
     private void setDetails(Speaker speaker) {
@@ -142,6 +143,12 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(link));
         startActivity(intent);
+    }
+
+    @Override
+    public void showSessionDetails(String sessionId) {
+        Intent intent = SessionDetailsActivity.createIntent(getContext(), sessionId);
+        getContext().startActivity(intent);
     }
 
     @Override
