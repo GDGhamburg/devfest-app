@@ -71,8 +71,13 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
             int pixels = itemView.getResources().getDisplayMetrics().widthPixels + 100;
 
             if (!TextUtils.isEmpty(speaker.photoUrl)) {
-                Glide.with(binding.imageSpeaker.getContext()).load(speaker.photoUrl).override(pixels, pixels)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL).dontTransform().into(binding.imageSpeaker);
+                Glide.with(binding.imageSpeaker.getContext())
+                        .load(speaker.photoUrl)
+                        .placeholder(R.drawable.ic_devfesthh_grey)
+                        .override(pixels, pixels)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .dontTransform()
+                        .into(binding.imageSpeaker);
             } else {
                 Glide.clear(binding.imageSpeaker);
             }
