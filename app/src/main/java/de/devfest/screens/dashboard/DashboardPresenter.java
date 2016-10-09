@@ -70,11 +70,9 @@ public class DashboardPresenter extends AuthPresenter<DashboardView> {
                 .doOnNext(loggedIn -> getView().showLogin())
                 .observeOn(Schedulers.io())
                 .filter(loggedIn -> loggedIn)
-                .flatMap(loggedIn ->
-                        userManager.get().getCurrentUser().toObservable()
-                                .map(user -> user.schedule)
-                                .flatMap(ids -> sessionManager.get().getSessions(ids))
-                );
+                .flatMap(state -> userManager.get().getCurrentUser().toObservable())
+                .map(user -> user.schedule)
+                .flatMap(ids -> sessionManager.get().getSessions(ids));
 
     }
 

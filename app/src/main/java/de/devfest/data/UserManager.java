@@ -37,4 +37,6 @@ public interface UserManager {
     Single<Boolean> removeFromSchedule(Session session);
 
     Observable<Boolean> loggedInState();
+
+    void logout();
 }

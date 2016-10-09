@@ -38,7 +38,7 @@ public class SpeakerDetailsPresenter extends AuthPresenter<SpeakerDetailsView>
         String speakerId = getView().getSpeakerId();
         untilDetach(
                 userManager.get().loggedInState()
-                        .flatMap(loggedIn -> {
+                        .switchMap(loggedIn -> {
                             Observable<Pair<Session, Boolean>> o;
                             if (loggedIn) {
                                 o = Observable.zip(

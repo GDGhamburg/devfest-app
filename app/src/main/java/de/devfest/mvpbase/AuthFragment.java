@@ -26,8 +26,6 @@ public abstract class AuthFragment<V extends MvpBase.AuthView, P extends AuthPre
     @Override
     public void onPause() {
         super.onPause();
-        googleApiClient.stopAutoManage(getActivity());
-        googleApiClient.disconnect();
     }
 
     public void startLogin() {
@@ -43,6 +41,7 @@ public abstract class AuthFragment<V extends MvpBase.AuthView, P extends AuthPre
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
                 getPresenter().onGoogleSignInSuccessful(account);
+                Auth.GoogleSignInApi.signOut(googleApiClient);
             } else {
                 getPresenter().onAuthenticationFailed(result.getStatus().getStatusMessage());
             }

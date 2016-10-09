@@ -32,7 +32,7 @@ public class EventPartPresenter extends AuthPresenter<EventPartView>
         super.attachView(mvpView);
         untilDetach(
                 userManager.get().loggedInState()
-                        .flatMap(loggedIn -> {
+                        .switchMap(loggedIn -> {
                             Observable<Pair<Session, Boolean>> o;
                             if (loggedIn) {
                                 return userManager.get().getCurrentUser().toObservable()

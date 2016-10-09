@@ -44,6 +44,8 @@ public class UserFragment extends AuthFragment<UserView, UserPresenter>
 
         binding.buttonSignIn.setOnClickListener(view -> presenter.requestLogin());
 
+        binding.buttonSignOut.setOnClickListener(view -> presenter.requestLogout());
+
         return binding.getRoot();
     }
 
@@ -61,6 +63,7 @@ public class UserFragment extends AuthFragment<UserView, UserPresenter>
         binding.textUserMail.setText(user.email);
         binding.textUserMail.setVisibility(View.VISIBLE);
         binding.buttonSignIn.setVisibility(View.GONE);
+        binding.buttonSignOut.setVisibility(View.VISIBLE);
         if (user.photoUrl != null) {
             Glide.with(this).load(user.photoUrl).into(binding.imageUser);
         }
@@ -70,7 +73,10 @@ public class UserFragment extends AuthFragment<UserView, UserPresenter>
     public void showLogin() {
         binding.textUserName.setVisibility(View.GONE);
         binding.textUserMail.setVisibility(View.GONE);
+        binding.imageUser.setImageResource(R.mipmap.ic_launcher);
         binding.buttonSignIn.setVisibility(View.VISIBLE);
+        binding.buttonSignOut.setVisibility(View.GONE);
+
     }
 
     @Override

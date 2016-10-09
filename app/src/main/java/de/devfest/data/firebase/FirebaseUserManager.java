@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import de.devfest.data.UserManager;
 import de.devfest.model.Session;
@@ -59,7 +60,7 @@ public class FirebaseUserManager implements UserManager {
                                 new FirebaseUserExtractor(firebaseUser, subscriber, true)
                         );
             }
-        });
+        }).delay(500, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -114,7 +115,13 @@ public class FirebaseUserManager implements UserManager {
 
     @Override
     public Observable<Boolean> loggedInState() {
-        return loggedInState.distinctUntilChanged();
+        return loggedInState;//.distinctUntilChanged();
+    }
+
+    @Override
+    public void logout() {
+        firebaseAuth.signOut();
+        loggedInState.onNext(false);
     }
 
     private static class FirebaseUserExtractor extends FirebaseExtractor<User> {

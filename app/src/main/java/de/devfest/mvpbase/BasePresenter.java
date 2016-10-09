@@ -48,4 +48,7 @@ public abstract class BasePresenter<V extends MvpBase.View> implements MvpBase.P
     @CallSuper
     public void onPause() {
     }
+
+    public void onCreate() {
+    }
 }
