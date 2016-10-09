@@ -4,6 +4,8 @@ import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
 
+import de.devfest.data.DataUtils;
+
 public final class Session {
     public final String id;
     public final String title;
@@ -13,7 +15,7 @@ public final class Session {
     public final Stage stage;
     public final ZonedDateTime startTime;
     public final ZonedDateTime endTime;
-    public final List<Speaker> speaker;
+    public final List<Speaker> speakers;
     public final Track track;
 
     private Session(Builder builder) {
@@ -24,8 +26,22 @@ public final class Session {
         stage = builder.stage;
         startTime = builder.startTime;
         endTime = builder.endTime;
-        speaker = builder.speaker;
+        speakers = builder.speakers;
         track = builder.track;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Session)) return false;
+        Session other = (Session) obj;
+        return id.equals(other.id)
+                && startTime.equals(other.startTime)
+                && endTime.equals(other.endTime)
+                && title.equals(other.title)
+                && description.equals(other.description)
+                && language.equals(other.language)
+                && DataUtils.equals(speakers, other.speakers)
+                && track.equals(other.track);
     }
 
     public static Builder newBuilder() {
@@ -40,7 +56,7 @@ public final class Session {
         private Stage stage;
         private ZonedDateTime startTime;
         private ZonedDateTime endTime;
-        private List<Speaker> speaker;
+        private List<Speaker> speakers;
         private Track track;
 
         private Builder() {
@@ -82,7 +98,7 @@ public final class Session {
         }
 
         public Builder speaker(List<Speaker> val) {
-            speaker = val;
+            speakers = val;
             return this;
         }
 
