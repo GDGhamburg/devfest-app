@@ -91,10 +91,11 @@ public final class FirebaseSessionManager implements SessionManager {
                 Observable.just(session),
                 stageManager.get().getStage(session.stage).first(),
                 trackManager.get().getTrack(session.track).first(),
-                Observable.from(session.speakers.keySet()).flatMap(id -> speakerManager.get().getSpeaker(id).first()).toList(),
+                Observable.from(session.speakers.keySet())
+                        .flatMap(id -> speakerManager.get().getSpeaker(id).first()).toList(),
                 (firebaseSession, stage, track, speakers) -> {
                     ZonedDateTime startTime = ZonedDateTime
-                            .ofInstant(Instant.ofEpochSecond(session.datetime), ZoneId.of("UTC"));
+                            .ofInstant(Instant.ofEpochSecond(session.datetime), ZoneId.systemDefault());
                     ZonedDateTime endTime = ZonedDateTime.from(startTime).plus(session.duration, SECONDS);
                     return Session.newBuilder()
                             .id(firebaseSession.id)
