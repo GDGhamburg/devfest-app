@@ -56,7 +56,9 @@ public class DashboardFragment extends AuthFragment<DashboardView, DashboardPres
 
     @Override
     public void showLogin() {
-
+        // show the login to the user.
+        // reach the click to the presenter
+        // presenter.onLoginRequested();
     }
 
     @NonNull

@@ -113,4 +113,9 @@ public class DashboardPresenter extends AuthPresenter<DashboardView> {
                         });
     }
 
+    public void onLoginRequested() {
+        if (isViewAttached()) {
+            getView().startLogin();
+        }
+    }
 }
