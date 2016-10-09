@@ -11,11 +11,13 @@ import de.devfest.data.SessionManager;
 import de.devfest.data.UserManager;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.AuthPresenter;
+import de.devfest.ui.SessionAdapter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class EventPartPresenter extends AuthPresenter<EventPartView> {
+public class EventPartPresenter extends AuthPresenter<EventPartView>
+        implements SessionAdapter.SessionInteractionListener {
 
     private final Lazy<SessionManager> sessionManager;
 
@@ -38,7 +40,8 @@ public class EventPartPresenter extends AuthPresenter<EventPartView> {
                                                 sessionManager.get()
                                                         .getEventPartSessions(mvpView.getEventPartId(),
                                                                 mvpView.getTrackId())
-                                                        .map(session -> Pair.create(session, user.schedule.contains(session.id))));
+                                                        .map(session -> Pair.create(session,
+                                                                user.schedule.contains(session.id))));
                             } else {
                                 return sessionManager.get()
                                         .getEventPartSessions(mvpView.getEventPartId(), mvpView.getTrackId())
@@ -55,6 +58,12 @@ public class EventPartPresenter extends AuthPresenter<EventPartView> {
                                 }));
     }
 
+    @Override
+    public void onSessionClick(Session session) {
+
+    }
+
+    @Override
     public void onAddSessionClick(Session session) {
         userManager.get().getCurrentUser()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -72,6 +81,7 @@ public class EventPartPresenter extends AuthPresenter<EventPartView> {
                         });
     }
 
+    @Override
     public void onRemoveSessionClick(Session session) {
         userManager.get().getCurrentUser()
                 .observeOn(AndroidSchedulers.mainThread())

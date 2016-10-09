@@ -1,7 +1,8 @@
-package de.devfest.screens.speakerdetails;
+package de.devfest.ui;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
@@ -10,26 +11,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.bumptech.glide.Glide;
+import com.rohitarya.glide.facedetection.transformation.FaceCenterCrop;
+
 import java.util.List;
 
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.model.ScheduleSession;
 import de.devfest.model.Session;
-import de.devfest.ui.SessionsListAdapterCallback;
-import de.devfest.ui.UiUtils;
+import de.devfest.model.Speaker;
 
-public class SpeakerSessionAdapter extends
-        RecyclerView.Adapter<SpeakerSessionAdapter.SpeakerSessionViewHolder> implements View.OnClickListener {
+public class SessionAdapter extends
+        RecyclerView.Adapter<SessionAdapter.SpeakerSessionViewHolder> implements View.OnClickListener {
 
     private final SortedList<ScheduleSession> sessions;
     private final SessionInteractionListener interactionListener;
 
+    private boolean useSimpleView;
     private int addIconColor = -1;
 
-    public SpeakerSessionAdapter(SessionInteractionListener interactionListener) {
+    public SessionAdapter(SessionInteractionListener interactionListener) {
         this.sessions = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
         this.interactionListener = interactionListener;
+    }
+
+    public void setSimpleViewEnabled(boolean enabled) {
+        useSimpleView = enabled;
     }
 
     @Override
@@ -37,17 +45,19 @@ public class SpeakerSessionAdapter extends
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_session, parent, false);
         ItemSessionBinding binding = DataBindingUtil.bind(view);
-        TextViewCompat.setTextAppearance(binding.textSessionTitle, R.style.TextAppearance_DevFest_Card_Title);
-        TextViewCompat.setTextAppearance(binding.textSessionSub, R.style.TextAppearance_DevFest_Card_Subtitle);
-        if (addIconColor == -1) addIconColor = binding.textSessionTitle.getCurrentTextColor();
         binding.getRoot().setOnClickListener(this);
         binding.buttonAdd.setOnClickListener(this);
+        if (useSimpleView) {
+            TextViewCompat.setTextAppearance(binding.textSessionTitle, R.style.TextAppearance_DevFest_Card_Title);
+            TextViewCompat.setTextAppearance(binding.textSessionSub, R.style.TextAppearance_DevFest_Card_Subtitle);
+        }
+        if (addIconColor == -1) addIconColor = binding.textSessionTitle.getCurrentTextColor();
         return new SpeakerSessionViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(SpeakerSessionViewHolder holder, int position) {
-        holder.bind(sessions.get(position));
+        holder.bind(sessions.get(position), useSimpleView);
     }
 
     @Override
@@ -85,15 +95,26 @@ public class SpeakerSessionAdapter extends
             this.binding = binding;
         }
 
-        public void bind(ScheduleSession session) {
+        public void bind(ScheduleSession session, boolean useSimpleView) {
             List<String> tags = session.session.speaker.get(0).tags;
             binding.imageSession.setImageDrawable(
-                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), tags, true));
+                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), tags, useSimpleView));
             binding.textSessionTitle.setText(session.session.title);
             binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
-            UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd, binding.textSessionTitle.getCurrentTextColor());
+
             binding.buttonAdd.setTag(session);
+            UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd, binding.textSessionTitle.getCurrentTextColor());
             binding.getRoot().setTag(session);
+
+            if (!useSimpleView) {
+                int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(), UiUtils.getTagOverlayColor(tags));
+                binding.containerSessionForeground.setBackgroundColor(overlayColor);
+                Speaker speaker = session.session.speaker.get(0);
+                Glide.with(binding.imageSessionBackground.getContext())
+                        .load(speaker.photoUrl)
+                        .transform(new FaceCenterCrop())
+                        .into(binding.imageSessionBackground);
+            }
         }
     }
 

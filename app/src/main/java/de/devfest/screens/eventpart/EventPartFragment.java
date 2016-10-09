@@ -18,7 +18,7 @@ import de.devfest.databinding.FragmentEventPartBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.AuthFragment;
-import de.devfest.mvpbase.BaseFragment;
+import de.devfest.ui.SessionAdapter;
 import timber.log.Timber;
 
 public class EventPartFragment extends AuthFragment<EventPartView, EventPartPresenter>
@@ -28,7 +28,7 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
     private static final String ARGS_PART_ID = "event_part_id";
     @Inject
     EventPartPresenter presenter;
-    private SessionsAdapter adapter;
+    private SessionAdapter adapter;
     private String trackId;
     private String eventPartId;
     private FragmentEventPartBinding binding;
@@ -69,7 +69,7 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
         GlideFaceDetector.initialize(getContext());
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
         binding.trackSessionList.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new SessionsAdapter(presenter);
+        adapter = new SessionAdapter(presenter);
         binding.trackSessionList.setAdapter(adapter);
         return binding.getRoot();
     }

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
 
     @Override
     public void onEventPartReceived(EventPart eventPart) {
+        Log.d("SCHEDULE" , "onEventPartReceived: " + eventPart.name);
         pagerAdapter.addEventPart(eventPart);
         pagerAdapter.notifyDataSetChanged();
     }
