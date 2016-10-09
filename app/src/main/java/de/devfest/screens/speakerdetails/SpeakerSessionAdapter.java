@@ -22,13 +22,13 @@ import de.devfest.ui.UiUtils;
 public class SpeakerSessionAdapter extends
         RecyclerView.Adapter<SpeakerSessionAdapter.SpeakerSessionViewHolder> implements View.OnClickListener {
 
-    private final SortedList<ScheduleSession> list;
+    private final SortedList<ScheduleSession> sessions;
     private final SessionInteractionListener interactionListener;
 
     private int addIconColor = -1;
 
     public SpeakerSessionAdapter(SessionInteractionListener interactionListener) {
-        this.list = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
+        this.sessions = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
         this.interactionListener = interactionListener;
     }
 
@@ -47,16 +47,16 @@ public class SpeakerSessionAdapter extends
 
     @Override
     public void onBindViewHolder(SpeakerSessionViewHolder holder, int position) {
-        holder.bind(list.get(position));
+        holder.bind(sessions.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return sessions.size();
     }
 
     public void addSession(Session session, boolean isScheduled) {
-        list.add(new ScheduleSession(session, isScheduled));
+        sessions.add(new ScheduleSession(session, isScheduled));
     }
 
     @Override

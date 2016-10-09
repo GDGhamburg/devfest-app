@@ -99,7 +99,6 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     public void addSession(Session session, boolean isScheduled) {
         sessions.add(new ScheduleSession(session, isScheduled));
-
     }
 
     public static class SessionViewHolder extends RecyclerView.ViewHolder {
@@ -111,6 +110,4 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             this.binding = binding;
         }
     }
-
-
 }
