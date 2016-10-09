@@ -32,6 +32,7 @@ import de.devfest.model.SocialLink;
 import de.devfest.model.Speaker;
 import de.devfest.mvpbase.AuthFragment;
 import de.devfest.screens.sessiondetails.SessionDetailsActivity;
+import de.devfest.ui.SessionAdapter;
 import de.devfest.ui.UiUtils;
 import timber.log.Timber;
 
@@ -45,7 +46,7 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
 
     private FragmentSpeakerDetailsBinding binding;
     private SocialLinksAdapter socialLinksAdapter;
-    private SpeakerSessionAdapter speakerSessionAdapter;
+    private SessionAdapter sessionAdapter;
 
     @Nullable
     @Override
@@ -84,13 +85,14 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
     public void onSpeakerAvailable(Speaker speaker) {
         setDetails(speaker);
         setImage(speaker);
-        speakerSessionAdapter = new SpeakerSessionAdapter(presenter);
-        binding.sessionList.setAdapter(speakerSessionAdapter);
+        sessionAdapter = new SessionAdapter(presenter);
+        sessionAdapter.setSimpleViewEnabled(true);
+        binding.sessionList.setAdapter(sessionAdapter);
     }
 
     @Override
     public void onSessionReceived(Session session, boolean scheduled) {
-        speakerSessionAdapter.addSession(session, scheduled);
+        sessionAdapter.addSession(session, scheduled);
     }
 
     private void setDetails(Speaker speaker) {

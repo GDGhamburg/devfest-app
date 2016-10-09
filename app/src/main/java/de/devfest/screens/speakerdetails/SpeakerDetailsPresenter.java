@@ -13,12 +13,13 @@ import de.devfest.data.UserManager;
 import de.devfest.model.Session;
 import de.devfest.model.SocialLink;
 import de.devfest.mvpbase.AuthPresenter;
+import de.devfest.ui.SessionAdapter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class SpeakerDetailsPresenter extends AuthPresenter<SpeakerDetailsView>
-        implements SpeakerSessionAdapter.SessionInteractionListener {
+        implements SessionAdapter.SessionInteractionListener {
 
     private final Lazy<SpeakerManager> speakerManager;
     private final Lazy<SessionManager> sessionManager;
