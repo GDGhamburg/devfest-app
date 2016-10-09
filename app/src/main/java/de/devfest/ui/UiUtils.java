@@ -73,7 +73,7 @@ public final class UiUtils {
     }
 
     public static @ColorRes int getTagColor(List<String> tags) {
-        int colorResId = 0;
+        int colorResId = R.color.tag_default;
         if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android;
         else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web;
         else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud;
@@ -81,7 +81,7 @@ public final class UiUtils {
     }
 
     public static @ColorRes int getTagDarkColor(List<String> tags) {
-        int colorResId = 0;
+        int colorResId = R.color.tag_default_dark;
         if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_dark;
         else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web_dark;
         else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_dark;
@@ -89,7 +89,7 @@ public final class UiUtils {
     }
 
     public static @ColorRes int getTagOverlayColor(List<String> tags) {
-        int colorResId = 0;
+        int colorResId = R.color.tag_default_overlay;
         if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
         else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web_overlay;
         else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
