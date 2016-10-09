@@ -16,7 +16,7 @@ android {
 
     productFlavors {
         hamburg {
-            minSdkVersion 15
+            minSdkVersion 21
             targetSdkVersion 24
             applicationId "de.devfest.hamburg"
             versionCode 1
