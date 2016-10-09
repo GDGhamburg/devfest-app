@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 
 import de.devfest.R;
+import de.devfest.mvpbase.GoogleApiActivity;
 
-public class SpeakerDetailsActivity extends AppCompatActivity {
+public class SpeakerDetailsActivity extends GoogleApiActivity {
 
     public final static String EXTRA_SPEAKER_ID = "EXTRA_SPEAKER_ID";
 

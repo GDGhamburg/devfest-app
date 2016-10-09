@@ -2,6 +2,7 @@ package de.devfest.screens.dashboard;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,10 @@ import de.devfest.R;
 import de.devfest.databinding.FragmentDashboardBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
-import de.devfest.mvpbase.BaseFragment;
+import de.devfest.mvpbase.AuthFragment;
 import timber.log.Timber;
 
-public class DashboardFragment extends BaseFragment<DashboardView, DashboardPresenter> implements DashboardView {
+public class DashboardFragment extends AuthFragment<DashboardView, DashboardPresenter> implements DashboardView {
 
     public static final String TAG = DashboardFragment.class.toString();
 
@@ -39,13 +40,28 @@ public class DashboardFragment extends BaseFragment<DashboardView, DashboardPres
     }
 
     @Override
-    public void onSessionReceived(Session session, boolean scheduled) {
-        // TODO presenter not final yet
-        Timber.e("session: %s", session.title);
+    public void onScheduledSessionReceived(Session session) {
+        Timber.e("scheduled session: %s", session.title);
+    }
+
+    @Override
+    public void onRunningSessionReceived(Session session, boolean scheduled) {
+        Timber.e("running session: %s", session.title);
     }
 
     @Override
     public void onError(Throwable error) {
         Timber.e(error);
+    }
+
+    @Override
+    public void showLogin() {
+
+    }
+
+    @NonNull
+    @Override
+    protected DashboardPresenter getPresenter() {
+        return presenter;
     }
 }

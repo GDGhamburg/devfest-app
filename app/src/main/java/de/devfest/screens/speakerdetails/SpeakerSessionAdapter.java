@@ -98,11 +98,8 @@ public class SpeakerSessionAdapter extends
     }
 
     public interface SessionInteractionListener {
-
         void onSessionClick(Session session);
-
         void onAddSessionClick(Session session);
-
         void onRemoveSessionClick(Session session);
     }
 }

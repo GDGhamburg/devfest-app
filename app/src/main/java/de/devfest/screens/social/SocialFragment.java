@@ -42,4 +42,8 @@ public class SocialFragment extends BaseFragment<SocialView, SocialPresenter> im
         return presenter;
     }
 
+    @Override
+    public void onError(Throwable error) {
+
+    }
 }

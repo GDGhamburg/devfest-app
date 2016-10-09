@@ -4,11 +4,12 @@ import de.devfest.model.Session;
 import de.devfest.model.Speaker;
 import de.devfest.mvpbase.MvpBase;
 
-public interface SpeakerDetailsView extends MvpBase.View {
+public interface SpeakerDetailsView extends MvpBase.AuthView {
 
     String getSpeakerId();
 
     void onSpeakerAvailable(Speaker speaker);
+
     void onSessionReceived(Session session, boolean scheduled);
 
     void onError(Throwable error);

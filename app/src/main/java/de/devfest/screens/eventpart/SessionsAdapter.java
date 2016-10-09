@@ -29,11 +29,9 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     private final SortedList<ScheduleSession> sessions;
     private final DateTimeFormatter sessionStartFormat;
-    private final EventPartPresenter presenter;
     private final View.OnClickListener addClickListener;
 
     public SessionsAdapter(EventPartPresenter presenter) {
-        this.presenter = presenter;
         sessionStartFormat = UiUtils.getSessionStartFormat();
         sessions = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
         addClickListener = view -> {
@@ -41,7 +39,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) ((ImageButton) view).getDrawable();
                 drawable.start();
             }
-            presenter.addToSchedule(getItem((String) view.getTag()).session);
+            presenter.onAddSessionClick(getItem((String) view.getTag()).session);
         };
     }
 

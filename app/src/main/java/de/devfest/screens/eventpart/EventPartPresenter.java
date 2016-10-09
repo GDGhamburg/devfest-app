@@ -2,27 +2,27 @@ package de.devfest.screens.eventpart;
 
 import android.support.v4.util.Pair;
 
+import java.util.NoSuchElementException;
+
 import javax.inject.Inject;
 
 import dagger.Lazy;
 import de.devfest.data.SessionManager;
 import de.devfest.data.UserManager;
 import de.devfest.model.Session;
-import de.devfest.mvpbase.BasePresenter;
+import de.devfest.mvpbase.AuthPresenter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
-public class EventPartPresenter extends BasePresenter<EventPartView> {
+public class EventPartPresenter extends AuthPresenter<EventPartView> {
 
     private final Lazy<SessionManager> sessionManager;
-    private final Lazy<UserManager> userManager;
 
     @Inject
     public EventPartPresenter(Lazy<SessionManager> sessionManager, Lazy<UserManager> userManager) {
+        super(userManager);
         this.sessionManager = sessionManager;
-        this.userManager = userManager;
     }
 
     @Override
@@ -55,29 +55,37 @@ public class EventPartPresenter extends BasePresenter<EventPartView> {
                                 }));
     }
 
-    public void addToSchedule(Session session) {
+    public void onAddSessionClick(Session session) {
         userManager.get().getCurrentUser()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(throwable -> getView().onLoginRequired())
                 .flatMap(user -> userManager.get().addToSchedule(session))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(success -> {
-                            Timber.d("Session added to schedule: %s", success);
                         },
-                        error -> getView().onError(error));
+                        error -> {
+                            if (error instanceof NoSuchElementException) {
+                                getView().startLogin();
+                            } else {
+                                getView().onError(error);
+                            }
+                        });
     }
 
-    public void removeFromSchedule(Session session) {
+    public void onRemoveSessionClick(Session session) {
         userManager.get().getCurrentUser()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(throwable -> getView().onLoginRequired())
                 .flatMap(user -> userManager.get().removeFromSchedule(session))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(success -> {
-                            Timber.d("Session removed from schedule: %s", success);
                         },
-                        error -> getView().onError(error));
+                        error -> {
+                            if (error instanceof NoSuchElementException) {
+                                getView().startLogin();
+                            } else {
+                                getView().onError(error);
+                            }
+                        });
     }
 }

@@ -13,6 +13,7 @@ import de.devfest.R;
 import de.devfest.databinding.FragmentEventNotStartedBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.mvpbase.BaseFragment;
+import timber.log.Timber;
 
 public class EventNotStartedFragment extends
         BaseFragment<EventNotStartedView, EventNotStartedPresenter> implements EventNotStartedView {
@@ -34,5 +35,10 @@ public class EventNotStartedFragment extends
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_not_started, container, false);
         // TODO: show a count down or smth similar
         return binding.getRoot();
+    }
+
+    @Override
+    public void onError(Throwable error) {
+        Timber.e(error);
     }
 }

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import de.devfest.model.User;
 import de.devfest.mvpbase.MvpBase;
 
-public interface UserView extends MvpBase.View {
+public interface UserView extends MvpBase.AuthView {
     /**
      * Called when authentication was successful
      *
@@ -18,16 +18,6 @@ public interface UserView extends MvpBase.View {
      */
     void showLogin();
 
-    /**
-     * Called when the user pressed the login button
-     */
-    void startGoogleLogin();
 
-    /**
-     * Called when there was an error while loggin in
-     *
-     * @param error that happened
-     */
-    void showAuthenticationFailedError(Throwable error);
 }
 

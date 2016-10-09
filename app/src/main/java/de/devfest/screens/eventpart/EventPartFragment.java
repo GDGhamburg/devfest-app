@@ -2,6 +2,7 @@ package de.devfest.screens.eventpart;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -16,10 +17,11 @@ import de.devfest.R;
 import de.devfest.databinding.FragmentEventPartBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
+import de.devfest.mvpbase.AuthFragment;
 import de.devfest.mvpbase.BaseFragment;
 import timber.log.Timber;
 
-public class EventPartFragment extends BaseFragment<EventPartView, EventPartPresenter>
+public class EventPartFragment extends AuthFragment<EventPartView, EventPartPresenter>
         implements EventPartView {
 
     private static final String ARGS_TRACK_ID = "track_id";
@@ -53,6 +55,12 @@ public class EventPartFragment extends BaseFragment<EventPartView, EventPartPres
 
         trackId = arguments.getString(ARGS_TRACK_ID);
         eventPartId = arguments.getString(ARGS_PART_ID);
+    }
+
+    @NonNull
+    @Override
+    protected EventPartPresenter getPresenter() {
+        return presenter;
     }
 
     @Nullable

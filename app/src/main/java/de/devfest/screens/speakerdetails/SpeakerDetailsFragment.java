@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -29,12 +30,12 @@ import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.model.SocialLink;
 import de.devfest.model.Speaker;
-import de.devfest.mvpbase.BaseFragment;
+import de.devfest.mvpbase.AuthFragment;
 import de.devfest.screens.sessiondetails.SessionDetailsActivity;
 import de.devfest.ui.UiUtils;
 import timber.log.Timber;
 
-public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, SpeakerDetailsPresenter>
+public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, SpeakerDetailsPresenter>
         implements SpeakerDetailsView, View.OnClickListener {
 
     public static final String TAG = SpeakerDetailsFragment.class.toString();
@@ -156,5 +157,11 @@ public class SpeakerDetailsFragment extends BaseFragment<SpeakerDetailsView, Spe
         int index = binding.gridSocialButtons.getChildAdapterPosition(view);
         SocialLink link = socialLinksAdapter.getItem(index);
         presenter.onLinkClick(link);
+    }
+
+    @NonNull
+    @Override
+    protected SpeakerDetailsPresenter getPresenter() {
+        return presenter;
     }
 }

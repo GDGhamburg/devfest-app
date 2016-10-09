@@ -2,12 +2,11 @@ package de.devfest.mvpbase;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import de.devfest.DevFestApplication;
 import de.devfest.injection.ApplicationComponent;
 
-public abstract class BaseActivity<V extends MvpBase.View, P extends BasePresenter<V>> extends AppCompatActivity {
+public abstract class BaseActivity<V extends MvpBase.View, P extends BasePresenter<V>> extends GoogleApiActivity {
 
     private P presenter;
 
@@ -55,7 +54,8 @@ public abstract class BaseActivity<V extends MvpBase.View, P extends BasePresent
         presenter.destroy();
     }
 
-    public void onLoginRequired() {}
+    public void onLoginRequired() {
+    }
 
     protected abstract P inject(ApplicationComponent component);
 }
