@@ -66,7 +66,7 @@ public final class FirebaseSessionManager implements SessionManager {
         return toSession(Observable.create(subscriber -> {
             ValueEventListener listener = new SessionExtractor(subscriber, false);
             subscriber.add(Subscriptions.create(() -> reference.removeEventListener(listener)));
-            reference.addListenerForSingleValueEvent(listener);
+            reference.addValueEventListener(listener);
         }));
     }
 
@@ -83,6 +83,14 @@ public final class FirebaseSessionManager implements SessionManager {
                                 .filter(item -> item.startTime.isAfter(eventPart.startTime))
                                 .filter(item -> item.endTime.isBefore(eventPart.endTime))
                 );
+    }
+
+    @Override
+    public Observable<Session> getCurrentlyRunningSessions() {
+        ZonedDateTime now = ZonedDateTime.now();
+        return getSessions()
+                .filter(item -> item.startTime.isAfter(now))
+                .filter(item -> item.endTime.isBefore(now));
     }
 
 

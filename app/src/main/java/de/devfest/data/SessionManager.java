@@ -1,6 +1,7 @@
 package de.devfest.data;
 
 import java.util.Collection;
+import java.util.List;
 
 import de.devfest.model.Session;
 import rx.Observable;
@@ -30,4 +31,9 @@ public interface SessionManager {
      * event part
      */
     Observable<Session> getEventPartSessions(String eventPart, String trackId);
+
+    /**
+     * @return a hot observable which contains all currently running sessions
+     */
+    Observable<Session> getCurrentlyRunningSessions();
 }

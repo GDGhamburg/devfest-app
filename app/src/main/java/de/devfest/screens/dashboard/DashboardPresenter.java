@@ -1,6 +1,9 @@
 package de.devfest.screens.dashboard;
 
+import android.support.v4.util.Pair;
+
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -34,6 +37,31 @@ public class DashboardPresenter extends AuthPresenter<DashboardView> {
                         error -> getView().onError(error)
                 )
         );
+
+        untilDetach(Observable.interval(0, 1, TimeUnit.MINUTES) // update every minute
+                .switchMap(minute -> userManager.get().loggedInState())
+                .flatMap(loggedIn -> {
+                    if (loggedIn) {
+                        return userManager.get().getCurrentUser().toObservable()
+                                .flatMap(user ->
+                                        sessionManager.get()
+                                                .getCurrentlyRunningSessions()
+                                                .map(session -> Pair.create(session, user.schedule.contains(session.id))));
+
+                    } else {
+                        return sessionManager.get()
+                                .getCurrentlyRunningSessions()
+                                .map(session -> Pair.create(session, Boolean.FALSE));
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        pair -> getView().onRunningSessionReceived(pair.first, pair.second),
+                        error -> getView().onError(error)
+                )
+        );
+
     }
 
     private Observable<Session> getScheduledSessions() {
