@@ -7,10 +7,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -75,7 +77,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
 
     private static class EventTrackPagerAdapter extends SmartFragmentStatePagerAdapter<EventPartFragment> {
 
-        private final SparseArray<Pair<String, String>> trackList = new SparseArray<>();
+        private final List<Pair<String, String>> trackList = new ArrayList<>();
 
 
         public EventTrackPagerAdapter(FragmentManager fragmentManager) {
@@ -84,7 +86,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
 
         @Override
         public EventPartFragment getItem(int position) {
-            Pair<String, String> stringStringPair = trackList.valueAt(position);
+            Pair<String, String> stringStringPair = trackList.get(position);
             return EventPartFragment.newInstance(stringStringPair.first, stringStringPair.second);
         }
 
@@ -95,7 +97,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
 
         public void addEventPart(EventPart eventPart) {
             for (Track track : eventPart.tracks) {
-                trackList.put((eventPart.id + track.id).hashCode(), Pair.create(eventPart.id, track.id));
+                trackList.add(Pair.create(eventPart.id, track.id));
             }
         }
     }
