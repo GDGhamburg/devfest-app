@@ -17,6 +17,7 @@ public final class Session {
     public final ZonedDateTime endTime;
     public final List<Speaker> speakers;
     public final Track track;
+    public final boolean isScheduable;
 
     private Session(Builder builder) {
         id = builder.id;
@@ -28,6 +29,7 @@ public final class Session {
         endTime = builder.endTime;
         speakers = builder.speakers;
         track = builder.track;
+        isScheduable = builder.isScheduable;
     }
 
     @Override
@@ -41,7 +43,8 @@ public final class Session {
                 && description.equals(other.description)
                 && language.equals(other.language)
                 && DataUtils.equals(speakers, other.speakers)
-                && track.equals(other.track);
+                && track.equals(other.track)
+                && isScheduable == other.isScheduable;
     }
 
     public static Builder newBuilder() {
@@ -58,6 +61,7 @@ public final class Session {
         private ZonedDateTime endTime;
         private List<Speaker> speakers;
         private Track track;
+        private boolean isScheduable;
 
         private Builder() {
         }
@@ -104,6 +108,11 @@ public final class Session {
 
         public Builder track(Track val) {
             track = val;
+            return this;
+        }
+
+        public Builder isScheduable(boolean val) {
+            isScheduable = val;
             return this;
         }
 

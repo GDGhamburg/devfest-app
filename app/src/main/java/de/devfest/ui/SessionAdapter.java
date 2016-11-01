@@ -104,8 +104,14 @@ public class SessionAdapter extends
             binding.textSessionTitle.setText(session.session.title);
             binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
 
-            binding.buttonAdd.setTag(session);
-            UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd, binding.textSessionTitle.getCurrentTextColor());
+            if (session.session.isScheduable) {
+                binding.buttonAdd.setVisibility(View.VISIBLE);
+                binding.buttonAdd.setTag(session);
+                UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd,
+                        binding.textSessionTitle.getCurrentTextColor());
+            } else {
+                binding.buttonAdd.setVisibility(View.GONE);
+            }
             binding.getRoot().setTag(session);
 
             if (!useSimpleView) {
