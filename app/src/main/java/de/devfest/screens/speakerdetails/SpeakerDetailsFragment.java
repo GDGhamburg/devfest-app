@@ -101,6 +101,7 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
         binding.textSpeakerDesc.setText(speaker.description);
         binding.textSpeakerJobTitle.setText(speaker.jobTitle);
         binding.textSpeakerCompany.setText(speaker.company);
+        socialLinksAdapter.setSocialLinks(speaker.socialLinks);
         int colorResId = UiUtils.getTagOverlayColor(speaker.tags);
         if (UiUtils.isLandscape(getContext())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
