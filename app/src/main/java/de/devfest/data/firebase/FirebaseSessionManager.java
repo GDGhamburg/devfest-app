@@ -10,6 +10,7 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import dagger.Lazy;
 import de.devfest.data.EventManager;
@@ -80,8 +81,10 @@ public final class FirebaseSessionManager implements SessionManager {
                                     .equalTo(trackId)
                                     .addValueEventListener(listener);
                         }))
-                                .filter(item -> item.startTime.isAfter(eventPart.startTime))
-                                .filter(item -> item.endTime.isBefore(eventPart.endTime))
+                                .filter(item -> item.startTime.isAfter(eventPart.startTime)
+                                        || item.startTime.isEqual(eventPart.startTime))
+                                .filter(item -> item.endTime.isBefore(eventPart.endTime)
+                                        || item.endTime.isEqual(eventPart.endTime))
                 );
     }
 
@@ -99,7 +102,7 @@ public final class FirebaseSessionManager implements SessionManager {
                 Observable.just(session),
                 stageManager.get().getStage(session.stage).first(),
                 trackManager.get().getTrack(session.track).first(),
-                Observable.from(session.speakers.keySet())
+                Observable.from(session.speakers != null ? session.speakers.keySet() : new HashSet<>())
                         .flatMap(id -> speakerManager.get().getSpeaker(id).first()).toList(),
                 (firebaseSession, stage, track, speakers) -> {
                     ZonedDateTime startTime = ZonedDateTime

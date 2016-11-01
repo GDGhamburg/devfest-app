@@ -22,6 +22,13 @@ android {
             versionCode 1
             versionName "1.0.0"
         }
+        fbds16 {
+            minSdkVersion 21
+            targetSdkVersion 25
+            applicationId "de.devfest.fbds16"
+            versionCode 1
+            versionName '1.0.0'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -60,10 +67,10 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
     provided 'javax.annotation:jsr250-api:1.0'
 
-   /* testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile "com.android.support:support-annotations:$supportVersion"*/
+    /* testCompile 'junit:junit:4.12'
+     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+     androidTestCompile 'com.android.support.test:runner:0.5'
+     androidTestCompile "com.android.support:support-annotations:$supportVersion"*/
 }
 apply from: 'checkstyle.gradle'
 apply plugin: 'com.google.gms.google-services'

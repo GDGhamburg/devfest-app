@@ -111,11 +111,13 @@ public class SessionAdapter extends
             if (!useSimpleView) {
                 int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(), UiUtils.getTagOverlayColor(tags));
                 binding.containerSessionForeground.setBackgroundColor(overlayColor);
-                Speaker speaker = session.session.speakers.get(0);
-                Glide.with(binding.imageSessionBackground.getContext())
-                        .load(speaker.photoUrl)
-                        .transform(new FaceCenterCrop())
-                        .into(binding.imageSessionBackground);
+                if (!session.session.speakers.isEmpty()) {
+                    Speaker speaker = session.session.speakers.get(0);
+                    Glide.with(binding.imageSessionBackground.getContext())
+                            .load(speaker.photoUrl)
+                            .transform(new FaceCenterCrop())
+                            .into(binding.imageSessionBackground);
+                }
             }
         }
     }
