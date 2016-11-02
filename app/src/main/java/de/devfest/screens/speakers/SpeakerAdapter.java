@@ -11,12 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import de.devfest.R;
 import de.devfest.databinding.ItemSpeakerBinding;
 import de.devfest.model.Speaker;
 import de.devfest.ui.UiUtils;
+
+import static de.devfest.ui.UiUtils.CACHED_SPEAKER_IMAGE_SIZE;
 
 class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHolder> {
 
@@ -74,9 +75,7 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
                 Glide.with(binding.imageSpeaker.getContext())
                         .load(speaker.photoUrl)
                         .placeholder(R.drawable.ic_devfesthh_grey)
-                        .override(pixels, pixels)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .dontTransform()
+                        .override(CACHED_SPEAKER_IMAGE_SIZE, CACHED_SPEAKER_IMAGE_SIZE)
                         .into(binding.imageSpeaker);
             } else {
                 Glide.clear(binding.imageSpeaker);

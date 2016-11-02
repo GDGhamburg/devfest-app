@@ -30,6 +30,8 @@ import static de.devfest.model.Speaker.TAG_WEB;
 
 public final class UiUtils {
 
+    public static final int CACHED_SPEAKER_IMAGE_SIZE = 500;
+
     private UiUtils() {
         throw new RuntimeException("No instance allowed!");
     }

@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -35,6 +34,8 @@ import de.devfest.screens.sessiondetails.SessionDetailsActivity;
 import de.devfest.ui.SessionAdapter;
 import de.devfest.ui.UiUtils;
 import timber.log.Timber;
+
+import static de.devfest.ui.UiUtils.CACHED_SPEAKER_IMAGE_SIZE;
 
 public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, SpeakerDetailsPresenter>
         implements SpeakerDetailsView, View.OnClickListener {
@@ -118,7 +119,7 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
     private void setImage(Speaker speaker) {
         int pixels = getResources().getDisplayMetrics().widthPixels;
         Glide.with(getContext()).load(speaker.photoUrl)
-                .override(pixels, pixels).diskCacheStrategy(DiskCacheStrategy.ALL).dontTransform()
+                .override(CACHED_SPEAKER_IMAGE_SIZE, CACHED_SPEAKER_IMAGE_SIZE)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception ex, String model, Target<GlideDrawable> target,
