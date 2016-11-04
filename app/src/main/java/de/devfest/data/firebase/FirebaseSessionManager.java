@@ -119,6 +119,7 @@ public final class FirebaseSessionManager implements SessionManager {
                             .stage(stage)
                             .track(track)
                             .isScheduable(firebaseSession.isScheduable)
+                            .tag((firebaseSession.tag))
                             .build();
                 }
 

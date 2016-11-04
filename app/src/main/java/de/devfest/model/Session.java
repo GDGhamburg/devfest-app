@@ -18,6 +18,7 @@ public final class Session {
     public final List<Speaker> speakers;
     public final Track track;
     public final boolean isScheduable;
+    public final String tag;
 
     private Session(Builder builder) {
         id = builder.id;
@@ -30,6 +31,7 @@ public final class Session {
         speakers = builder.speakers;
         track = builder.track;
         isScheduable = builder.isScheduable;
+        tag = builder.tag;
     }
 
     @Override
@@ -44,7 +46,8 @@ public final class Session {
                 && language.equals(other.language)
                 && DataUtils.equals(speakers, other.speakers)
                 && track.equals(other.track)
-                && isScheduable == other.isScheduable;
+                && isScheduable == other.isScheduable
+                && tag.equals(other.tag);
     }
 
     public static Builder newBuilder() {
@@ -62,6 +65,7 @@ public final class Session {
         private List<Speaker> speakers;
         private Track track;
         private boolean isScheduable;
+        private String tag;
 
         private Builder() {
         }
@@ -113,6 +117,11 @@ public final class Session {
 
         public Builder isScheduable(boolean val) {
             isScheduable = val;
+            return this;
+        }
+
+        public Builder tag(String val) {
+            tag = val;
             return this;
         }
 
