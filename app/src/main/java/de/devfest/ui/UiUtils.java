@@ -10,15 +10,14 @@ import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.widget.ImageButton;
-
+import de.devfest.R;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
-
-import de.devfest.R;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
@@ -153,7 +152,29 @@ public final class UiUtils {
         return colorResId;
     }
 
-    public static Drawable getCircledTrackIcon(Context context, String tag, boolean coloredCircle) {
+    public static Drawable getTagIcon(Context context, @Nullable String tag) {
+        int drawableResId;
+        if (tag == null) {
+            drawableResId = R.mipmap.ic_launcher;
+        } else {
+            switch (tag) {
+                case TAG_ANDROID:
+                    drawableResId = R.drawable.ic_android;
+                    break;
+                case TAG_CLOUD:
+                    drawableResId = R.drawable.ic_cloud;
+                    break;
+                case TAG_WEB:
+                    drawableResId = R.drawable.ic_web;
+                    break;
+                default:
+                    drawableResId = R.mipmap.ic_launcher;
+            }
+        }
+        return context.getDrawable(drawableResId);
+    }
+
+    public static Drawable getCircledTagIcon(Context context, String tag, boolean coloredCircle) {
         int drawableResId = 0;
         if (!TextUtils.isEmpty(tag)) {
             switch (tag) {

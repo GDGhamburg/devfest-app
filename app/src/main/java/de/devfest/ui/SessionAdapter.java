@@ -10,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
 import com.bumptech.glide.Glide;
 import com.rohitarya.glide.facedetection.transformation.FaceCenterCrop;
-
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.model.ScheduleSession;
@@ -97,7 +95,7 @@ public class SessionAdapter extends
             String tag = null;
             if (!session.session.tags.isEmpty()) tag = session.session.tags.get(0);
             binding.imageSession.setImageDrawable(
-                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), tag, useSimpleView));
+                    UiUtils.getCircledTagIcon(binding.getRoot().getContext(), tag, useSimpleView));
             binding.textSessionTitle.setText(session.session.title);
             binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
 

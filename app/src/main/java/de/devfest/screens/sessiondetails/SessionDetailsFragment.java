@@ -7,9 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import javax.inject.Inject;
-
 import de.devfest.R;
 import de.devfest.databinding.FragmentSessionDetailsBinding;
 import de.devfest.injection.ApplicationComponent;
@@ -17,6 +14,8 @@ import de.devfest.model.Session;
 import de.devfest.model.User;
 import de.devfest.mvpbase.BaseFragment;
 import de.devfest.ui.UiUtils;
+
+import javax.inject.Inject;
 
 public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, SessionDetailsPresenter>
         implements SessionDetailsView {
@@ -38,11 +37,16 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String tag = getActivity().getIntent().getStringExtra(SessionDetailsActivity.EXTRA_SESSION_TAG);
-        int tagColorDark = UiUtils.getTagDarkColor(tag);
-        int tagColor = UiUtils.getTagColor(tag);
+        int tagColorDarkRes = UiUtils.getTagDarkColor(tag);
+        int tagColorRes = UiUtils.getTagColor(tag);
 
-        binding.appbar.setBackgroundResource(tagColorDark);
-        binding.containerSessionContent.setBackgroundResource(tagColor);
+        ((ViewGroup.MarginLayoutParams) binding.imageTopic.getLayoutParams()).topMargin
+                = UiUtils.getStatusBarHeight(getContext())
+                + getResources().getDimensionPixelSize(R.dimen.spacing_small);
+        binding.imageTopic.setImageDrawable(UiUtils.getTagIcon(getContext(), tag));
+        binding.collapsingToolbarLayout.setContentScrimResource(tagColorDarkRes);
+        binding.appbar.setBackgroundResource(tagColorDarkRes);
+        binding.containerSessionContent.setBackgroundResource(tagColorRes);
     }
 
     @Override
@@ -60,6 +64,8 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
     public void onSessionReceived(Session session, boolean isScheduled) {
         binding.textSessionDesc.setText(session.description);
         binding.textLocation.setText(session.stage.name);
+        binding.textSessionTitle.setText(session.title);
+        binding.textSessionSub.setText(session.startTime.format(UiUtils.getSessionStartFormat()));
     }
 
     @Override
