@@ -11,4 +11,6 @@ public interface EventPartView extends MvpBase.AuthView {
     void onSessionReceived(Session session, boolean scheduled);
 
     void onError(Throwable error);
+
+    void showSessionDetails(String sessionId, String tag);
 }

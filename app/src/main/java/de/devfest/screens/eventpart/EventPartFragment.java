@@ -1,5 +1,6 @@
 package de.devfest.screens.eventpart;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import de.devfest.databinding.FragmentEventPartBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.AuthFragment;
+import de.devfest.screens.sessiondetails.SessionDetailsActivity;
 import de.devfest.ui.SessionAdapter;
 import timber.log.Timber;
 
@@ -108,5 +110,10 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
     @Override
     public void onError(Throwable error) {
         Timber.e(error);
+    }
+
+    @Override public void showSessionDetails(String sessionId, String tag) {
+        Intent intent = SessionDetailsActivity.createIntent(getContext(), sessionId, tag);
+        getContext().startActivity(intent);
     }
 }
