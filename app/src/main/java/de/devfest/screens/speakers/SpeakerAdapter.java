@@ -9,13 +9,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
-
 import de.devfest.R;
 import de.devfest.databinding.ItemSpeakerBinding;
 import de.devfest.model.Speaker;
-import de.devfest.ui.UiUtils;
+import de.devfest.ui.TagHelper;
 
 import static de.devfest.ui.UiUtils.CACHED_SPEAKER_IMAGE_SIZE;
 
@@ -66,10 +64,8 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
             binding.textSpeakerName.setText(speaker.name);
             binding.textSpeakerInfo.setText(speaker.company);
 
-            int colorResId = UiUtils.getTagColor(speaker.tags.get(0));
+            int colorResId = TagHelper.getTagColor(speaker.tags.get(0));
             if (colorResId != 0) binding.viewTag.setBackgroundResource(colorResId);
-
-            int pixels = itemView.getResources().getDisplayMetrics().widthPixels + 100;
 
             if (!TextUtils.isEmpty(speaker.photoUrl)) {
                 Glide.with(binding.imageSpeaker.getContext())

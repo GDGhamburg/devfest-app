@@ -7,25 +7,38 @@
     <color name="tag_default">#c1c0c0</color>
     <color name="tag_default_dark">#8b8a8a</color>
     <color name="tag_default_overlay">#CAD3D3D3</color>
+
     <color name="tag_android">#A4C639</color>
     <color name="tag_android_dark">#7C962B</color>
     <color name="tag_android_overlay">#CAA4C639</color>
+
     <color name="tag_web">#FF0000</color>
     <color name="tag_web_dark">#AC0000</color>
     <color name="tag_web_overlay">#AAFF0000</color>
+
     <color name="tag_cloud">#3FA5FF</color>
     <color name="tag_cloud_dark">#307FC4</color>
     <color name="tag_cloud_overlay">#AA3FA5FF</color>
+
     <color name="tag_firebase">#ffcb2b</color>
-    <color name="tag_firebase_dark">#fccb2b</color>
+    <color name="tag_firebase_dark">#d1a822</color>
     <color name="tag_firebase_overlay">#CAffcb2b</color>
 
+    <color name="tag_ios">#99c0e2</color>
+    <color name="tag_ios_dark">#6c879f</color>
+    <color name="tag_ios_overlay">#CA99c0e2</color>
+
     <color name="tag_analytics">#f57e04</color>
-    <color name="tag_analytics_dark">#f27b03</color>
+    <color name="tag_analytics_dark">#b35c02</color>
     <color name="tag_analytics_overlay">#CAf57e04</color>
+
+    <color name="tag_machine_learning">#ff00ff</color>
+    <color name="tag_machine_learning_dark">#bf00bf</color>
+    <color name="tag_machine_learning_overlay">#CAff00ff</color>
 
     <!-- black with 54% opacity -->
     <color name="black_54">#8a000000</color>
+
     <color name="twitter">#1DA1F2</color>
     <color name="github">#000000</color>
     <color name="gplus">#dd4d40</color>

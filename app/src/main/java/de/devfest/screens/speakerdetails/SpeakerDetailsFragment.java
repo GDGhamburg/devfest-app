@@ -15,14 +15,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-
-import javax.inject.Inject;
-
 import de.devfest.R;
 import de.devfest.databinding.FragmentSpeakerDetailsBinding;
 import de.devfest.injection.ApplicationComponent;
@@ -32,8 +28,11 @@ import de.devfest.model.Speaker;
 import de.devfest.mvpbase.AuthFragment;
 import de.devfest.screens.sessiondetails.SessionDetailsActivity;
 import de.devfest.ui.SessionAdapter;
+import de.devfest.ui.TagHelper;
 import de.devfest.ui.UiUtils;
 import timber.log.Timber;
+
+import javax.inject.Inject;
 
 import static de.devfest.ui.UiUtils.CACHED_SPEAKER_IMAGE_SIZE;
 
@@ -103,10 +102,11 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
         binding.textSpeakerJobTitle.setText(speaker.jobTitle);
         binding.textSpeakerCompany.setText(speaker.company);
         socialLinksAdapter.setSocialLinks(speaker.socialLinks);
-        int colorResId = UiUtils.getTagOverlayColor(speaker.tags.get(0));
+        int colorResId = TagHelper.getTagOverlayColor(speaker.tags.get(0));
         if (UiUtils.isLandscape(getContext())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int statusBarColor = ContextCompat.getColor(getContext(), UiUtils.getTagDarkColor(speaker.tags.get(0)));
+                int statusBarColor = ContextCompat.getColor(getContext(),
+                        TagHelper.getTagDarkColor(speaker.tags.get(0)));
                 getActivity().getWindow().setStatusBarColor(statusBarColor);
             }
             binding.toolbar.setBackgroundResource(colorResId);

@@ -13,6 +13,7 @@ import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.model.User;
 import de.devfest.mvpbase.BaseFragment;
+import de.devfest.ui.TagHelper;
 import de.devfest.ui.UiUtils;
 
 import javax.inject.Inject;
@@ -37,13 +38,13 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String tag = getActivity().getIntent().getStringExtra(SessionDetailsActivity.EXTRA_SESSION_TAG);
-        int tagColorDarkRes = UiUtils.getTagDarkColor(tag);
-        int tagColorRes = UiUtils.getTagColor(tag);
+        int tagColorDarkRes = TagHelper.getTagDarkColor(tag);
+        int tagColorRes = TagHelper.getTagColor(tag);
 
         ((ViewGroup.MarginLayoutParams) binding.imageTopic.getLayoutParams()).topMargin
                 = UiUtils.getStatusBarHeight(getContext())
                 + getResources().getDimensionPixelSize(R.dimen.spacing_small);
-        binding.imageTopic.setImageDrawable(UiUtils.getTagIcon(getContext(), tag));
+        binding.imageTopic.setImageDrawable(TagHelper.getTagIcon(getContext(), tag));
         binding.collapsingToolbarLayout.setContentScrimResource(tagColorDarkRes);
         binding.appbar.setBackgroundResource(tagColorDarkRes);
         binding.containerSessionContent.setBackgroundResource(tagColorRes);

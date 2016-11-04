@@ -95,7 +95,7 @@ public class SessionAdapter extends
             String tag = null;
             if (!session.session.tags.isEmpty()) tag = session.session.tags.get(0);
             binding.imageSession.setImageDrawable(
-                    UiUtils.getCircledTagIcon(binding.getRoot().getContext(), tag, useSimpleView));
+                    TagHelper.getCircledTagIcon(binding.getRoot().getContext(), tag, useSimpleView));
             binding.textSessionTitle.setText(session.session.title);
             binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
 
@@ -110,7 +110,8 @@ public class SessionAdapter extends
             binding.getRoot().setTag(session);
 
             if (!useSimpleView) {
-                int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(), UiUtils.getTagOverlayColor(tag));
+                int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(),
+                        TagHelper.getTagOverlayColor(tag));
                 binding.containerSessionForeground.setBackgroundColor(overlayColor);
                 if (!session.session.speakers.isEmpty()) {
                     Speaker speaker = session.session.speakers.get(0);
