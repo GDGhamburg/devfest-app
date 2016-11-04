@@ -9,7 +9,9 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 import dagger.Lazy;
@@ -119,7 +121,9 @@ public final class FirebaseSessionManager implements SessionManager {
                             .stage(stage)
                             .track(track)
                             .isScheduable(firebaseSession.isScheduable)
-                            .tag((firebaseSession.tag))
+                            .tags(session.tags == null
+                                    ? Collections.emptyList()
+                                    : Arrays.asList(session.tags.split(",")))
                             .build();
                 }
 

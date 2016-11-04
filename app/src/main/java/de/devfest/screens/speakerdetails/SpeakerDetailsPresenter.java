@@ -75,7 +75,8 @@ public class SpeakerDetailsPresenter extends AuthPresenter<SpeakerDetailsView>
 
     @Override
     public void onSessionClick(Session session) {
-        getView().showSessionDetails(session.id, session.tag);
+        String tag = session.tags.isEmpty() ? null : session.tags.get(0);
+        getView().showSessionDetails(session.id, tag);
     }
 
     @Override

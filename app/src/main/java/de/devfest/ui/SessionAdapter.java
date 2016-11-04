@@ -95,7 +95,7 @@ public class SessionAdapter extends
 
         public void bind(ScheduleSession session, boolean useSimpleView) {
             String tag = null;
-            if (!session.session.speakers.isEmpty()) tag = session.session.tag;
+            if (!session.session.tags.isEmpty()) tag = session.session.tags.get(0);
             binding.imageSession.setImageDrawable(
                     UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), tag, useSimpleView));
             binding.textSessionTitle.setText(session.session.title);

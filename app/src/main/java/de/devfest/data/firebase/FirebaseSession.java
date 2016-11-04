@@ -12,7 +12,7 @@ final class FirebaseSession {
     public String stage;
     public String language;
     public boolean isScheduable;
-    public String tag;
+    public String tags;
 
     public Map<String, String> speakers;
 
