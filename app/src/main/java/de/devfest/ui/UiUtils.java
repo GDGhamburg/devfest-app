@@ -11,21 +11,22 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.widget.ImageButton;
 
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
 
-import java.util.List;
-
 import de.devfest.R;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static android.util.TypedValue.COMPLEX_UNIT_PX;
+import static de.devfest.model.Speaker.TAG_ANALYTICS;
 import static de.devfest.model.Speaker.TAG_ANDROID;
 import static de.devfest.model.Speaker.TAG_CLOUD;
+import static de.devfest.model.Speaker.TAG_FIREBASE;
 import static de.devfest.model.Speaker.TAG_WEB;
 
 public final class UiUtils {
@@ -74,43 +75,105 @@ public final class UiUtils {
         return context.getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE;
     }
 
-    public static @ColorRes int getTagColor(List<String> tags) {
-        int colorResId = R.color.tag_default;
-        if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android;
-        else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web;
-        else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud;
-        return colorResId;
-    }
-
-    public static @ColorRes int getTagDarkColor(List<String> tags) {
-        int colorResId = R.color.tag_default_dark;
-        if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_dark;
-        else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web_dark;
-        else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_dark;
-        return colorResId;
-    }
-
-    public static @ColorRes int getTagOverlayColor(List<String> tags) {
+    public static @ColorRes int getTagColor(String tag) {
         int colorResId = R.color.tag_default_overlay;
-        if (tags.contains(TAG_ANDROID)) colorResId = R.color.tag_android_overlay;
-        else if (tags.contains(TAG_WEB)) colorResId = R.color.tag_web_overlay;
-        else if (tags.contains(TAG_CLOUD)) colorResId = R.color.tag_cloud_overlay;
+        if (!TextUtils.isEmpty(tag)) {
+            switch (tag) {
+                case TAG_ANDROID:
+                    colorResId = R.color.tag_android;
+                    break;
+                case TAG_CLOUD:
+                    colorResId = R.color.tag_cloud;
+                    break;
+                case TAG_WEB:
+                    colorResId = R.color.tag_web;
+                    break;
+                case TAG_FIREBASE:
+                    colorResId = R.color.tag_firebase;
+                    break;
+                case TAG_ANALYTICS:
+                    colorResId = R.color.tag_analytics;
+                    break;
+                default:
+                    colorResId = R.color.tag_default;
+            }
+        }
         return colorResId;
     }
 
-    public static Drawable getCircledTrackIcon(Context context, List<String> tags, boolean coloredCircle) {
+    public static @ColorRes int getTagDarkColor(String tag) {
+        int colorResId = R.color.tag_default_dark;
+        if (!TextUtils.isEmpty(tag)) {
+            switch (tag) {
+                case TAG_ANDROID:
+                    colorResId = R.color.tag_android_dark;
+                    break;
+                case TAG_CLOUD:
+                    colorResId = R.color.tag_cloud_dark;
+                    break;
+                case TAG_WEB:
+                    colorResId = R.color.tag_web_dark;
+                    break;
+                case TAG_FIREBASE:
+                    colorResId = R.color.tag_firebase_dark;
+                    break;
+                case TAG_ANALYTICS:
+                    colorResId = R.color.tag_analytics_dark;
+                    break;
+                default:
+                    colorResId = R.color.tag_default_dark;
+            }
+        }
+        return colorResId;
+    }
+
+    public static @ColorRes int getTagOverlayColor(String tag) {
+        int colorResId = R.color.tag_default_overlay;
+        if (!TextUtils.isEmpty(tag)) {
+            switch (tag) {
+                case TAG_ANDROID:
+                    colorResId = R.color.tag_android_overlay;
+                    break;
+                case TAG_CLOUD:
+                    colorResId = R.color.tag_cloud_overlay;
+                    break;
+                case TAG_WEB:
+                    colorResId = R.color.tag_web_overlay;
+                    break;
+                case TAG_FIREBASE:
+                    colorResId = R.color.tag_firebase_overlay;
+                    break;
+                case TAG_ANALYTICS:
+                    colorResId = R.color.tag_analytics_overlay;
+                    break;
+                default:
+                    colorResId = R.color.tag_default_overlay;
+            }
+        }
+        return colorResId;
+    }
+
+    public static Drawable getCircledTrackIcon(Context context, String tag, boolean coloredCircle) {
         int drawableResId = 0;
-        if (tags.contains(TAG_ANDROID)) {
-            drawableResId = coloredCircle ? R.drawable.ic_android : R.drawable.ic_android_colored;
-        } else if (tags.contains(TAG_WEB)) drawableResId = coloredCircle ? R.drawable.ic_web : R.drawable.ic_web_colored;
-        else if (tags.contains(TAG_CLOUD)) {
-            drawableResId = coloredCircle ? R.drawable.ic_cloud : R.drawable.ic_cloud_colored;
+        if (!TextUtils.isEmpty(tag)) {
+            switch (tag) {
+                case TAG_ANDROID:
+                    drawableResId = coloredCircle ? R.drawable.ic_android : R.drawable.ic_android_colored;
+                    break;
+                case TAG_CLOUD:
+                    drawableResId = coloredCircle ? R.drawable.ic_cloud : R.drawable.ic_cloud_colored;
+                    break;
+                case TAG_WEB:
+                    drawableResId = coloredCircle ? R.drawable.ic_web : R.drawable.ic_web_colored;
+                    break;
+                default:
+            }
         }
         if (drawableResId != 0) {
             Drawable[] layers = new Drawable[2];
             layers[0] = ContextCompat.getDrawable(context, R.drawable.shape_circle).mutate();
             if (coloredCircle) {
-                int color = getTagColor(tags);
+                int color = getTagColor(tag);
                 layers[0].setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_OVER);
             }
             int bounds = (int) dipsToPxls(context, 8);

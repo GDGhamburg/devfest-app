@@ -75,7 +75,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
         super.onPause();
     }
 
-    private static class EventTrackPagerAdapter extends SmartFragmentStatePagerAdapter<EventPartFragment> {
+    private class EventTrackPagerAdapter extends SmartFragmentStatePagerAdapter<EventPartFragment> {
 
         private final List<Pair<String, String>> trackList = new ArrayList<>();
 
@@ -100,5 +100,10 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
                 trackList.add(Pair.create(eventPart.id, track.id));
             }
         }
+
+//        @Override
+//        public float getPageWidth(int position) {
+//            return 0.7f;
+//        }
     }
 }

@@ -66,7 +66,7 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
             binding.textSpeakerName.setText(speaker.name);
             binding.textSpeakerInfo.setText(speaker.company);
 
-            int colorResId = UiUtils.getTagColor(speaker.tags);
+            int colorResId = UiUtils.getTagColor(speaker.tags.get(0));
             if (colorResId != 0) binding.viewTag.setBackgroundResource(colorResId);
 
             int pixels = itemView.getResources().getDisplayMetrics().widthPixels + 100;

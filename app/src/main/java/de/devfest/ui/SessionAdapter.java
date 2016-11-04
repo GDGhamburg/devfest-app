@@ -14,9 +14,6 @@ import android.widget.ImageButton;
 import com.bumptech.glide.Glide;
 import com.rohitarya.glide.facedetection.transformation.FaceCenterCrop;
 
-import java.util.Collections;
-import java.util.List;
-
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.model.ScheduleSession;
@@ -97,10 +94,10 @@ public class SessionAdapter extends
         }
 
         public void bind(ScheduleSession session, boolean useSimpleView) {
-            List<String> tags = Collections.emptyList();
-            if (!session.session.speakers.isEmpty()) tags = session.session.speakers.get(0).tags;
+            String tag = null;
+            if (!session.session.speakers.isEmpty()) tag = session.session.tag;
             binding.imageSession.setImageDrawable(
-                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), tags, useSimpleView));
+                    UiUtils.getCircledTrackIcon(binding.getRoot().getContext(), tag, useSimpleView));
             binding.textSessionTitle.setText(session.session.title);
             binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
 
@@ -115,7 +112,7 @@ public class SessionAdapter extends
             binding.getRoot().setTag(session);
 
             if (!useSimpleView) {
-                int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(), UiUtils.getTagOverlayColor(tags));
+                int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(), UiUtils.getTagOverlayColor(tag));
                 binding.containerSessionForeground.setBackgroundColor(overlayColor);
                 if (!session.session.speakers.isEmpty()) {
                     Speaker speaker = session.session.speakers.get(0);

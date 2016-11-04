@@ -7,6 +7,10 @@ public final class Speaker {
     public final static String TAG_ANDROID = "android";
     public final static String TAG_WEB = "web";
     public final static String TAG_CLOUD = "cloud";
+
+    public final static String TAG_FIREBASE = "firebase";
+    public final static String TAG_ANALYTICS = "analytics";
+
     public final static String TAG_GDE = "gde";
     public final static String TAG_GDG = "gdg";
 

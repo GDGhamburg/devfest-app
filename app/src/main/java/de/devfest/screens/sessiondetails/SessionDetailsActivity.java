@@ -11,10 +11,12 @@ import de.devfest.R;
 public class SessionDetailsActivity extends AppCompatActivity {
 
     public final static String EXTRA_SESSION_ID = "EXTRA_SESSION_ID";
+    public final static String EXTRA_SESSION_TAG = "EXTRA_SESSION_TAG";
 
-    public static Intent createIntent(Context context, String sessionId) {
+    public static Intent createIntent(Context context, String sessionId, String tag) {
         Intent intent = new Intent(context, SessionDetailsActivity.class);
         intent.putExtra(EXTRA_SESSION_ID, sessionId);
+        intent.putExtra(EXTRA_SESSION_TAG, tag);
         return intent;
     }
 

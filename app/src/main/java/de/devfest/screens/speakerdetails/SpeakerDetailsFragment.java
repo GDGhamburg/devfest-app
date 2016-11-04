@@ -103,10 +103,10 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
         binding.textSpeakerJobTitle.setText(speaker.jobTitle);
         binding.textSpeakerCompany.setText(speaker.company);
         socialLinksAdapter.setSocialLinks(speaker.socialLinks);
-        int colorResId = UiUtils.getTagOverlayColor(speaker.tags);
+        int colorResId = UiUtils.getTagOverlayColor(speaker.tags.get(0));
         if (UiUtils.isLandscape(getContext())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int statusBarColor = ContextCompat.getColor(getContext(), UiUtils.getTagDarkColor(speaker.tags));
+                int statusBarColor = ContextCompat.getColor(getContext(), UiUtils.getTagDarkColor(speaker.tags.get(0)));
                 getActivity().getWindow().setStatusBarColor(statusBarColor);
             }
             binding.toolbar.setBackgroundResource(colorResId);
@@ -152,8 +152,8 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
     }
 
     @Override
-    public void showSessionDetails(String sessionId) {
-        Intent intent = SessionDetailsActivity.createIntent(getContext(), sessionId);
+    public void showSessionDetails(String sessionId, String tag) {
+        Intent intent = SessionDetailsActivity.createIntent(getContext(), sessionId, tag);
         getContext().startActivity(intent);
     }
 

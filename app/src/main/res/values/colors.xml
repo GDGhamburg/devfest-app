@@ -16,6 +16,13 @@
     <color name="tag_cloud">#3FA5FF</color>
     <color name="tag_cloud_dark">#307FC4</color>
     <color name="tag_cloud_overlay">#AA3FA5FF</color>
+    <color name="tag_firebase">#ffcb2b</color>
+    <color name="tag_firebase_dark">#fccb2b</color>
+    <color name="tag_firebase_overlay">#CAffcb2b</color>
+
+    <color name="tag_analytics">#f57e04</color>
+    <color name="tag_analytics_dark">#f27b03</color>
+    <color name="tag_analytics_overlay">#CAf57e04</color>
 
     <!-- black with 54% opacity -->
     <color name="black_54">#8a000000</color>

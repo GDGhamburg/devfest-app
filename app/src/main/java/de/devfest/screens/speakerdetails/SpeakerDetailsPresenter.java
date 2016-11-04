@@ -75,7 +75,7 @@ public class SpeakerDetailsPresenter extends AuthPresenter<SpeakerDetailsView>
 
     @Override
     public void onSessionClick(Session session) {
-        getView().showSessionDetails(session.id);
+        getView().showSessionDetails(session.id, session.tag);
     }
 
     @Override
