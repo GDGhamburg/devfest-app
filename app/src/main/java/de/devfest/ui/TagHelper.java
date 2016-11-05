@@ -9,11 +9,12 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+
 import de.devfest.R;
 
 import static de.devfest.ui.UiUtils.dipsToPxls;
 
-public class TagHelper {
+public final class TagHelper {
 
     public final static String TAG_ANDROID = "android";
     public final static String TAG_WEB = "web";
@@ -141,6 +142,9 @@ public class TagHelper {
                     break;
                 case TAG_WEB:
                     drawableResId = R.drawable.ic_web;
+                    break;
+                case TAG_FIREBASE:
+                    drawableResId = R.drawable.ic_firebase;
                     break;
                 case TAG_ANALYTICS:
                     drawableResId = R.drawable.ic_chart;

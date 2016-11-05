@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Firebase DevSummit</string>
 
-    <string name="devfest_tag">#firebase #devSummit</string>
+    <string name="devfest_tag">#firebaseDevSummit</string>
 </resources>
