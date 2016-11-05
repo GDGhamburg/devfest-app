@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="transition_speaker_image">transition_speaker_image</string>
+    <string name="transition_session_title">transition_session_title</string>
+    <string name="transition_session_sub">transition_session_sub</string>
 </resources>

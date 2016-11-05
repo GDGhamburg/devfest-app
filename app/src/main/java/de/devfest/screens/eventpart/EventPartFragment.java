@@ -1,6 +1,5 @@
 package de.devfest.screens.eventpart;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,7 +23,7 @@ import de.devfest.ui.SessionAdapter;
 import timber.log.Timber;
 
 public class EventPartFragment extends AuthFragment<EventPartView, EventPartPresenter>
-        implements EventPartView {
+        implements EventPartView, View.OnClickListener {
 
     private static final String ARGS_TRACK_ID = "track_id";
     private static final String ARGS_PART_ID = "event_part_id";
@@ -72,7 +71,7 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
         GlideFaceDetector.initialize(getContext());
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
         binding.trackSessionList.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new SessionAdapter(presenter);
+        adapter = new SessionAdapter(presenter, this);
         binding.trackSessionList.setAdapter(adapter);
         return binding.getRoot();
     }
@@ -112,8 +111,9 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
         Timber.e(error);
     }
 
-    @Override public void showSessionDetails(String sessionId, String tag) {
-        Intent intent = SessionDetailsActivity.createIntent(getContext(), sessionId, tag);
-        getContext().startActivity(intent);
+    @Override
+    public void onClick(View view) {
+        Session session = adapter.getSession(binding.trackSessionList.getChildAdapterPosition(view));
+        SessionDetailsActivity.showWithTransition(session, getActivity(), view);
     }
 }

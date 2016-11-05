@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import javax.inject.Inject;
+
 import de.devfest.R;
 import de.devfest.databinding.FragmentSessionDetailsBinding;
 import de.devfest.injection.ApplicationComponent;
@@ -15,8 +18,6 @@ import de.devfest.model.User;
 import de.devfest.mvpbase.BaseFragment;
 import de.devfest.ui.TagHelper;
 import de.devfest.ui.UiUtils;
-
-import javax.inject.Inject;
 
 public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, SessionDetailsPresenter>
         implements SessionDetailsView {
@@ -48,6 +49,8 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
         binding.collapsingToolbarLayout.setContentScrimResource(tagColorDarkRes);
         binding.appbar.setBackgroundResource(tagColorDarkRes);
         binding.containerSessionContent.setBackgroundResource(tagColorRes);
+
+        getActivity().supportStartPostponedEnterTransition();
     }
 
     @Override

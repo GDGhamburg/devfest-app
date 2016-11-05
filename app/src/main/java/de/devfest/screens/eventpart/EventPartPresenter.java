@@ -57,12 +57,6 @@ public class EventPartPresenter extends AuthPresenter<EventPartView>
     }
 
     @Override
-    public void onSessionClick(Session session) {
-        String tag = session.tags.isEmpty() ? null : session.tags.get(0);
-        getView().showSessionDetails(session.id, tag);
-    }
-
-    @Override
     public void onAddSessionClick(Session session) {
         userManager.get().getCurrentUser()
                 .observeOn(AndroidSchedulers.mainThread())

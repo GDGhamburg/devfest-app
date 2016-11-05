@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.bumptech.glide.Glide;
+
 import de.devfest.R;
 import de.devfest.databinding.ItemSpeakerBinding;
 import de.devfest.model.Speaker;
@@ -44,8 +46,8 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
         return speakers.size();
     }
 
-    public String getSpeakerId(int position) {
-        return speakers.get(position).speakerId;
+    public Speaker getSpeaker(int position) {
+        return speakers.get(position);
     }
 
     public void addSpeaker(@NonNull Speaker speaker) {

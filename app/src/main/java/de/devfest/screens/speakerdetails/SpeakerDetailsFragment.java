@@ -15,10 +15,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+
+import javax.inject.Inject;
+
 import de.devfest.R;
 import de.devfest.databinding.FragmentSpeakerDetailsBinding;
 import de.devfest.injection.ApplicationComponent;
@@ -31,8 +35,6 @@ import de.devfest.ui.SessionAdapter;
 import de.devfest.ui.TagHelper;
 import de.devfest.ui.UiUtils;
 import timber.log.Timber;
-
-import javax.inject.Inject;
 
 import static de.devfest.ui.UiUtils.CACHED_SPEAKER_IMAGE_SIZE;
 
@@ -86,7 +88,7 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
     public void onSpeakerAvailable(Speaker speaker) {
         setDetails(speaker);
         setImage(speaker);
-        sessionAdapter = new SessionAdapter(presenter);
+        sessionAdapter = new SessionAdapter(presenter, this);
         sessionAdapter.setSimpleViewEnabled(true);
         binding.sessionList.setAdapter(sessionAdapter);
     }
@@ -152,16 +154,23 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
     }
 
     @Override
-    public void showSessionDetails(String sessionId, String tag) {
-        Intent intent = SessionDetailsActivity.createIntent(getContext(), sessionId, tag);
-        getContext().startActivity(intent);
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.btnSocial:
+                int index = binding.gridSocialButtons.getChildAdapterPosition(view);
+                SocialLink link = socialLinksAdapter.getItem(index);
+                presenter.onLinkClick(link);
+                break;
+            case R.id.cardSession:
+                showSessionDetails(view);
+                break;
+            default:
+        }
     }
 
-    @Override
-    public void onClick(View view) {
-        int index = binding.gridSocialButtons.getChildAdapterPosition(view);
-        SocialLink link = socialLinksAdapter.getItem(index);
-        presenter.onLinkClick(link);
+    private void showSessionDetails(View view) {
+        Session session = sessionAdapter.getSession(binding.sessionList.getChildAdapterPosition(view));
+        SessionDetailsActivity.showWithTransition(session, getActivity(), view);
     }
 
     @NonNull

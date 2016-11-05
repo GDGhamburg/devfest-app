@@ -62,11 +62,6 @@ public class SessionDetailsPresenter extends AuthPresenter<SessionDetailsView>
     }
 
     @Override
-    public void onSessionClick(Session session) {
-
-    }
-
-    @Override
     public void onAddSessionClick(Session session) {
         userManager.get().getCurrentUser()
                 .observeOn(AndroidSchedulers.mainThread())

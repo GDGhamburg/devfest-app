@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
 import com.bumptech.glide.Glide;
 import com.rohitarya.glide.facedetection.transformation.FaceCenterCrop;
+
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.model.ScheduleSession;
@@ -23,13 +25,15 @@ public class SessionAdapter extends
 
     private final SortedList<ScheduleSession> sessions;
     private final SessionInteractionListener interactionListener;
+    private final View.OnClickListener itemClickListener;
 
     private boolean useSimpleView;
     private int addIconColor = -1;
 
-    public SessionAdapter(SessionInteractionListener interactionListener) {
+    public SessionAdapter(SessionInteractionListener interactionListener, View.OnClickListener itemClickListener) {
         this.sessions = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
         this.interactionListener = interactionListener;
+        this.itemClickListener = itemClickListener;
     }
 
     public void setSimpleViewEnabled(boolean enabled) {
@@ -41,7 +45,7 @@ public class SessionAdapter extends
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_session, parent, false);
         ItemSessionBinding binding = DataBindingUtil.bind(view);
-        binding.getRoot().setOnClickListener(this);
+        binding.getRoot().setOnClickListener(itemClickListener);
         binding.buttonAdd.setOnClickListener(this);
         if (useSimpleView) {
             TextViewCompat.setTextAppearance(binding.textSessionTitle, R.style.TextAppearance_DevFest_Card_Title);
@@ -79,8 +83,11 @@ public class SessionAdapter extends
                 }, view.getContext().getResources().getInteger(R.integer.add_duration) + 100);
                 break;
             default:
-                interactionListener.onSessionClick(session.session);
         }
+    }
+
+    public Session getSession(int position) {
+        return sessions.get(position).session;
     }
 
     public static class SpeakerSessionViewHolder extends RecyclerView.ViewHolder {
@@ -125,7 +132,6 @@ public class SessionAdapter extends
     }
 
     public interface SessionInteractionListener {
-        void onSessionClick(Session session);
         void onAddSessionClick(Session session);
         void onRemoveSessionClick(Session session);
     }

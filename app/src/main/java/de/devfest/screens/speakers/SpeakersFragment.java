@@ -68,7 +68,7 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
 
     @Override
     public void onClick(View view) {
-        String speakerId = adapter.getSpeakerId(binding.listSpeakers.getChildAdapterPosition(view));
+        String speakerId = adapter.getSpeaker(binding.listSpeakers.getChildAdapterPosition(view)).speakerId;
         Intent intent = SpeakerDetailsActivity.createIntent(getContext(), speakerId);
         View srcView = view.findViewById(R.id.imageSpeaker);
         Pair<View, String> pair = Pair.create(srcView, ViewCompat.getTransitionName(srcView));

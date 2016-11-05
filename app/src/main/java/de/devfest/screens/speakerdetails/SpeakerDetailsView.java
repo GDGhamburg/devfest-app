@@ -15,6 +15,4 @@ public interface SpeakerDetailsView extends MvpBase.AuthView {
     void onError(Throwable error);
 
     void openLink(String link);
-
-    void showSessionDetails(String sessionId, String tag);
 }

@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="tag_default">#c1c0c0</color>
+    <color name="tag_default">#b4b4b4</color>
     <color name="tag_default_dark">#8b8a8a</color>
-    <color name="tag_default_overlay">#CAD3D3D3</color>
+    <color name="tag_default_overlay">#CAb4b4b4</color>
 
     <color name="tag_android">#A4C639</color>
     <color name="tag_android_dark">#7C962B</color>
@@ -20,7 +20,7 @@
     <color name="tag_cloud_dark">#307FC4</color>
     <color name="tag_cloud_overlay">#AA3FA5FF</color>
 
-    <color name="tag_firebase">#ffcb2b</color>
+    <color name="tag_firebase">#edbe28</color>
     <color name="tag_firebase_dark">#d1a822</color>
     <color name="tag_firebase_overlay">#CAffcb2b</color>
 
