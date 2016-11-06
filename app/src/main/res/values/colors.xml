@@ -22,7 +22,7 @@
 
     <color name="tag_firebase">#edbe28</color>
     <color name="tag_firebase_dark">#d1a822</color>
-    <color name="tag_firebase_overlay">#CAffcb2b</color>
+    <color name="tag_firebase_overlay">#CAedbe28</color>
 
     <color name="tag_ios">#99c0e2</color>
     <color name="tag_ios_dark">#6c879f</color>

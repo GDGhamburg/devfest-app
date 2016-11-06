@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
 
         Toolbar toolbar = binding.appbar.toolbar;
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.devfest_tag);
+        getSupportActionBar().setTitle(R.string.event_tag);
 
         DrawerLayout drawer = binding.drawerLayout;
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_dashboard:
-                getSupportActionBar().setTitle(R.string.devfest_tag);
+                getSupportActionBar().setTitle(R.string.event_tag);
                 showFragment(DashboardFragment.TAG);
                 break;
             case R.id.nav_schedule:

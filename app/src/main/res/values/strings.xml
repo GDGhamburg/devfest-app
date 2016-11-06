@@ -1,5 +1,5 @@
 <resources>
-    <string name="devfest_tag">#gdg #devfest</string>
+    <string name="event_tag">#gdg #devfest</string>
 
     <string name="nav_drawer_open">Open navigation drawer</string>
     <string name="nav_drawer_close">Close navigation drawer</string>
