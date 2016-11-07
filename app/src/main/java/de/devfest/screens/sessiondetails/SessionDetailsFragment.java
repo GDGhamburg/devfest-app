@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import de.devfest.ui.TagHelper;
 import de.devfest.ui.UiUtils;
 
 public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, SessionDetailsPresenter>
-        implements SessionDetailsView {
+        implements SessionDetailsView, View.OnClickListener {
 
     @Inject
     SessionDetailsPresenter presenter;
@@ -49,6 +50,7 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
         binding.collapsingToolbarLayout.setContentScrimResource(tagColorDarkRes);
         binding.appbar.setBackgroundResource(tagColorDarkRes);
         binding.containerSessionContent.setBackgroundResource(tagColorRes);
+        binding.speakerList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         getActivity().supportStartPostponedEnterTransition();
     }
@@ -67,9 +69,14 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
     @Override
     public void onSessionReceived(Session session, boolean isScheduled) {
         binding.textSessionDesc.setText(session.description);
-        binding.textLocation.setText(session.stage.name);
+        if (session.stage != null) {
+            binding.textLocation.setText(session.stage.name);
+            binding.imageSessionLocation.setVisibility(View.VISIBLE);
+            binding.textLocation.setVisibility(View.VISIBLE);
+        }
         binding.textSessionTitle.setText(session.title);
         binding.textSessionSub.setText(session.startTime.format(UiUtils.getSessionStartFormat()));
+        binding.speakerList.setAdapter(new SessionSpeakerAdapter(session.speakers, this));
     }
 
     @Override
@@ -84,6 +91,12 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
 
     @Override
     public void onSuccessfullLogin(@NonNull User user) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        int index = binding.speakerList.getChildAdapterPosition(view);
 
     }
 }

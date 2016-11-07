@@ -107,11 +107,13 @@ public class SessionAdapter extends
             binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
 
             if (session.session.isScheduable) {
+                binding.getRoot().getLayoutParams().height = (int) UiUtils.dipsToPxls(binding.getRoot().getContext(), 120);
                 binding.buttonAdd.setVisibility(View.VISIBLE);
                 binding.buttonAdd.setTag(session);
                 UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd,
                         binding.textSessionTitle.getCurrentTextColor());
             } else {
+                binding.getRoot().getLayoutParams().height = RecyclerView.LayoutParams.WRAP_CONTENT;
                 binding.buttonAdd.setVisibility(View.GONE);
             }
             binding.getRoot().setTag(session);
