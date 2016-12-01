@@ -71,13 +71,13 @@
 
                     <ImageView
                         android:id="@+id/imageSpeakerDesc"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/ic_person"
+                        android:tint="@android:color/black"
                         android:scaleType="center"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="16dp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:layout_marginLeft="20dp"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginTop="16dp"
                         tools:ignore="ContentDescription"/>
@@ -90,22 +90,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         app:layout_constraintLeft_toRightOf="@+id/imageSpeakerDesc"
-                        android:layout_marginLeft="16dp"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
-                        app:layout_constraintRight_toRightOf="parent"
-                        android:layout_marginRight="16dp"/>
+                        app:layout_constraintRight_toRightOf="parent"/>
 
                     <ImageView
                         android:id="@+id/imageSpeakerCompany"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/ic_company"
                         android:scaleType="center"
                         android:layout_marginTop="24dp"
                         app:layout_constraintTop_toBottomOf="@+id/textSpeakerDesc"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="16dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         tools:ignore="ContentDescription"/>
 
@@ -138,12 +136,10 @@
                     android:id="@+id/gridSocialButtons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"/>
+                    android:layout_marginEnd="16dp"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/sessionList"

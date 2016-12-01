@@ -72,7 +72,7 @@ class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.SpeakerViewHold
             if (!TextUtils.isEmpty(speaker.photoUrl)) {
                 Glide.with(binding.imageSpeaker.getContext())
                         .load(speaker.photoUrl)
-                        .placeholder(R.drawable.ic_devfesthh_grey)
+                        .placeholder(R.drawable.ic_speaker_placeholder_grey)
                         .override(CACHED_SPEAKER_IMAGE_SIZE, CACHED_SPEAKER_IMAGE_SIZE)
                         .into(binding.imageSpeaker);
             } else {

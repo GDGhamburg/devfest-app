@@ -1,5 +1,6 @@
 package de.devfest.ui;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.support.v4.content.ContextCompat;
@@ -100,14 +101,16 @@ public class SessionAdapter extends
 
         public void bind(ScheduleSession session, boolean useSimpleView) {
             String tag = null;
+            Context context = binding.getRoot().getContext();
             if (!session.session.tags.isEmpty()) tag = session.session.tags.get(0);
             binding.imageSession.setImageDrawable(
-                    TagHelper.getCircledTagIcon(binding.getRoot().getContext(), tag, useSimpleView));
+                    TagHelper.getCircledTagIcon(context, tag, useSimpleView));
             binding.textSessionTitle.setText(session.session.title);
             binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
 
             if (session.session.isScheduable) {
-                binding.getRoot().getLayoutParams().height = (int) UiUtils.dipsToPxls(binding.getRoot().getContext(), 120);
+                binding.getRoot().getLayoutParams().height =
+                        context.getResources().getDimensionPixelSize(R.dimen.session_item_height);
                 binding.buttonAdd.setVisibility(View.VISIBLE);
                 binding.buttonAdd.setTag(session);
                 UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd,
@@ -128,6 +131,8 @@ public class SessionAdapter extends
                             .load(speaker.photoUrl)
                             .transform(new FaceCenterCrop())
                             .into(binding.imageSessionBackground);
+                } else {
+                    binding.imageSessionBackground.setImageDrawable(null);
                 }
             }
         }

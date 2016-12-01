@@ -41,6 +41,10 @@ public class SessionSpeakerAdapter extends RecyclerView.Adapter<SessionSpeakerAd
         return speakers.size();
     }
 
+    public Speaker getSpeaker(int position) {
+        return speakers.get(position);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         ItemSessionSpeakerBinding binding;
 

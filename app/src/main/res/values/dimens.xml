@@ -8,4 +8,6 @@
 
     <dimen name="nav_header_height">172dp</dimen>
     <dimen name="nav_drawer_width">280dp</dimen>
+
+    <dimen name="session_item_height">120dp</dimen>
 </resources>

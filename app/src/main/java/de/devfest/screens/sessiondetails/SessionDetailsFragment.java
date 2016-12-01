@@ -1,9 +1,11 @@
 package de.devfest.screens.sessiondetails;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.model.User;
 import de.devfest.mvpbase.BaseFragment;
+import de.devfest.screens.speakerdetails.SpeakerDetailsActivity;
 import de.devfest.ui.TagHelper;
 import de.devfest.ui.UiUtils;
 
@@ -27,6 +30,7 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
     SessionDetailsPresenter presenter;
 
     private FragmentSessionDetailsBinding binding;
+    private SessionSpeakerAdapter speakerAdapter;
 
     @Nullable
     @Override
@@ -43,6 +47,10 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
         int tagColorDarkRes = TagHelper.getTagDarkColor(tag);
         int tagColorRes = TagHelper.getTagColor(tag);
 
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            // fine as long as there is no deep linking to speaker details
+            ActivityCompat.finishAfterTransition(getActivity());
+        });
         ((ViewGroup.MarginLayoutParams) binding.imageTopic.getLayoutParams()).topMargin
                 = UiUtils.getStatusBarHeight(getContext())
                 + getResources().getDimensionPixelSize(R.dimen.spacing_small);
@@ -76,7 +84,9 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
         }
         binding.textSessionTitle.setText(session.title);
         binding.textSessionSub.setText(session.startTime.format(UiUtils.getSessionStartFormat()));
-        binding.speakerList.setAdapter(new SessionSpeakerAdapter(session.speakers, this));
+        binding.textLanguage.setText(session.language);
+        speakerAdapter = new SessionSpeakerAdapter(session.speakers, this);
+        binding.speakerList.setAdapter(speakerAdapter);
     }
 
     @Override
@@ -96,7 +106,8 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
 
     @Override
     public void onClick(View view) {
-        int index = binding.speakerList.getChildAdapterPosition(view);
-
+        int position = binding.speakerList.getChildAdapterPosition(view);
+        Intent intent = SpeakerDetailsActivity.createIntent(getContext(), speakerAdapter.getSpeaker(position).speakerId);
+        getContext().startActivity(intent);
     }
 }
