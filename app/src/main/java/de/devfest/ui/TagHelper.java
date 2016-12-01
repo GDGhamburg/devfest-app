@@ -176,6 +176,15 @@ public final class TagHelper {
                 case TAG_WEB:
                     drawableResId = coloredCircle ? R.drawable.ic_web : R.drawable.ic_web_colored;
                     break;
+                case TAG_FIREBASE:
+                    drawableResId = coloredCircle ? R.drawable.ic_firebase : R.drawable.ic_firebase_colored;
+                    break;
+                case TAG_ANALYTICS:
+                    drawableResId = coloredCircle ? R.drawable.ic_chart : R.drawable.ic_chart_colored;
+                    break;
+                case TAG_IOS:
+                    drawableResId = coloredCircle ? R.drawable.ic_ios : R.drawable.ic_ios_colored;
+                    break;
                 default:
             }
         }
