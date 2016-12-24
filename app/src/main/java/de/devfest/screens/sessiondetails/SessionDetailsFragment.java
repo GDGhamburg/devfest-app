@@ -2,11 +2,15 @@ package de.devfest.screens.sessiondetails;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +20,13 @@ import javax.inject.Inject;
 import de.devfest.R;
 import de.devfest.databinding.FragmentSessionDetailsBinding;
 import de.devfest.injection.ApplicationComponent;
+import de.devfest.model.ScheduleSession;
 import de.devfest.model.Session;
 import de.devfest.model.User;
 import de.devfest.mvpbase.BaseFragment;
 import de.devfest.screens.speakerdetails.SpeakerDetailsActivity;
 import de.devfest.ui.TagHelper;
+import de.devfest.ui.TransitionListenerAdapter;
 import de.devfest.ui.UiUtils;
 
 public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, SessionDetailsPresenter>
@@ -31,6 +37,9 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
 
     private FragmentSessionDetailsBinding binding;
     private SessionSpeakerAdapter speakerAdapter;
+
+    private boolean transitionHasEnded = false;
+    private ScheduleSession session;
 
     @Nullable
     @Override
@@ -49,7 +58,11 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
 
         binding.toolbar.setNavigationOnClickListener(v -> {
             // fine as long as there is no deep linking to speaker details
-            ActivityCompat.finishAfterTransition(getActivity());
+            if (session != null && session.session.isScheduable) {
+                finish();
+            } else {
+                ActivityCompat.finishAfterTransition(getActivity());
+            }
         });
         ((ViewGroup.MarginLayoutParams) binding.imageTopic.getLayoutParams()).topMargin
                 = UiUtils.getStatusBarHeight(getContext())
@@ -60,7 +73,35 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
         binding.containerSessionContent.setBackgroundResource(tagColorRes);
         binding.speakerList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        getActivity().supportStartPostponedEnterTransition();
+        binding.buttonAdd.setOnClickListener(this);
+
+        if (savedInstanceState == null) {
+            getActivity().getWindow().getSharedElementEnterTransition().addListener(new TransitionListenerAdapter() {
+                @Override
+                public void onTransitionEnd(@NonNull Transition transition) {
+                    transitionHasEnded = true;
+                    if (session != null && session.session.isScheduable) {
+                        binding.buttonAdd.show();
+                    }
+                }
+            });
+            getActivity().supportStartPostponedEnterTransition();
+        } else {
+            binding.buttonAdd.show();
+        }
+    }
+
+    private void finish() {
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.buttonAdd.getLayoutParams();
+        params.setBehavior(null);
+        binding.buttonAdd.setLayoutParams(params);
+
+        binding.buttonAdd.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+            @Override
+            public void onHidden(FloatingActionButton fab) {
+                ActivityCompat.finishAfterTransition(getActivity());
+            }
+        });
     }
 
     @Override
@@ -76,6 +117,7 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
 
     @Override
     public void onSessionReceived(Session session, boolean isScheduled) {
+        this.session = new ScheduleSession(session, isScheduled);
         binding.textSessionDesc.setText(session.description);
         if (session.stage != null) {
             binding.textLocation.setText(session.stage.name);
@@ -87,6 +129,14 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
         binding.textLanguage.setText(session.language);
         speakerAdapter = new SessionSpeakerAdapter(session.speakers, this);
         binding.speakerList.setAdapter(speakerAdapter);
+
+        if (session.isScheduable) {
+            UiUtils.setAddDrawable(isScheduled, binding.buttonAdd,
+                    binding.textSessionTitle.getCurrentTextColor());
+            if (transitionHasEnded) {
+                binding.buttonAdd.show();
+            }
+        }
     }
 
     @Override
@@ -106,8 +156,26 @@ public class SessionDetailsFragment extends BaseFragment<SessionDetailsView, Ses
 
     @Override
     public void onClick(View view) {
-        int position = binding.speakerList.getChildAdapterPosition(view);
-        Intent intent = SpeakerDetailsActivity.createIntent(getContext(), speakerAdapter.getSpeaker(position).speakerId);
-        getContext().startActivity(intent);
+        switch (view.getId()) {
+            case R.id.buttonAdd:
+                UiUtils.onAddButtonClick(binding.buttonAdd, session, presenter, Color.WHITE);
+                break;
+            case R.id.itemSessionSpeaker:
+                int position = binding.speakerList.getChildAdapterPosition(view);
+                Intent intent = SpeakerDetailsActivity.createIntent(getContext(),
+                        speakerAdapter.getSpeaker(position).speakerId);
+                getContext().startActivity(intent);
+                break;
+            default:
+        }
+
+    }
+
+    public boolean onBackPressed() {
+        if (session.session.isScheduable) {
+            finish();
+            return true;
+        }
+        return false;
     }
 }

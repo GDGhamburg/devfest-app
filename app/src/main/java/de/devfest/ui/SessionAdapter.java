@@ -2,7 +2,6 @@ package de.devfest.ui;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.util.SortedList;
@@ -75,13 +74,7 @@ public class SessionAdapter extends
         ScheduleSession session = (ScheduleSession) view.getTag();
         switch (view.getId()) {
             case R.id.buttonAdd:
-                ((AnimatedVectorDrawable) ((ImageButton) view).getDrawable()).start();
-                view.postDelayed(() -> {
-                    if (session.isScheduled) interactionListener.onRemoveSessionClick(session.session);
-                    else interactionListener.onAddSessionClick(session.session);
-                    session.isScheduled = !session.isScheduled;
-                    UiUtils.setAddDrawable(session.isScheduled, (ImageButton) view, addIconColor);
-                }, view.getContext().getResources().getInteger(R.integer.add_duration) + 100);
+                UiUtils.onAddButtonClick((ImageButton) view, session, interactionListener, addIconColor);
                 break;
             default:
         }

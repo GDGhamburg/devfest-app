@@ -44,4 +44,13 @@ public class SessionDetailsActivity extends AppCompatActivity {
         ActivityCompat.postponeEnterTransition(this);
         setContentView(R.layout.activity_session_details);
     }
+
+    @Override
+    public void onBackPressed() {
+        SessionDetailsFragment fragment = (SessionDetailsFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragmentSessionDetails);
+        if (!fragment.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
 }

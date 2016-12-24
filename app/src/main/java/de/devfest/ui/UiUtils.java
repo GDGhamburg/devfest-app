@@ -9,9 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.widget.ImageButton;
-import de.devfest.R;
+
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
+
+import de.devfest.R;
+import de.devfest.model.ScheduleSession;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
@@ -84,5 +87,16 @@ public final class UiUtils {
         drawable = ContextCompat.getDrawable(buttonAdd.getContext(), drawableRes).mutate();
         drawable.setTint(color);
         buttonAdd.setImageDrawable(drawable);
+    }
+
+    public static void onAddButtonClick(ImageButton addButton, ScheduleSession session,
+                                        SessionAdapter.SessionInteractionListener listener, int addIconColor) {
+        ((AnimatedVectorDrawable) addButton.getDrawable()).start();
+        addButton.postDelayed(() -> {
+            if (session.isScheduled) listener.onRemoveSessionClick(session.session);
+            else listener.onAddSessionClick(session.session);
+            session.isScheduled = !session.isScheduled;
+            UiUtils.setAddDrawable(session.isScheduled, addButton, addIconColor);
+        }, addButton.getContext().getResources().getInteger(R.integer.add_duration) + 100);
     }
 }
