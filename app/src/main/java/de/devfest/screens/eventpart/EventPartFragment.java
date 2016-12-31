@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.rohitarya.glide.facedetection.transformation.core.GlideFaceDetector;
-
 import javax.inject.Inject;
 
 import de.devfest.R;
@@ -20,6 +18,7 @@ import de.devfest.model.Session;
 import de.devfest.mvpbase.AuthFragment;
 import de.devfest.screens.sessiondetails.SessionDetailsActivity;
 import de.devfest.ui.SessionAdapter;
+import de.devfest.ui.facedetection.GlideFaceDetector;
 import timber.log.Timber;
 
 public class EventPartFragment extends AuthFragment<EventPartView, EventPartPresenter>

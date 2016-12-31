@@ -56,12 +56,12 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.3.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
-    compile 'com.github.aryarohit07:glide-facedetection-transformation:0.3.0'
 
     compile "com.google.firebase:firebase-database:$playServicesVersion"
     compile "com.google.firebase:firebase-auth:$playServicesVersion"
     compile "com.google.firebase:firebase-messaging:$playServicesVersion"
     compile "com.google.android.gms:play-services-auth:$playServicesVersion"
+    compile "com.google.android.gms:play-services-vision:$playServicesVersion"
 
     compile 'com.google.dagger:dagger:2.7'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.7'

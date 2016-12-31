@@ -12,13 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.bumptech.glide.Glide;
-import com.rohitarya.glide.facedetection.transformation.FaceCenterCrop;
 
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.model.ScheduleSession;
 import de.devfest.model.Session;
 import de.devfest.model.Speaker;
+import de.devfest.ui.facedetection.FaceCenterCrop;
 
 public class SessionAdapter extends
         RecyclerView.Adapter<SessionAdapter.SpeakerSessionViewHolder> implements View.OnClickListener {
