@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/DevFest.NoActionBar">
+
         <activity android:name=".screens.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

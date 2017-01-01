@@ -15,6 +15,7 @@ import de.devfest.databinding.FragmentDashboardBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.AuthFragment;
+import de.devfest.screens.main.ActionBarDrawerToggleHelper;
 import timber.log.Timber;
 
 public class DashboardFragment extends AuthFragment<DashboardView, DashboardPresenter> implements DashboardView {
@@ -23,7 +24,9 @@ public class DashboardFragment extends AuthFragment<DashboardView, DashboardPres
 
     @Inject
     DashboardPresenter presenter;
+
     private FragmentDashboardBinding binding;
+    private ActionBarDrawerToggleHelper toggleHelper;
 
     @Nullable
     @Override
@@ -32,6 +35,18 @@ public class DashboardFragment extends AuthFragment<DashboardView, DashboardPres
         super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toggleHelper = new ActionBarDrawerToggleHelper(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        toggleHelper.destroy(this);
+        super.onDestroyView();
     }
 
     @Override
@@ -48,6 +63,8 @@ public class DashboardFragment extends AuthFragment<DashboardView, DashboardPres
     @Override
     public void onRunningSessionReceived(Session session, boolean scheduled) {
         Timber.e("running session: %s", session.title);
+
+
     }
 
     @Override

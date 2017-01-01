@@ -2,14 +2,13 @@ package de.devfest.screens.main;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import javax.inject.Inject;
@@ -27,7 +26,7 @@ import de.devfest.screens.speakers.SpeakersFragment;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity<MainActivityView, MainActivityPresenter>
-        implements OnNavigationItemSelectedListener, MainActivityView {
+        implements OnNavigationItemSelectedListener, MainActivityView, NavigationDrawerHost {
 
     private ActivityMainBinding binding;
 
@@ -39,15 +38,11 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        Toolbar toolbar = binding.appbar.toolbar;
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.event_tag);
-
-        DrawerLayout drawer = binding.drawerLayout;
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.nav_drawer_open, R.string.nav_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+//        DrawerLayout drawer = binding.drawerLayout;
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+//                R.string.nav_drawer_open, R.string.nav_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
 
         binding.navView.setNavigationItemSelectedListener(this);
         ((DevFestApplication) getApplication()).getComponent()
@@ -78,23 +73,19 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_dashboard:
-                getSupportActionBar().setTitle(R.string.event_tag);
                 showFragment(DashboardFragment.TAG);
                 break;
             case R.id.nav_schedule:
-                getSupportActionBar().setTitle(R.string.nav_schedule);
                 showFragment(ScheduleFragment.TAG);
                 break;
             case R.id.nav_speakers:
-                getSupportActionBar().setTitle(R.string.nav_speakers);
                 showFragment(SpeakersFragment.TAG);
                 break;
             case R.id.nav_social:
-                getSupportActionBar().setTitle(R.string.nav_social);
                 showFragment(SocialFragment.TAG);
                 break;
             case R.id.nav_settings:
@@ -112,10 +103,10 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = getFragment(tag);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (fragmentManager.findFragmentById(R.id.containerContent) == null) {
-            transaction.add(R.id.containerContent, fragment, tag);
+        if (fragmentManager.findFragmentById(R.id.navContentContainer) == null) {
+            transaction.add(R.id.navContentContainer, fragment, tag);
         } else {
-            transaction.replace(R.id.containerContent, fragment, tag);
+            transaction.replace(R.id.navContentContainer, fragment, tag);
         }
         transaction.addToBackStack(tag).commit();
     }
@@ -149,5 +140,10 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
             finish();
         }
         binding.navView.setCheckedItem(R.id.nav_dashboard);
+    }
+
+    @Override
+    public DrawerLayout getNavigationDrawer() {
+        return binding.drawerLayout;
     }
 }

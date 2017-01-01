@@ -22,6 +22,7 @@ import de.devfest.databinding.FragmentSpeakersBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.model.Speaker;
 import de.devfest.mvpbase.BaseFragment;
+import de.devfest.screens.main.ActionBarDrawerToggleHelper;
 import de.devfest.screens.speakerdetails.SpeakerDetailsActivity;
 import de.devfest.ui.UiUtils;
 
@@ -34,6 +35,8 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
     SpeakersPresenter presenter;
 
     private FragmentSpeakersBinding binding;
+    private ActionBarDrawerToggleHelper toggleHelper;
+
     private SpeakerAdapter adapter;
 
     @Nullable
@@ -48,6 +51,18 @@ public class SpeakersFragment extends BaseFragment<SpeakersView, SpeakersPresent
         binding.listSpeakers.setAdapter(adapter);
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toggleHelper = new ActionBarDrawerToggleHelper(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        toggleHelper.destroy(this);
+        super.onDestroyView();
     }
 
     @Override

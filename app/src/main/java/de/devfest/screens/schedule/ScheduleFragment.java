@@ -24,6 +24,7 @@ import de.devfest.model.Track;
 import de.devfest.mvpbase.BaseFragment;
 import de.devfest.screens.eventpart.EventPartFragment;
 import de.devfest.screens.eventpart.SmartFragmentStatePagerAdapter;
+import de.devfest.screens.main.ActionBarDrawerToggleHelper;
 
 public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresenter> implements ScheduleView {
 
@@ -33,6 +34,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     SchedulePresenter presenter;
 
     private FragmentScheduleBinding binding;
+    private ActionBarDrawerToggleHelper toggleHelper;
 
     private EventTrackPagerAdapter pagerAdapter;
 
@@ -49,7 +51,20 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
         super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_schedule, container, false);
         binding.pagerTracks.setAdapter(pagerAdapter);
+        binding.tabsSchedule.setupWithViewPager(binding.pagerTracks);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toggleHelper = new ActionBarDrawerToggleHelper(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        toggleHelper.destroy(this);
+        super.onDestroyView();
     }
 
     @Override
@@ -79,7 +94,6 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
 
         private final List<Pair<String, String>> trackList = new ArrayList<>();
 
-
         public EventTrackPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
@@ -101,7 +115,12 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
             }
         }
 
-//        @Override
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return trackList.get(position).second;
+        }
+
+        //        @Override
 //        public float getPageWidth(int position) {
 //            return 0.7f;
 //        }
