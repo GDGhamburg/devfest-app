@@ -16,20 +16,24 @@ import static de.devfest.ui.UiUtils.dipsToPxls;
 
 public final class TagHelper {
 
-    public final static String TAG_ANDROID = "android";
-    public final static String TAG_WEB = "web";
-    public final static String TAG_CLOUD = "cloud";
+    public static final String TAG_ANDROID = "android";
+    public static final String TAG_WEB = "web";
+    public static final String TAG_CLOUD = "cloud";
 
-    public final static String TAG_FIREBASE = "firebase";
-    public final static String TAG_ANALYTICS = "analytics";
-    public final static String TAG_MACHINE_LEARNING = "machine learning";
-    public final static String TAG_BOTS = "bots";
-    public final static String TAG_IOS = "ios";
+    public static final String TAG_FIREBASE = "firebase";
+    public static final String TAG_ANALYTICS = "analytics";
+    public static final String TAG_MACHINE_LEARNING = "machine learning";
+    public static final String TAG_BOTS = "bots";
+    public static final String TAG_IOS = "ios";
 
-    public final static String TAG_GDE = "gde";
-    public final static String TAG_GDG = "gdg";
+    public static final String TAG_GDE = "gde";
+    public static final String TAG_GDG = "gdg";
 
-    public static @ColorRes int getTagColor(String tag) {
+    private TagHelper() {
+    }
+
+    @ColorRes
+    public static int getTagColor(String tag) {
         int colorResId = R.color.tag_default_overlay;
         if (!TextUtils.isEmpty(tag)) {
             switch (tag) {
@@ -62,7 +66,8 @@ public final class TagHelper {
         return colorResId;
     }
 
-    public static @ColorRes int getTagDarkColor(String tag) {
+    @ColorRes
+    public static int getTagDarkColor(String tag) {
         int colorResId = R.color.tag_default_dark;
         if (!TextUtils.isEmpty(tag)) {
             switch (tag) {
@@ -95,7 +100,8 @@ public final class TagHelper {
         return colorResId;
     }
 
-    public static @ColorRes int getTagOverlayColor(String tag) {
+    @ColorRes
+    public static int getTagOverlayColor(String tag) {
         int colorResId = R.color.tag_default_overlay;
         if (!TextUtils.isEmpty(tag)) {
             switch (tag) {

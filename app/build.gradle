@@ -22,13 +22,13 @@ android {
             versionCode 1
             versionName "1.0.0"
         }
-        fbds16 {
-            minSdkVersion 21
-            targetSdkVersion 25
-            applicationId "de.devfest.fbds16"
-            versionCode 1
-            versionName '1.0.0'
-        }
+//        fbds16 {
+//            minSdkVersion 21
+//            targetSdkVersion 25
+//            applicationId "de.devfest.fbds16"
+//            versionCode 1
+//            versionName '1.0.0'
+//        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

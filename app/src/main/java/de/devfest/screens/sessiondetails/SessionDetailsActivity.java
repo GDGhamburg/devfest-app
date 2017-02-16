@@ -16,8 +16,8 @@ import de.devfest.model.Session;
 
 public class SessionDetailsActivity extends AppCompatActivity {
 
-    public final static String EXTRA_SESSION_ID = "EXTRA_SESSION_ID";
-    public final static String EXTRA_SESSION_TAG = "EXTRA_SESSION_TAG";
+    public static final String EXTRA_SESSION_ID = "EXTRA_SESSION_ID";
+    public static final String EXTRA_SESSION_TAG = "EXTRA_SESSION_TAG";
 
     public static void showWithTransition(Session session, Activity activity, View srcView) {
         Intent intent = SessionDetailsActivity.createIntent(activity, session);

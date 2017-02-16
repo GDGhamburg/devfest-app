@@ -1,7 +1,6 @@
 package de.devfest.data.firebase;
 
 import android.net.Uri;
-import android.text.TextUtils;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import de.devfest.R;
 import de.devfest.data.SpeakerManager;
@@ -25,6 +25,11 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
 
     private static final String FIREBASE_CHILD_SPEAKER = "speaker";
     private static final String URL_PREFIX_WWW = "www.";
+
+    private static final String SOCIAL_TWITTER = "twitter";
+    private static final String SOCIAL_GITHUB = "github";
+    private static final String SOCIAL_GPLUS = "gplus";
+    private static final String SOCIAL_WEBSITE = "website";
 
     private final DatabaseReference reference;
 
@@ -70,7 +75,6 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
             if (speaker.sessions != null)
                 sessions.addAll(speaker.sessions.keySet());
 
-            List<SocialLink> socialLinks = parseSocialLinks(speaker);
             return Speaker.newBuilder()
                     .speakerId(data.getKey())
                     .name(speaker.name)
@@ -81,30 +85,35 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
                     .jobTitle(speaker.jobTitle)
                     .sessions(sessions)
                     .tags(Arrays.asList(speaker.tags.split(",")))
-                    .socialLinks(socialLinks)
+                    .socialLinks(parseSocialLinks(speaker.social))
                     .build();
         }
 
-        private List<SocialLink> parseSocialLinks(FirebaseSpeaker speaker) {
+        private List<SocialLink> parseSocialLinks(Map<String, String> social) {
             List<SocialLink> links = new ArrayList<>();
-            if (!TextUtils.isEmpty(speaker.twitter)) {
-                String link = speaker.twitter.replace("@", "");
-                String name = "@" + Uri.parse(link).getLastPathSegment();
-                links.add(new SocialLink(name, link, R.drawable.ic_twitter, R.color.twitter));
-            }
-            if (!TextUtils.isEmpty(speaker.github)) {
-                String name = "/" + Uri.parse(speaker.github).getLastPathSegment();
-                links.add(new SocialLink(name, speaker.github, R.drawable.ic_github, R.color.github));
-            }
-            if (!TextUtils.isEmpty(speaker.gplus)) {
-                String name = Uri.parse(speaker.gplus).getLastPathSegment();
-                links.add(new SocialLink(name, speaker.gplus, R.drawable.ic_gplus, R.color.gplus));
-            }
-            if (!TextUtils.isEmpty(speaker.website)) {
-                Uri uri = Uri.parse(speaker.website);
-                String name = uri.getAuthority();
-                if (name != null && name.startsWith(URL_PREFIX_WWW)) name = name.replace(URL_PREFIX_WWW, "");
-                links.add(new SocialLink(name, speaker.website, R.drawable.ic_link, 0));
+            if (social != null) {
+                if (social.containsKey(SOCIAL_TWITTER)) {
+                    String link = social.get(SOCIAL_TWITTER).replace("@", "");
+                    String name = "@" + Uri.parse(link).getLastPathSegment();
+                    links.add(new SocialLink(name, link, R.drawable.ic_twitter, R.color.twitter));
+                }
+                if (social.containsKey(SOCIAL_GITHUB)) {
+                    String github = social.get(SOCIAL_GITHUB);
+                    String name = "/" + Uri.parse(github).getLastPathSegment();
+                    links.add(new SocialLink(name, github, R.drawable.ic_github, R.color.github));
+                }
+                if (social.containsKey(SOCIAL_GPLUS)) {
+                    String gplus = social.get(SOCIAL_GPLUS);
+                    String name = Uri.parse(gplus).getLastPathSegment();
+                    links.add(new SocialLink(name, gplus, R.drawable.ic_gplus, R.color.gplus));
+                }
+                if (social.containsKey(SOCIAL_WEBSITE)) {
+                    String website = social.get(SOCIAL_WEBSITE);
+                    Uri uri = Uri.parse(website);
+                    String name = uri.getAuthority();
+                    if (name != null && name.startsWith(URL_PREFIX_WWW)) name = name.replace(URL_PREFIX_WWW, "");
+                    links.add(new SocialLink(name, website, R.drawable.ic_link, 0));
+                }
             }
             return links;
         }

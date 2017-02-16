@@ -18,7 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class SessionDetailsPresenter extends AuthPresenter<SessionDetailsView>
-        implements SessionAdapter.SessionInteractionListener{
+        implements SessionAdapter.SessionInteractionListener {
 
     private final Lazy<SpeakerManager> speakerManager;
     private final Lazy<SessionManager> sessionManager;

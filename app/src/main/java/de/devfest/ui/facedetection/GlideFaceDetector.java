@@ -24,7 +24,11 @@ import com.google.android.gms.vision.face.FaceDetector;
  */
 
 @SuppressWarnings("NonFinalUtilityClass")
-public class GlideFaceDetector {
+public final class GlideFaceDetector {
+
+    private GlideFaceDetector() {
+
+    }
 
     private static volatile FaceDetector faceDetector;
     @SuppressLint("StaticFieldLeak")

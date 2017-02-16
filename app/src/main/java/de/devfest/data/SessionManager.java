@@ -1,7 +1,6 @@
 package de.devfest.data;
 
 import java.util.Collection;
-import java.util.List;
 
 import de.devfest.model.Session;
 import rx.Observable;

@@ -1,6 +1,5 @@
 package de.devfest.mvpbase;
 
-import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import dagger.Lazy;

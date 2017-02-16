@@ -155,7 +155,7 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.btnSocial:
                 int index = binding.gridSocialButtons.getChildAdapterPosition(view);
                 SocialLink link = socialLinksAdapter.getItem(index);

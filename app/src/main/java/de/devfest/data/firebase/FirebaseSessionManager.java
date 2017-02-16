@@ -104,7 +104,8 @@ public final class FirebaseSessionManager implements SessionManager {
     private Observable<Session> toSession(Observable<FirebaseSession> observable) {
         return observable.flatMap(session -> Observable.zip(
                 Observable.just(session),
-                TextUtils.isEmpty(session.stage) ? Observable.just(null) : stageManager.get().getStage(session.stage).first(),
+                TextUtils.isEmpty(session.stage) ? Observable.just(null) : stageManager.get()
+                        .getStage(session.stage).first(),
                 trackManager.get().getTrack(session.track).first(),
                 Observable.from(session.speakers != null ? session.speakers.keySet() : new HashSet<>())
                         .flatMap(id -> speakerManager.get().getSpeaker(id).first()).toList(),

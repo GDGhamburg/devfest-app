@@ -62,8 +62,12 @@ public class FirebaseEventManager implements EventManager {
                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ZonedDateTime startTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(dataSnapshot.child("startTime").getValue(Long.class)), ZoneId.of("UTC"));
-                        ZonedDateTime endTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(dataSnapshot.child("endTime").getValue(Long.class)), ZoneId.of("UTC"));
+                        ZonedDateTime startTime = ZonedDateTime.ofInstant(
+                                Instant.ofEpochSecond(dataSnapshot.child("startTime")
+                                        .getValue(Long.class)), ZoneId.of("UTC"));
+                        ZonedDateTime endTime = ZonedDateTime.ofInstant(
+                                Instant.ofEpochSecond(dataSnapshot.child("endTime")
+                                        .getValue(Long.class)), ZoneId.of("UTC"));
                         ZonedDateTime now = ZonedDateTime.now();
                         singleSubscriber.onSuccess(
                                 now.isAfter(startTime)

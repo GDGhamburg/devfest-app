@@ -114,7 +114,7 @@ public class FirebaseUserManager implements UserManager {
 
     @Override
     public Observable<Boolean> loggedInState() {
-        return loggedInState;//.distinctUntilChanged();
+        return loggedInState.distinctUntilChanged();
     }
 
     @Override

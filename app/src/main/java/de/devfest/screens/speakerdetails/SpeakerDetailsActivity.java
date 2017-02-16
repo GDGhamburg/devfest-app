@@ -10,7 +10,7 @@ import de.devfest.mvpbase.GoogleApiActivity;
 
 public class SpeakerDetailsActivity extends GoogleApiActivity {
 
-    public final static String EXTRA_SPEAKER_ID = "EXTRA_SPEAKER_ID";
+    public static final String EXTRA_SPEAKER_ID = "EXTRA_SPEAKER_ID";
 
     public static Intent createIntent(Context context, String speakerId) {
         Intent intent = new Intent(context, SpeakerDetailsActivity.class);
