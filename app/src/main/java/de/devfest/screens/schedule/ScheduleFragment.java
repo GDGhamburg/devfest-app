@@ -4,9 +4,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +26,8 @@ import de.devfest.screens.eventpart.EventPartFragment;
 import de.devfest.screens.eventpart.SmartFragmentStatePagerAdapter;
 import de.devfest.screens.main.ActionBarDrawerToggleHelper;
 
-public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresenter> implements ScheduleView {
+public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresenter> implements ScheduleView,
+        EventPartFragment.VerticalScrollStateProvider {
 
     public static final String TAG = ScheduleFragment.class.toString();
 
@@ -37,11 +38,14 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     private ActionBarDrawerToggleHelper toggleHelper;
 
     private EventTrackPagerAdapter pagerAdapter;
+    private ArrayList<EventPart> eventParts;
+    private List<Integer> pageListenerPositions;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pagerAdapter = new EventTrackPagerAdapter(getFragmentManager());
+        pagerAdapter = new EventTrackPagerAdapter(getChildFragmentManager());
+        eventParts = new ArrayList<>();
     }
 
     @Nullable
@@ -51,14 +55,77 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
         super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_schedule, container, false);
         binding.pagerTracks.setAdapter(pagerAdapter);
-        binding.tabsSchedule.setupWithViewPager(binding.pagerTracks);
+        binding.tabsSchedule.addOnTabSelectedListener(createTabListener());
+        binding.pagerTracks.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabsSchedule) {
+
+            int lastSelected = 0;
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (pageListenerPositions.contains(position)) {
+                    super.onPageScrolled(pagePosToTabPos(position), positionOffset, positionOffsetPixels);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int tabPosition = pagePosToTabPos(position);
+                if (pageListenerPositions.contains(position)
+                        && binding.tabsSchedule.getSelectedTabPosition() != tabPosition) {
+                    super.onPageSelected(tabPosition);
+                }
+                lastSelected = position;
+            }
+        });
         return binding.getRoot();
+    }
+
+    private int pagePosToTabPos(int pagePosition) {
+        int pageCount = 0;
+        for (int i = 0; i < eventParts.size(); i++) {
+            pageCount += eventParts.get(i).tracks.size();
+            if (pagePosition < pageCount) {
+                return i;
+            }
+        }
+        return eventParts.size() - 1;
+    }
+
+    private TabLayout.OnTabSelectedListener createTabListener() {
+        return new TabLayout.OnTabSelectedListener() {
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (!pagerAdapter.trackList.isEmpty()) {
+                    int position = binding.tabsSchedule.getSelectedTabPosition();
+                    int newPagerPosition = 0;
+                    for (int i = 0; i < position; i++) {
+                        newPagerPosition += eventParts.get(i).tracks.size();
+                    }
+                    if (newPagerPosition < pagerAdapter.trackList.size()
+                            && position != pagePosToTabPos(binding.pagerTracks.getCurrentItem())) {
+                        binding.pagerTracks.setCurrentItem(newPagerPosition);
+                    }
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        };
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toggleHelper = new ActionBarDrawerToggleHelper(this);
+        pageListenerPositions = new ArrayList<>();
     }
 
     @Override
@@ -76,13 +143,30 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     @Override
     public void onError(Throwable error) {
         Snackbar.make(binding.getRoot(), "Error: " + error.getMessage(), Snackbar.LENGTH_SHORT).show();
+        error.printStackTrace();
     }
 
     @Override
     public void onEventPartReceived(EventPart eventPart) {
-        Log.d("SCHEDULE", "onEventPartReceived: " + eventPart.name);
-        pagerAdapter.addEventPart(eventPart);
-        pagerAdapter.notifyDataSetChanged();
+        if (!eventParts.contains(eventPart)) {
+            eventParts.add(eventPart);
+            if (eventParts.size() > 1) {
+                int pageCount = pagerAdapter.trackList.size();
+                pageListenerPositions.add(pageCount - 1);
+                pageListenerPositions.add(pageCount);
+            }
+
+            pagerAdapter.addEventPart(eventPart);
+
+            TabLayout.Tab tab = binding.tabsSchedule.newTab();
+            tab.setText(eventPart.name);
+            binding.tabsSchedule.addTab(tab);
+        }
+    }
+
+    public int getScrollY() {
+        View view = binding.pagerTracks.getChildAt(0);
+        return view != null ? view.findViewById(R.id.trackSessionList).getScrollY() : 0;
     }
 
     @Override
@@ -113,16 +197,12 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
             for (Track track : eventPart.tracks) {
                 trackList.add(Pair.create(eventPart.id, track.id));
             }
+            notifyDataSetChanged();
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            return trackList.get(position).second;
+        public float getPageWidth(int position) {
+            return getContext().getResources().getFraction(R.fraction.event_part_page_width, 1, 1);
         }
-
-        //        @Override
-//        public float getPageWidth(int position) {
-//            return 0.7f;
-//        }
     }
 }

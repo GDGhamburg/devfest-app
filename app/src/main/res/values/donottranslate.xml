@@ -5,4 +5,7 @@
     <string name="transition_speaker_image">transition_speaker_image</string>
     <string name="transition_session_title">transition_session_title</string>
     <string name="transition_session_sub">transition_session_sub</string>
+
+    <string name="combined_scroll_timeline_behavior">de.devfest.screens.schedule.CombinedScrollTimelineBehavior</string>
+    <string name="combined_scroll_list_behavior">de.devfest.screens.schedule.CombinedScrollListBehavior</string>
 </resources>

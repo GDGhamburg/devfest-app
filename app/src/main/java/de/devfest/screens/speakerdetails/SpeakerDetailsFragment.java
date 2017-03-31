@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import de.devfest.R;
 import de.devfest.databinding.FragmentSpeakerDetailsBinding;
 import de.devfest.injection.ApplicationComponent;
+import de.devfest.model.ScheduleSession;
 import de.devfest.model.Session;
 import de.devfest.model.SocialLink;
 import de.devfest.model.Speaker;
@@ -172,8 +173,9 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
     }
 
     private void showSessionDetails(View view) {
-        Session session = sessionAdapter.getSession(binding.sessionList.getChildAdapterPosition(view));
-        SessionDetailsActivity.showWithTransition(session, getActivity(), view);
+        ScheduleSession sessionItem = sessionAdapter.getItem(
+                binding.sessionList.getChildAdapterPosition(view));
+        SessionDetailsActivity.showWithTransition(sessionItem.session, getActivity(), view);
     }
 
     @NonNull

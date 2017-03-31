@@ -31,7 +31,37 @@
             android:id="@+id/pagerTracks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_marginStart="56dp"
+            app:layout_behavior="@string/combined_scroll_list_behavior"/>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/timeline"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            app:layout_behavior="@string/combined_scroll_timeline_behavior">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                    android:background="@color/cardview_light_background"
+                android:layout_height="900dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="900dp"
+                    android:background="@android:color/transparent"
+                    android:text="BLA"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="900dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="bottom"
+                    android:text="BLA"/>
+            </FrameLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

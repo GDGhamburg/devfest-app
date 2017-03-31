@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 
 import com.bumptech.glide.Glide;
 
+import java.util.concurrent.TimeUnit;
+
 import de.devfest.R;
 import de.devfest.databinding.ItemSessionBinding;
 import de.devfest.model.ScheduleSession;
@@ -21,17 +23,23 @@ import de.devfest.model.Speaker;
 import de.devfest.ui.facedetection.FaceCenterCrop;
 
 public class SessionAdapter extends
-        RecyclerView.Adapter<SessionAdapter.SpeakerSessionViewHolder> implements View.OnClickListener {
+        RecyclerView.Adapter<SessionAdapter.ScheduleSessionViewHolder> implements View.OnClickListener {
 
-    private final SortedList<ScheduleSession> sessions;
+    private final static int MINUTES_5 = 300;
+    private final static int MINUTES_15 = 900;
+    public final static float DIPS_PER_MINUTE = 2.7f;
+    private final static int ITEM_TYPE_FILL_UP = -1;
+
+    private final SortedList<ScheduleSession> scheduleItems;
     private final SessionInteractionListener interactionListener;
     private final View.OnClickListener itemClickListener;
 
     private boolean useSimpleView;
     private int addIconColor = -1;
 
-    public SessionAdapter(SessionInteractionListener interactionListener, View.OnClickListener itemClickListener) {
-        this.sessions = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
+    public SessionAdapter(SessionInteractionListener interactionListener,
+                          View.OnClickListener itemClickListener) {
+        this.scheduleItems = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
         this.interactionListener = interactionListener;
         this.itemClickListener = itemClickListener;
     }
@@ -41,7 +49,7 @@ public class SessionAdapter extends
     }
 
     @Override
-    public SpeakerSessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ScheduleSessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_session, parent, false);
         ItemSessionBinding binding = DataBindingUtil.bind(view);
@@ -52,21 +60,21 @@ public class SessionAdapter extends
             TextViewCompat.setTextAppearance(binding.textSessionSub, R.style.TextAppearance_DevFest_Card_Subtitle);
         }
         if (addIconColor == -1) addIconColor = binding.textSessionTitle.getCurrentTextColor();
-        return new SpeakerSessionViewHolder(binding);
+        return new SessionViewHolder(binding, useSimpleView);
     }
 
     @Override
-    public void onBindViewHolder(SpeakerSessionViewHolder holder, int position) {
-        holder.bind(sessions.get(position), useSimpleView);
+    public void onBindViewHolder(ScheduleSessionViewHolder holder, int position) {
+        holder.bind(scheduleItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return sessions.size();
+        return scheduleItems.size();
     }
 
     public void addSession(Session session, boolean isScheduled) {
-        sessions.add(new ScheduleSession(session, isScheduled));
+        int index = scheduleItems.add(new ScheduleSession(session, isScheduled));
     }
 
     @Override
@@ -80,41 +88,56 @@ public class SessionAdapter extends
         }
     }
 
-    public Session getSession(int position) {
-        return sessions.get(position).session;
+    public ScheduleSession getItem(int position) {
+        return scheduleItems.get(position);
     }
 
-    public static class SpeakerSessionViewHolder extends RecyclerView.ViewHolder {
-        private final ItemSessionBinding binding;
+    public static abstract class ScheduleSessionViewHolder extends RecyclerView.ViewHolder {
 
-        public SpeakerSessionViewHolder(ItemSessionBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        public ScheduleSessionViewHolder(View itemView) {
+            super(itemView);
         }
 
-        public void bind(ScheduleSession session, boolean useSimpleView) {
+        public abstract void bind(ScheduleSession item);
+    }
+
+    public static class SessionViewHolder extends ScheduleSessionViewHolder {
+        private final ItemSessionBinding binding;
+        private final boolean simpleMode;
+
+        public SessionViewHolder(ItemSessionBinding binding, boolean simpleMode) {
+            super(binding.getRoot());
+            this.binding = binding;
+            this.simpleMode = simpleMode;
+        }
+
+        @Override
+        public void bind(ScheduleSession session) {
             String tag = null;
             Context context = binding.getRoot().getContext();
             if (!session.session.tags.isEmpty()) tag = session.session.tags.get(0);
             binding.imageSession.setImageDrawable(
-                    TagHelper.getCircledTagIcon(context, tag, useSimpleView));
+                    TagHelper.getCircledTagIcon(context, tag, simpleMode));
             binding.textSessionTitle.setText(session.session.title);
             binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
 
             if (session.session.isScheduable) {
-                binding.getRoot().getLayoutParams().height =
-                        context.getResources().getDimensionPixelSize(R.dimen.session_item_height);
                 binding.buttonAdd.setVisibility(View.VISIBLE);
                 binding.buttonAdd.setTag(session);
                 UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd,
                         binding.textSessionTitle.getCurrentTextColor());
             } else {
-                binding.getRoot().getLayoutParams().height = RecyclerView.LayoutParams.WRAP_CONTENT;
                 binding.buttonAdd.setVisibility(View.GONE);
             }
+
+            long durationMinutes  = TimeUnit.SECONDS.toMinutes(
+                    session.session.endTime.toEpochSecond() - session.session.startTime.toEpochSecond());
+            binding.getRoot().getLayoutParams().height = UiUtils.dipsToPxls(context,
+                    (int) (DIPS_PER_MINUTE * durationMinutes));
+
             binding.getRoot().setTag(session);
 
-            if (!useSimpleView) {
+            if (!simpleMode) {
                 int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(),
                         TagHelper.getTagOverlayColor(tag));
                 binding.containerSessionForeground.setBackgroundColor(overlayColor);
@@ -122,7 +145,7 @@ public class SessionAdapter extends
                     Speaker speaker = session.session.speakers.get(0);
                     Glide.with(binding.imageSessionBackground.getContext())
                             .load(speaker.photoUrl)
-                            .transform(new FaceCenterCrop())
+                            .transform(new FaceCenterCrop(binding.imageSessionBackground.getContext()))
                             .into(binding.imageSessionBackground);
                 } else {
                     binding.imageSessionBackground.setImageDrawable(null);

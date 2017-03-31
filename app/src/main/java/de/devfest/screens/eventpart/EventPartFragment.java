@@ -1,10 +1,12 @@
 package de.devfest.screens.eventpart;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import javax.inject.Inject;
 import de.devfest.R;
 import de.devfest.databinding.FragmentEventPartBinding;
 import de.devfest.injection.ApplicationComponent;
+import de.devfest.model.EventPart;
+import de.devfest.model.ScheduleSession;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.AuthFragment;
 import de.devfest.screens.sessiondetails.SessionDetailsActivity;
@@ -32,6 +36,7 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
     private String trackId;
     private String eventPartId;
     private FragmentEventPartBinding binding;
+    private VerticalScrollStateProvider scrollStateProvider;
 
     public static EventPartFragment newInstance(String eventPartId, String trackId) {
         EventPartFragment fragment = new EventPartFragment();
@@ -41,6 +46,13 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
         fragment.setArguments(arguments);
         return fragment;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        scrollStateProvider = (VerticalScrollStateProvider) getParentFragment();
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,8 +82,7 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
         GlideFaceDetector.initialize(getContext());
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_part, container, false);
         binding.trackSessionList.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new SessionAdapter(presenter, this);
-        binding.trackSessionList.setAdapter(adapter);
+        binding.trackSessionList.setTag(true);
         return binding.getRoot();
     }
 
@@ -79,6 +90,12 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
     public void onDestroyView() {
         super.onDestroyView();
         GlideFaceDetector.releaseDetector();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        scrollStateProvider = null;
     }
 
     @Override
@@ -98,9 +115,19 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
     }
 
     @Override
+    public void onEventPartReceived(EventPart eventPart) {
+        adapter = new SessionAdapter(presenter, this);
+        binding.trackSessionList.addItemDecoration(new EventPartFillUpDecoration(eventPart));
+        binding.trackSessionList.setAdapter(adapter);
+    }
+
+    @Override
     public void onSessionReceived(Session session, boolean scheduled) {
         Timber.e("Session: \"%s\" was scheduled: %s", session.title, scheduled);
         adapter.addSession(session, scheduled);
+        int scrollY = scrollStateProvider.getScrollY();
+        Log.d("SYNCSCROLL", "scrollY: " + scrollY);
+        binding.trackSessionList.setScrollY(scrollY);
 
         Timber.e("Adapter size: %d", adapter.getItemCount());
     }
@@ -112,7 +139,12 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
 
     @Override
     public void onClick(View view) {
-        Session session = adapter.getSession(binding.trackSessionList.getChildAdapterPosition(view));
-        SessionDetailsActivity.showWithTransition(session, getActivity(), view);
+        ScheduleSession sessionItem = adapter.getItem(
+                binding.trackSessionList.getChildAdapterPosition(view));
+        SessionDetailsActivity.showWithTransition(sessionItem.session, getActivity(), view);
+    }
+
+    public interface VerticalScrollStateProvider {
+        int getScrollY();
     }
 }

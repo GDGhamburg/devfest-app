@@ -4,4 +4,6 @@
     <item type="fraction" name="add_plus_line_2_trim_start">0.033333335</item>
     <item type="fraction" name="add_tick_line_1_trim_end">0.768</item>
     <item type="fraction" name="add_tick_line_1_trim_start">0.205</item>
+
+    <item type="fraction" name="event_part_page_width">75%</item>
 </resources>

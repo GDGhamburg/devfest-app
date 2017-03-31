@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import javax.inject.Inject;
 
 import dagger.Lazy;
+import de.devfest.data.EventManager;
 import de.devfest.data.SessionManager;
 import de.devfest.data.UserManager;
 import de.devfest.model.Session;
@@ -19,16 +20,29 @@ public class EventPartPresenter extends AuthPresenter<EventPartView>
         implements SessionAdapter.SessionInteractionListener {
 
     private final Lazy<SessionManager> sessionManager;
+    private final Lazy<EventManager> eventManager;
 
     @Inject
-    public EventPartPresenter(Lazy<SessionManager> sessionManager, Lazy<UserManager> userManager) {
+    public EventPartPresenter(Lazy<SessionManager> sessionManager, Lazy<UserManager> userManager,
+                              Lazy<EventManager> eventManager) {
         super(userManager);
         this.sessionManager = sessionManager;
+        this.eventManager = eventManager;
     }
 
     @Override
     public void attachView(EventPartView mvpView) {
         super.attachView(mvpView);
+        eventManager.get().getEventPart(getView().getEventPartId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(eventPart -> {
+                    getView().onEventPartReceived(eventPart);
+                    observeSessions();
+                });
+    }
+
+    private void observeSessions() {
         untilDetach(
                 userManager.get().loggedInState()
                         .switchMap(loggedIn -> {

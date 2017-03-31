@@ -37,7 +37,7 @@ public class FaceCenterCrop extends BitmapTransformation {
         this(GlideFaceDetector.getContext());
     }
 
-    private FaceCenterCrop(Context context) {
+    public FaceCenterCrop(Context context) {
         super(context);
     }
 
