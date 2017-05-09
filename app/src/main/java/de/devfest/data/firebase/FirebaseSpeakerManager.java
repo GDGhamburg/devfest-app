@@ -15,6 +15,7 @@ import java.util.Map;
 
 import de.devfest.R;
 import de.devfest.data.SpeakerManager;
+import de.devfest.data.UriUtils;
 import de.devfest.model.SocialLink;
 import de.devfest.model.Speaker;
 import rx.Observable;
@@ -24,7 +25,6 @@ import rx.subscriptions.Subscriptions;
 public final class FirebaseSpeakerManager implements SpeakerManager {
 
     private static final String FIREBASE_CHILD_SPEAKER = "speaker";
-    private static final String URL_PREFIX_WWW = "www.";
 
     private static final String SOCIAL_TWITTER = "twitter";
     private static final String SOCIAL_GITHUB = "github";
@@ -108,10 +108,9 @@ public final class FirebaseSpeakerManager implements SpeakerManager {
                     links.add(new SocialLink(name, gplus, R.drawable.ic_gplus, R.color.gplus));
                 }
                 if (social.containsKey(SOCIAL_WEBSITE)) {
-                    String website = social.get(SOCIAL_WEBSITE);
+                    String website = UriUtils.ensureScheme(social.get(SOCIAL_WEBSITE));
                     Uri uri = Uri.parse(website);
-                    String name = uri.getAuthority();
-                    if (name != null && name.startsWith(URL_PREFIX_WWW)) name = name.replace(URL_PREFIX_WWW, "");
+                    String name = UriUtils.stripWWW(uri.getAuthority());
                     links.add(new SocialLink(name, website, R.drawable.ic_link, 0));
                 }
             }
