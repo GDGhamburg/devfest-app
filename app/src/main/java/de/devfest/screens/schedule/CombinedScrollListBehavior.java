@@ -12,6 +12,8 @@ import de.devfest.R;
 
 public class CombinedScrollListBehavior extends AppBarLayout.ScrollingViewBehavior {
 
+    private static int scrollYOffset = 0;
+
     public CombinedScrollListBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -31,8 +33,17 @@ public class CombinedScrollListBehavior extends AppBarLayout.ScrollingViewBehavi
             View subChild = pager.getChildAt(i);
             if (subChild.hashCode() != target.hashCode()) {
                 subChild.scrollBy(0, dyConsumed);
+            } else {
+                scrollYOffset += dyConsumed;
+                pager.setTag(scrollYOffset);
             }
+
         }
+    }
+
+    @Override
+    public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
+        return super.onLayoutChild(parent, child, layoutDirection);
     }
 
     @Override

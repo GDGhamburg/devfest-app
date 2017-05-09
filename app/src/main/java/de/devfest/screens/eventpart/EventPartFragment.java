@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,9 +124,14 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
     public void onSessionReceived(Session session, boolean scheduled) {
         Timber.e("Session: \"%s\" was scheduled: %s", session.title, scheduled);
         adapter.addSession(session, scheduled);
-        int scrollY = scrollStateProvider.getScrollY();
-        Log.d("SYNCSCROLL", "scrollY: " + scrollY);
-        binding.trackSessionList.setScrollY(scrollY);
+//        int scrollY = scrollStateProvider.getScrollY();
+//        Log.d("SYNCSCROLL", "scrollY: " + scrollY);
+//        binding.trackSessionList.setScrollY(scrollY);
+
+        int scrollOffset = (int) ((View) binding.trackSessionList.getParent()).getTag();
+        if (scrollOffset != -1) {
+            binding.trackSessionList.scrollBy(0, scrollOffset);
+        }
 
         Timber.e("Adapter size: %d", adapter.getItemCount());
     }

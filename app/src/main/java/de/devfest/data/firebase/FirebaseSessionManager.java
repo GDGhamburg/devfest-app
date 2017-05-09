@@ -33,6 +33,7 @@ public final class FirebaseSessionManager implements SessionManager {
 
     private static final String FIREBASE_CHILD_SESSIONS = "sessions";
     private static final String FIREBASE_CHILD_TRACK = "track";
+    private static final String FIREBASE_CHILD_DATETIME = "datetime";
 
     private final Lazy<SpeakerManager> speakerManager;
     private final Lazy<StageManager> stageManager;

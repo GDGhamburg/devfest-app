@@ -5,9 +5,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="tag_default">#b4b4b4</color>
-    <color name="tag_default_dark">#8b8a8a</color>
-    <color name="tag_default_overlay">#CAb4b4b4</color>
+    <color name="tag_default">#e6e5e5</color>
+    <color name="tag_default_dark">#c9c8c8</color>
+    <color name="tag_default_overlay">#caf2f2f2</color>
 
     <color name="tag_android">#A4C639</color>
     <color name="tag_android_dark">#7C962B</color>

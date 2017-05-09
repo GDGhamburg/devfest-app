@@ -201,7 +201,7 @@ public final class TagHelper {
                 int color = getTagColor(tag);
                 layers[0].setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_OVER);
             }
-            int bounds = (int) dipsToPxls(context, 8);
+            int bounds = dipsToPxls(context, 8);
             layers[1] = new InsetDrawable(ContextCompat.getDrawable(context, drawableResId), bounds);
             return new LayerDrawable(layers);
         }

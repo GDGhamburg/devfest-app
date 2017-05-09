@@ -126,8 +126,14 @@ public class SessionAdapter extends
                 binding.buttonAdd.setTag(session);
                 UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd,
                         binding.textSessionTitle.getCurrentTextColor());
+                TextViewCompat.setTextAppearance(binding.textSessionTitle,
+                        R.style.TextAppearance_DevFest_Card_Title_Inverse);
+                TextViewCompat.setTextAppearance(binding.textSessionSub,
+                        R.style.TextAppearance_DevFest_Card_Subtitle_Inverse);
             } else {
                 binding.buttonAdd.setVisibility(View.GONE);
+                TextViewCompat.setTextAppearance(binding.textSessionTitle, R.style.TextAppearance_DevFest_Card_Title);
+                TextViewCompat.setTextAppearance(binding.textSessionSub, R.style.TextAppearance_DevFest_Card_Subtitle);
             }
 
             long durationMinutes  = TimeUnit.SECONDS.toMinutes(

@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,14 +38,14 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     private FragmentScheduleBinding binding;
     private ActionBarDrawerToggleHelper toggleHelper;
 
-    private EventTrackPagerAdapter pagerAdapter;
+    private EventPartPagerAdapter pagerAdapter;
     private ArrayList<EventPart> eventParts;
     private List<Integer> pageListenerPositions;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pagerAdapter = new EventTrackPagerAdapter(getChildFragmentManager());
+        pagerAdapter = new EventPartPagerAdapter(getChildFragmentManager());
         eventParts = new ArrayList<>();
     }
 
@@ -77,6 +78,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
                 lastSelected = position;
             }
         });
+        binding.pagerTracks.setTag(-1);
         return binding.getRoot();
     }
 
@@ -143,7 +145,7 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
     @Override
     public void onError(Throwable error) {
         Snackbar.make(binding.getRoot(), "Error: " + error.getMessage(), Snackbar.LENGTH_SHORT).show();
-        error.printStackTrace();
+        Log.d(TAG, error.getMessage());
     }
 
     @Override
@@ -174,11 +176,11 @@ public class ScheduleFragment extends BaseFragment<ScheduleView, SchedulePresent
         super.onPause();
     }
 
-    private class EventTrackPagerAdapter extends SmartFragmentStatePagerAdapter<EventPartFragment> {
+    private class EventPartPagerAdapter extends SmartFragmentStatePagerAdapter<EventPartFragment> {
 
         private final List<Pair<String, String>> trackList = new ArrayList<>();
 
-        public EventTrackPagerAdapter(FragmentManager fragmentManager) {
+        public EventPartPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
