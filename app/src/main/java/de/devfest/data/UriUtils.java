@@ -16,7 +16,6 @@ public class UriUtils {
         return uri;
     }
 
-
     public static String stripWWW(@NonNull String authority) {
         if (authority.startsWith(URL_PREFIX_WWW)) authority = authority.replace(URL_PREFIX_WWW, "");
         return authority;
