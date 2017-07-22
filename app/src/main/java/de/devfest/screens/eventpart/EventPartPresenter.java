@@ -8,7 +8,6 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 import de.devfest.data.SessionManager;
-import de.devfest.data.UserManager;
 import de.devfest.model.Session;
 import de.devfest.mvpbase.AuthPresenter;
 import de.devfest.ui.SessionAdapter;

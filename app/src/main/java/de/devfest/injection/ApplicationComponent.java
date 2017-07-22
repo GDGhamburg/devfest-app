@@ -10,7 +10,6 @@ import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
-import de.devfest.data.UserManager;
 import de.devfest.screens.dashboard.DashboardFragment;
 import de.devfest.screens.eventpart.EventPartFragment;
 import de.devfest.screens.main.MainActivity;

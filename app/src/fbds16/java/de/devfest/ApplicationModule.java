@@ -14,7 +14,6 @@ import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
-import de.devfest.data.UserManager;
 import de.devfest.data.firebase.FirebaseEventManager;
 import de.devfest.data.firebase.FirebaseSessionManager;
 import de.devfest.data.firebase.FirebaseSpeakerManager;

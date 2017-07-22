@@ -2,9 +2,6 @@ package de.devfest;
 
 import android.app.Application;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.FirebaseDatabase;
 
 import javax.inject.Singleton;
@@ -17,7 +14,6 @@ import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
-import de.devfest.data.UserManager;
 import de.devfest.data.firebase.FirebaseEventManager;
 import de.devfest.data.firebase.FirebaseSessionManager;
 import de.devfest.data.firebase.FirebaseSpeakerManager;

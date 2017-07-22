@@ -3,7 +3,6 @@ package de.devfest.screens.user;
 import javax.inject.Inject;
 
 import dagger.Lazy;
-import de.devfest.data.UserManager;
 import de.devfest.mvpbase.AuthPresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

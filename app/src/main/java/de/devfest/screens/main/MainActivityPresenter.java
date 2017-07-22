@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 import de.devfest.data.EventManager;
-import de.devfest.data.UserManager;
 import de.devfest.mvpbase.BasePresenter;
 import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;

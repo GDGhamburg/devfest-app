@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
-import de.devfest.data.UserManager;
 import de.devfest.model.Session;
 import de.devfest.model.SocialLink;
 import de.devfest.mvpbase.AuthPresenter;

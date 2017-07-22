@@ -3,7 +3,6 @@ package de.devfest.mvpbase;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import dagger.Lazy;
-import de.devfest.data.UserManager;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
