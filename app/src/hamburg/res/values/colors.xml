@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#FF9800</color>
     <color name="colorPrimaryDark">#F57C00</color>
+    <color name="colorPrimaryOverlay">#DDFF9800</color>
     <color name="colorAccent">#536DFE</color>
     <color name="colorControlHighlight">#0c536DFE</color>
 </resources>

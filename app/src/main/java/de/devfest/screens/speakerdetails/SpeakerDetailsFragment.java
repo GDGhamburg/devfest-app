@@ -36,6 +36,7 @@ import de.devfest.ui.TagHelper;
 import de.devfest.ui.UiUtils;
 import timber.log.Timber;
 
+import static de.devfest.screens.speakerdetails.SpeakerDetailsActivity.EXTRA_SPEAKER_ID;
 import static de.devfest.ui.UiUtils.CACHED_SPEAKER_IMAGE_SIZE;
 
 public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, SpeakerDetailsPresenter>
@@ -81,7 +82,10 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
 
     @Override
     public String getSpeakerId() {
-        return getActivity().getIntent().getExtras().getString(SpeakerDetailsActivity.EXTRA_SPEAKER_ID);
+        if (!getActivity().getIntent().hasExtra(EXTRA_SPEAKER_ID)) {
+            throw new IllegalStateException("Intent extras must provide: " + EXTRA_SPEAKER_ID);
+        }
+        return getActivity().getIntent().getExtras().getString(EXTRA_SPEAKER_ID);
     }
 
     @Override
@@ -119,7 +123,6 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
     }
 
     private void setImage(Speaker speaker) {
-        int pixels = getResources().getDisplayMetrics().widthPixels;
         Glide.with(getContext()).load(speaker.photoUrl)
                 .override(CACHED_SPEAKER_IMAGE_SIZE, CACHED_SPEAKER_IMAGE_SIZE)
                 .listener(new RequestListener<String, GlideDrawable>() {

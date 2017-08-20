@@ -10,7 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
-        android:theme="@style/DevFest.NoActionBar">
+        android:theme="@style/DevFest.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".screens.main.MainActivity">
             <intent-filter>
@@ -22,6 +23,7 @@
         <activity android:name=".screens.speakerdetails.SpeakerDetailsActivity"/>
 
         <activity android:name=".screens.sessiondetails.SessionDetailsActivity"/>
+        <activity android:name=".screens.about.AboutActivity" />
 
         <service
             android:name=".notifications.NotificationService"

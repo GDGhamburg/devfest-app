@@ -18,8 +18,8 @@
                 android:id="@+id/collapsingToolbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleEnabled="true"
                 android:fitsSystemWindows="false"
+                app:titleEnabled="true"
                 app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
                 app:expandedTitleTextAppearance="@style/TextAppearance.DevFest.CollapsingToolbar.Expanded.Inverse"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -32,8 +32,7 @@
                     android:scaleType="centerCrop"
                     android:fitsSystemWindows="true"
                     android:transitionName="@string/transition_speaker_image"
-                    app:squareSized="true"
-                    tools:targetApi="lollipop"/>
+                    app:squareSized="true"/>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"

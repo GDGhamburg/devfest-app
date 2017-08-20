@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="licence_titles" tools:ignore="MissingTranslation">
+        <item>Android Support Libraries</item>
+        <item>Kotlin Stdlib</item>
+        <item>Dagger</item>
+        <item>OkHttp</item>
+        <item>RxJava</item>
+        <item>RxAndroid</item>
+        <item>Retrofit</item>
+        <item>Timber</item>
+        <item>ThreeTenABP</item>
+        <item>Glide</item>
+        <item>The Apache License, Version 2.0 (the \"License\")</item>
+    </string-array>
+
+    <string-array name="licence_texts" tools:ignore="MissingTranslation">
+        <item>Copyright © 2013 The Android Open Source Project, Licensed under the Apache License</item>
+        <item>Copyright © 2010–2017, JetBrains s.r.o., Licensed under the Apache License</item>
+        <item>Copyright © 2013 Square, Inc., Licensed under the Apache License</item>
+        <item>Copyright © 2014 Square, Inc., Licensed under the Apache License</item>
+        <item>Copyright © 2016-present, RxJava Contributors, Licensed under the Apache License</item>
+        <item>Copyright © 2015, The RxAndroid Authors, Licensed under the Apache License</item>
+        <item>Copyright © 2013, Square, Inc., Licensed under the Apache License</item>
+        <item>Copyright © 2013, Jake Wharton, Licensed under the Apache License</item>
+        <item>Copyright © 2015, Jake Wharton, Licensed under the Apache License</item>
+        <item>Copyright © 2014, Google, Inc., Licensed under the Apache License</item>
+        <item>You may obtain a copy of the License at&lt;br>&lt;br>http://www.apache.org/licenses/LICENSE-2.0&lt;br>&lt;br>Unless required by applicable law or agreed to in writing, software
+            distributed under the License is distributed on an <b>"AS IS" BASIS</b>,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.</item>
+    </string-array>
+
+    <string-array name="licence_links" tools:ignore="MissingTranslation">
+        <item>http://android.com</item>
+        <item>http://kotlinlang.org/</item>
+        <item>http://square.github.io/dagger/</item>
+        <item>http://square.github.io/okhttp/</item>
+        <item>https://github.com/ReactiveX/RxJava</item>
+        <item>https://github.com/ReactiveX/RxAndroid</item>
+        <item>http://square.github.io/retrofit/</item>
+        <item>https://github.com/JakeWharton/timber</item>
+        <item>https://github.com/JakeWharton/ThreeTenABP</item>
+        <item>https://github.com/bumptech/glide</item>
+    </string-array>
+</resources>

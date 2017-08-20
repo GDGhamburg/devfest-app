@@ -18,6 +18,7 @@ import de.devfest.R;
 import de.devfest.databinding.ActivityMainBinding;
 import de.devfest.injection.ApplicationComponent;
 import de.devfest.mvpbase.BaseActivity;
+import de.devfest.screens.about.AboutActivity;
 import de.devfest.screens.dashboard.DashboardFragment;
 import de.devfest.screens.notstarted.EventNotStartedFragment;
 import de.devfest.screens.schedule.ScheduleFragment;
@@ -91,6 +92,7 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
             case R.id.nav_settings:
                 break;
             case R.id.nav_about:
+                AboutActivity.Companion.start(this);
                 break;
             default:
         }

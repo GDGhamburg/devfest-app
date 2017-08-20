@@ -1,15 +1,19 @@
 package de.devfest.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.ImageButton;
 
+import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
 
@@ -28,6 +32,13 @@ public final class UiUtils {
         throw new RuntimeException("No instance allowed!");
     }
 
+    public static int getActionBarHeight(@NotNull Context context) {
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.actionBarSize, tv, true);
+        return TypedValue.complexToDimensionPixelSize(tv.data,
+                context.getResources().getDisplayMetrics());
+    }
+
     public static int getStatusBarHeight(Context context) {
         return getDimensionSafely(context, context.getResources().getIdentifier("status_bar_height", "dimen", "android"));
     }
@@ -38,12 +49,28 @@ public final class UiUtils {
         return context.getResources().getDimensionPixelSize(id);
     }
 
-    public static float dipsToPxls(@NonNull Context context, int dips) {
-        return TypedValue.applyDimension(COMPLEX_UNIT_DIP, dips, context.getResources().getDisplayMetrics());
+    public static int dipsToPxls(@NonNull Context context, int dips) {
+        float val = TypedValue.applyDimension(COMPLEX_UNIT_DIP, dips,
+                context.getResources().getDisplayMetrics());
+        int pixels = (int) (val + 0.5); // Round
+        // Ensure at least 1 pixel if val was > 0
+        return pixels == 0 && val > 0 ? 1 : pixels;
     }
 
-    public static float pxlsToDips(@NonNull Context context, int pixels) {
-        return TypedValue.applyDimension(COMPLEX_UNIT_PX, pixels, context.getResources().getDisplayMetrics());
+    public static int pxlsToDips(@NotNull Context context, int pixels) {
+        return (int) (pixels / context.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public static int getDisplayWidth(Activity activity) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.widthPixels;
+    }
+
+    public static int getDisplayHeight(Activity activity) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.heightPixels;
     }
 
     public static boolean isLargeScreen(@NonNull Context context) {
@@ -67,7 +94,15 @@ public final class UiUtils {
     }
 
     public static int getDefaultGridColumnCount(Context context) {
-        int cols = 2;
+        return addColumnsForContext(context, 2);
+    }
+
+    public static int getGridSmallColumnCount(Context context) {
+        return addColumnsForContext(context, 3);
+    }
+
+    private static int addColumnsForContext(Context context, int defaultColumns) {
+        int cols = defaultColumns;
         if (UiUtils.isLargeScreen(context)) cols += 1;
         if (UiUtils.isXLargeScreen(context)) cols += 2;
         if (UiUtils.isLandscape(context)) cols += 1;

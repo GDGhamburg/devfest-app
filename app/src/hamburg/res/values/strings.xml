@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">DevFestHH</string>
+    <string name="event_name_full">GDG DevFest\nHamburg 2017</string>
+    <string name="event_motto">Driven by and for the community</string>
+    <string name="event_tag">#devfestHH</string>
+    <string name="event_website_url">https://hamburg.devfest.de</string>
 
-    <string name="devfest_tag">#devfestHH</string>
+    <string name="coc_contact">Matthias Friedrich, gdghhandroid@gmail.com, https://twitter.com/mtthsfrdrch</string>
 </resources>

@@ -6,11 +6,13 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import de.devfest.ApplicationModule;
+import de.devfest.data.ContributorManager;
 import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
 import de.devfest.data.StageManager;
 import de.devfest.data.TrackManager;
 import de.devfest.data.UserManager;
+import de.devfest.screens.about.project.ProjectFragment;
 import de.devfest.screens.dashboard.DashboardFragment;
 import de.devfest.screens.eventpart.EventPartFragment;
 import de.devfest.screens.main.MainActivity;
@@ -39,12 +41,14 @@ public abstract class ApplicationComponent {
     public abstract void inject(SocialFragment fragment);
     public abstract void inject(EventPartFragment fragment);
     public abstract void inject(EventNotStartedFragment fragment);
+    public abstract void inject(ProjectFragment fragment);
 
     abstract SessionManager sessionManager();
     abstract SpeakerManager speakerManager();
     abstract StageManager stageManager();
     abstract TrackManager trackManager();
     abstract UserManager userManager();
+    abstract ContributorManager contributorManager();
 
 
 }

@@ -1,5 +1,9 @@
 <resources>
-    <string name="event_tag">#gdg #devfest</string>
+    <string name="app_name">GDG DevFest 17</string>
+
+    <string name="event_tag">#gdg #devfest17</string>
+    <string name="event_name_full">GDG DevFest Season 2017</string>
+    <string name="event_motto">When developers come together to exchange ideas, amazing things can happen</string>
 
     <string name="nav_drawer_open">Open navigation drawer</string>
     <string name="nav_drawer_close">Close navigation drawer</string>
@@ -11,4 +15,66 @@
     <string name="nav_about">About</string>
     <string name="error_default">Houston, we have a problem!</string>
     <string name="website">Website</string>
+    <string name="app_version">App version: %1$s</string>
+
+    <string name="project_title">Project Skyboard</string>
+    <string name="project_desc">This app is based on Project Skyboard, an open source community project. It\'s goal is to provide a cutting edge Android app for GDG DevFests. The app uses Firebase and the Hoverboard project as its data source. Feel free to use it for your event as well.</string>
+    <string name="project_powered_by">powered by Project Skyboard</string>
+    <string name="contributors">Contributors</string>
+
+    <string name="about_tab_app">App Info</string>
+    <string name="about_tab_project">Open source</string>
+    <string name="about_tab_licences">Licences</string>
+    <string name="about_tab_coc">Code of Conduct</string>
+
+    <string name="app_info_title">This is the official app for </string>
+    <string name="app_info_text">This is the official app for </string>
+
+    <string name="coc_title">Code of Conduct</string>
+    <string name="coc_text"><![CDATA[<b>1. Purpose</b><br><br>]]>
+
+GDGs pride themselves on being open, respectful, and inclusive communities. As such, we are committed to provide a friendly, safe and welcoming environment for all, regardless of gender, sexual orientation, ability, ethnicity, socioeconomic status, and religion (or lack thereof). Any behavior disrespecting this is highly unacceptable.
+
+This code of conduct outlines our expectations for all those who participate in our community, as well as the consequences for unacceptable behavior. We invite all those who participate in Google Developer Groups to help us create safe and positive experiences for everyone.
+
+        <![CDATA[<br><br><br><b>2. Open [Source/Culture/Tech] Citizenship</b><br><br>]]>
+
+A supplemental goal of this Code of Conduct is to increase open [source/culture/tech] citizenship by encouraging participants to recognize and strengthen the relationships between our actions and their effects on our community. Communities mirror the societies in which they exist, and positive action is essential to counteract the many forms of inequality and abuses of power that exist in society. If you see someone who is making an extra effort to ensure our community is welcoming, friendly, and encourages all participants to contribute to the fullest extent, we want to know.
+
+        <![CDATA[<br><br><br><b>3. Expected Behavior</b><br><br>]]>
+
+The following behaviors are expected and requested of all community members:
+
+Participate in an authentic and active way. In doing so, you contribute to the health and longevity of this community.
+Exercise consideration and respect in your speech and actions.
+Attempt collaboration before a conflict.
+Refrain from demeaning, discriminatory, or harassing behavior and speech.
+Be mindful of your surroundings and your fellow participants. Alert community leaders if you notice a dangerous situation, someone in distress, or violations of this Code of Conduct, even if they seem inconsequential.
+        <![CDATA[<br><br><br><b>4. Unacceptable Behavior</b><br><br>]]>
+
+The following actions are considered harassment and are unacceptable within our community:
+
+Violence, threats of violence or violent language directed against another person.
+Sexist, racist, homophobic, transphobic, ableist or otherwise discriminatory jokes and language.
+Posting or displaying sexually explicit or violent material.
+Posting or threatening to post other people’s personally identifying information ("doxing").
+Personal insults, particularly those related to gender, sexual orientation, race, religion, or disability.
+Inappropriate photography or recording.
+Inappropriate physical contact. You should have someone’s consent before touching them.
+Unwelcome sexual attention. This includes sexualized comments or jokes; inappropriate touching, groping, and unwelcomed sexual advances.
+Deliberate intimidation, stalking or following (online or in person).
+Advocating for, or encouraging, any of the above behavior.
+Sustained disruption of community events, including talks and, presentations.
+<![CDATA[<br><br><b><br>5. Consequences of Unacceptable Behavior</b><br><br>]]>
+
+Unacceptable behavior from any community member, including sponsors and those with decision-making authority, will not be tolerated. Anyone asked to stop unacceptable behavior is expected to comply immediately. If a community member engages in unacceptable behavior, the community organizers may take any action they deem appropriate, up to and including a temporary ban or permanent expulsion from the community without warning (and without refund in case of paid events).
+
+<![CDATA[<br><br><br><b>6. Scope</b><br><br>]]>
+
+We expect all community participants to abide by this Code of Conduct in all community venues–online and in-person–as well as in all one-on-one communications about community business. This code of conduct and its related procedures also applies to unacceptable behavior occurring outside the scope of community activities when such behavior has the potential to affect the safety and well-being of community members adversely.
+
+<![CDATA[<br><br><br><b>7. Contact info</b><br><br>]]>
+
+%1$s</string>
+
 </resources>
