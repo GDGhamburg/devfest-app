@@ -45,6 +45,10 @@ class ProjectFragment : BaseFragment<ProjectView, ProjectPresenter>(), ProjectVi
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
     override fun onContributorsAvailable(contributors: List<Contributor>) {
         adapter.contributors.clear()
         adapter.contributors.addAll(contributors)
