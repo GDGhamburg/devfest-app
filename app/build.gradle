@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
@@ -40,25 +42,29 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$supportVersion"
-    compile "com.android.support:design:$supportVersion"
-    compile "com.android.support:cardview-v7:$supportVersion"
-    compile 'com.android.support.constraint:constraint-layout:1.1.0-beta1'
-    compile "io.reactivex:rxjava:1.2.0"
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'com.jakewharton.timber:timber:4.3.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+    implementation "com.android.support:cardview-v7:$supportVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta1'
+    implementation "io.reactivex:rxjava:1.2.0"
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'com.jakewharton.timber:timber:4.3.1'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.0.4'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    compile "com.google.firebase:firebase-database:$playServicesVersion"
-    compile "com.google.firebase:firebase-auth:$playServicesVersion"
-    compile "com.google.firebase:firebase-messaging:$playServicesVersion"
-    compile "com.google.android.gms:play-services-auth:$playServicesVersion"
-    compile "com.google.android.gms:play-services-vision:$playServicesVersion"
+    implementation "com.google.firebase:firebase-database:$playServicesVersion"
+    implementation "com.google.firebase:firebase-auth:$playServicesVersion"
+    implementation "com.google.firebase:firebase-messaging:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-vision:$playServicesVersion"
 
-    compile 'com.google.dagger:dagger:2.7'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
-    provided 'javax.annotation:jsr250-api:1.0'
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    kapt "com.android.databinding:compiler:$gradle_version"
 
     /* testCompile 'junit:junit:4.12'
      androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
