@@ -24,6 +24,14 @@ android {
             versionName "1.0.0"
             dimension "devfest"
         }
+        fbds16 {
+            minSdkVersion 21
+            targetSdkVersion 26
+            applicationId "de.devfest.fbds16"
+            versionCode 1
+            versionName '1.0.0'
+            dimension "devfest"
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
