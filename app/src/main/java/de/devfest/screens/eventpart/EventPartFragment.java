@@ -9,9 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import javax.inject.Inject;
-
 import de.devfest.R;
 import de.devfest.databinding.FragmentEventPartBinding;
 import de.devfest.injection.ApplicationComponent;
@@ -23,6 +20,8 @@ import de.devfest.screens.sessiondetails.SessionDetailsActivity;
 import de.devfest.ui.SessionAdapter;
 import de.devfest.ui.facedetection.GlideFaceDetector;
 import timber.log.Timber;
+
+import javax.inject.Inject;
 
 public class EventPartFragment extends AuthFragment<EventPartView, EventPartPresenter>
         implements EventPartView, View.OnClickListener {
@@ -143,8 +142,7 @@ public class EventPartFragment extends AuthFragment<EventPartView, EventPartPres
 
     @Override
     public void onClick(View view) {
-        ScheduleSession sessionItem = adapter.getItem(
-                binding.trackSessionList.getChildAdapterPosition(view));
+        ScheduleSession sessionItem = (ScheduleSession) view.getTag();
         SessionDetailsActivity.showWithTransition(sessionItem.session, getActivity(), view);
     }
 

@@ -16,14 +16,17 @@ import com.bumptech.glide.Glide;
 import java.util.concurrent.TimeUnit;
 
 import de.devfest.R;
-import de.devfest.databinding.ItemSessionBinding;
+import de.devfest.databinding.IncludeItemSessionBinding;
 import de.devfest.model.ScheduleSession;
 import de.devfest.model.Session;
 import de.devfest.model.Speaker;
 import de.devfest.ui.facedetection.FaceCenterCrop;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 public class SessionAdapter extends
-        RecyclerView.Adapter<SessionAdapter.ScheduleSessionViewHolder> implements View.OnClickListener {
+        RecyclerView.Adapter<SessionAdapter.ScheduleSessionViewHolder>
+        implements View.OnClickListener {
 
     private final static int MINUTES_5 = 300;
     private final static int MINUTES_15 = 900;
@@ -34,33 +37,59 @@ public class SessionAdapter extends
     private final SessionInteractionListener interactionListener;
     private final View.OnClickListener itemClickListener;
 
-    private boolean useSimpleView;
     private int addIconColor = -1;
+    private boolean showImage = true;
+    private boolean showBadge = true;
+    private boolean showCard = true;
+    private boolean showAddButton = true;
+    private boolean useDurationAsHeight = true;
+    private int itemWidth = MATCH_PARENT;
 
     public SessionAdapter(SessionInteractionListener interactionListener,
-                          View.OnClickListener itemClickListener) {
-        this.scheduleItems = new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
+            View.OnClickListener itemClickListener) {
+        this.scheduleItems =
+                new SortedList<>(ScheduleSession.class, new SessionsListAdapterCallback(this));
         this.interactionListener = interactionListener;
         this.itemClickListener = itemClickListener;
     }
 
-    public void setSimpleViewEnabled(boolean enabled) {
-        useSimpleView = enabled;
+    public void setItemWidth(int width) {
+        itemWidth = width;
+    }
+
+    public void setShowImage(boolean enabled) {
+        showImage = enabled;
+    }
+
+    public void setShowBadge(boolean enabled) {
+        showBadge = enabled;
+    }
+
+    public void setShowCard(boolean enabled) {
+        showCard = enabled;
+    }
+
+    public void setShowAddButton(boolean enabled) {
+        showAddButton = enabled;
+    }
+
+    public void setUseDurationAsHeight(boolean enabled) {
+        useDurationAsHeight = enabled;
     }
 
     @Override
     public ScheduleSessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_session, parent, false);
-        ItemSessionBinding binding = DataBindingUtil.bind(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        int layoutId = showCard ? R.layout.item_session_card : R.layout.item_session;
+        ViewGroup view = (ViewGroup) inflater.inflate(layoutId, parent, false);
+        view.getLayoutParams().width = itemWidth;
+        IncludeItemSessionBinding binding = DataBindingUtil.inflate(inflater,
+                R.layout.include_item_session, view, false);
+        view.addView(binding.getRoot());
         binding.getRoot().setOnClickListener(itemClickListener);
         binding.buttonAdd.setOnClickListener(this);
-        if (useSimpleView) {
-            TextViewCompat.setTextAppearance(binding.textSessionTitle, R.style.TextAppearance_DevFest_Card_Title);
-            TextViewCompat.setTextAppearance(binding.textSessionSub, R.style.TextAppearance_DevFest_Card_Subtitle);
-        }
         if (addIconColor == -1) addIconColor = binding.textSessionTitle.getCurrentTextColor();
-        return new SessionViewHolder(binding, useSimpleView);
+        return new SessionViewHolder(view, binding);
     }
 
     @Override
@@ -82,7 +111,8 @@ public class SessionAdapter extends
         ScheduleSession session = (ScheduleSession) view.getTag();
         switch (view.getId()) {
             case R.id.buttonAdd:
-                UiUtils.onAddButtonClick((ImageButton) view, session, interactionListener, addIconColor);
+                UiUtils.onAddButtonClick((ImageButton) view, session, interactionListener,
+                        addIconColor);
                 break;
             default:
         }
@@ -101,14 +131,12 @@ public class SessionAdapter extends
         public abstract void bind(ScheduleSession item);
     }
 
-    public static class SessionViewHolder extends ScheduleSessionViewHolder {
-        private final ItemSessionBinding binding;
-        private final boolean simpleMode;
+    private class SessionViewHolder extends ScheduleSessionViewHolder {
+        private final IncludeItemSessionBinding binding;
 
-        public SessionViewHolder(ItemSessionBinding binding, boolean simpleMode) {
-            super(binding.getRoot());
+        public SessionViewHolder(View view, IncludeItemSessionBinding binding) {
+            super(view);
             this.binding = binding;
-            this.simpleMode = simpleMode;
         }
 
         @Override
@@ -116,52 +144,67 @@ public class SessionAdapter extends
             String tag = null;
             Context context = binding.getRoot().getContext();
             if (!session.session.tags.isEmpty()) tag = session.session.tags.get(0);
-            binding.imageSession.setImageDrawable(
-                    TagHelper.getCircledTagIcon(context, tag, simpleMode));
+            if (showBadge) {
+                binding.imageSession.setImageDrawable(
+                        TagHelper.getCircledTagIcon(context, tag, !showImage));
+            }
             binding.textSessionTitle.setText(session.session.title);
-            binding.textSessionSub.setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
-
-            if (session.session.isScheduable) {
+            binding.textSessionSub
+                    .setText(session.session.startTime.format(UiUtils.getSessionStartFormat()));
+            setTextAppearances(session);
+            if (session.session.isScheduable && showAddButton) {
                 binding.buttonAdd.setVisibility(View.VISIBLE);
                 binding.buttonAdd.setTag(session);
                 UiUtils.setAddDrawable(session.isScheduled, binding.buttonAdd,
                         binding.textSessionTitle.getCurrentTextColor());
-                TextViewCompat.setTextAppearance(binding.textSessionTitle,
-                        R.style.TextAppearance_DevFest_Card_Title_Inverse);
-                TextViewCompat.setTextAppearance(binding.textSessionSub,
-                        R.style.TextAppearance_DevFest_Card_Subtitle_Inverse);
             } else {
                 binding.buttonAdd.setVisibility(View.GONE);
-                TextViewCompat.setTextAppearance(binding.textSessionTitle, R.style.TextAppearance_DevFest_Card_Title);
-                TextViewCompat.setTextAppearance(binding.textSessionSub, R.style.TextAppearance_DevFest_Card_Subtitle);
             }
 
-            long durationMinutes  = TimeUnit.SECONDS.toMinutes(
-                    session.session.endTime.toEpochSecond() - session.session.startTime.toEpochSecond());
-            binding.getRoot().getLayoutParams().height = UiUtils.dipsToPxls(context,
-                    (int) (DIPS_PER_MINUTE * durationMinutes));
+            if (useDurationAsHeight) {
+                long durationMinutes = TimeUnit.SECONDS.toMinutes(
+                        session.session.endTime.toEpochSecond() - session.session.startTime
+                                .toEpochSecond());
+                binding.getRoot().getLayoutParams().height = UiUtils.dipsToPxls(context,
+                        (int) (DIPS_PER_MINUTE * durationMinutes));
+            }
 
             binding.getRoot().setTag(session);
 
-            if (!simpleMode) {
+            if (showImage) {
                 int overlayColor = ContextCompat.getColor(binding.getRoot().getContext(),
                         TagHelper.getTagOverlayColor(tag));
                 binding.containerSessionForeground.setBackgroundColor(overlayColor);
                 if (!session.session.speakers.isEmpty()) {
                     Speaker speaker = session.session.speakers.get(0);
                     Glide.with(binding.imageSessionBackground.getContext())
-                            .load(speaker.photoUrl)
-                            .transform(new FaceCenterCrop(binding.imageSessionBackground.getContext()))
-                            .into(binding.imageSessionBackground);
+                         .load(speaker.photoUrl)
+                         .transform(new FaceCenterCrop(binding.imageSessionBackground.getContext()))
+                         .into(binding.imageSessionBackground);
                 } else {
                     binding.imageSessionBackground.setImageDrawable(null);
                 }
+            }
+        }
+
+        private void setTextAppearances(ScheduleSession session) {
+            if (!session.session.isScheduable || !showImage) {
+                TextViewCompat.setTextAppearance(binding.textSessionTitle,
+                        R.style.TextAppearance_DevFest_Card_Title);
+                TextViewCompat.setTextAppearance(binding.textSessionSub,
+                        R.style.TextAppearance_DevFest_Card_Subtitle);
+            } else {
+                TextViewCompat.setTextAppearance(binding.textSessionTitle,
+                        R.style.TextAppearance_DevFest_Card_Title_Inverse);
+                TextViewCompat.setTextAppearance(binding.textSessionSub,
+                        R.style.TextAppearance_DevFest_Card_Subtitle_Inverse);
             }
         }
     }
 
     public interface SessionInteractionListener {
         void onAddSessionClick(Session session);
+
         void onRemoveSessionClick(Session session);
     }
 }

@@ -13,7 +13,7 @@ public class ActionBarDrawerToggleHelper {
 
     public ActionBarDrawerToggleHelper(Fragment fragment) {
         @SuppressWarnings("ConstantConditions")
-        Toolbar toolbar = (Toolbar) fragment.getView().findViewById(R.id.toolbar);
+        Toolbar toolbar = fragment.getView().findViewById(R.id.toolbar);
         DrawerLayout drawer = ((NavigationDrawerHost) fragment.getHost()).getNavigationDrawer();
 
         toggle = new ActionBarDrawerToggle(fragment.getActivity(), drawer, toolbar, R.string.nav_drawer_open,

@@ -20,8 +20,12 @@
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_now_running"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_small"/>
+
         </android.support.design.widget.AppBarLayout>
-
-
     </android.support.design.widget.CoordinatorLayout>
 </layout>

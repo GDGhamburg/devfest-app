@@ -3,7 +3,6 @@ package de.devfest.screens.speakerdetails;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -94,7 +93,8 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
         setDetails(speaker);
         setImage(speaker);
         sessionAdapter = new SessionAdapter(presenter, this);
-        sessionAdapter.setSimpleViewEnabled(true);
+        sessionAdapter.setShowImage(false);
+        sessionAdapter.setUseDurationAsHeight(false);
         binding.sessionList.setAdapter(sessionAdapter);
     }
 
@@ -111,11 +111,9 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
         socialLinksAdapter.setSocialLinks(speaker.socialLinks);
         int colorResId = TagHelper.getTagOverlayColor(speaker.tags.get(0));
         if (UiUtils.isLandscape(getContext())) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int statusBarColor = ContextCompat.getColor(getContext(),
-                        TagHelper.getTagDarkColor(speaker.tags.get(0)));
-                getActivity().getWindow().setStatusBarColor(statusBarColor);
-            }
+            int statusBarColor = ContextCompat.getColor(getContext(),
+                    TagHelper.getTagDarkColor(speaker.tags.get(0)));
+            getActivity().getWindow().setStatusBarColor(statusBarColor);
             binding.toolbar.setBackgroundResource(colorResId);
         } else {
             binding.collapsingToolbarLayout.setContentScrimResource(colorResId);
@@ -165,7 +163,7 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
                 SocialLink link = socialLinksAdapter.getItem(index);
                 presenter.onLinkClick(link);
                 break;
-            case R.id.cardSession:
+            case R.id.containerSessionContent:
                 showSessionDetails(view);
                 break;
             default:
@@ -173,8 +171,7 @@ public class SpeakerDetailsFragment extends AuthFragment<SpeakerDetailsView, Spe
     }
 
     private void showSessionDetails(View view) {
-        ScheduleSession sessionItem = sessionAdapter.getItem(
-                binding.sessionList.getChildAdapterPosition(view));
+        ScheduleSession sessionItem = (ScheduleSession) view.getTag();
         SessionDetailsActivity.showWithTransition(sessionItem.session, getActivity(), view);
     }
 

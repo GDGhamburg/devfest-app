@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
 
         if (savedInstanceState == null) {
             binding.navView.setCheckedItem(R.id.nav_dashboard);
-            showFragment(DashboardFragment.TAG);
+            showFragment(DashboardFragment.Companion.getTAG());
         }
     }
 
@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_dashboard:
-                showFragment(DashboardFragment.TAG);
+                showFragment(DashboardFragment.Companion.getTAG());
                 break;
             case R.id.nav_schedule:
                 showFragment(ScheduleFragment.TAG);
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity<MainActivityView, MainActivityPre
             return new SpeakersFragment();
         } else if (ScheduleFragment.TAG.equals(tag)) {
             return new ScheduleFragment();
-        } else if (DashboardFragment.TAG.equals(tag)) {
+        } else if (DashboardFragment.Companion.getTAG().equals(tag)) {
             return new DashboardFragment();
         } else if (SocialFragment.TAG.equals(tag)) {
             return new SocialFragment();
