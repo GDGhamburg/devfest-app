@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
+import de.devfest.data.ContributorManager;
 import de.devfest.data.EventManager;
 import de.devfest.data.SessionManager;
 import de.devfest.data.SpeakerManager;
@@ -21,6 +22,7 @@ import de.devfest.data.firebase.FirebaseSpeakerManager;
 import de.devfest.data.firebase.FirebaseStageManager;
 import de.devfest.data.firebase.FirebaseTrackManager;
 import de.devfest.data.firebase.FirebaseUserManager;
+import de.devfest.data.github.GithubContributorManager;
 
 @Module
 public class ApplicationModule {
@@ -72,5 +74,11 @@ public class ApplicationModule {
     @Singleton
     EventManager provideEventManager(Lazy<TrackManager> trackManager) {
         return new FirebaseEventManager(database, trackManager);
+    }
+
+    @Provides
+    @Singleton
+    ContributorManager provideContributorManager() {
+        return new GithubContributorManager();
     }
 }
